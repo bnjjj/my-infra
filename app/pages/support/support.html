@@ -1,0 +1,46 @@
+<ion-navbar *navbar class="support-page">
+  <ion-title>Assistance</ion-title>
+  <ion-buttons end>
+    <button (click)="createTicket()">
+      <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="support-page">
+  <ion-refresher (refresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh"
+      pullingText="Tirer pour rafraichir"
+      refreshingSpinner="circles"
+      refreshingText="Chargement...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="error && !loading">
+    {{error | json}}
+  </div>
+  <ion-list *ngIf="ticketIdsFiltered.length && !reload">
+     <ticket *ngFor="#id of ticketIdsFiltered" [ticketId]="id" (loaded)="ticketLoaded($event)"></ticket>
+  </ion-list>
+
+  <ion-row padding *ngIf="loading">
+    <ion-col width-100 text-center>
+      <ion-spinner name="bubbles"></ion-spinner>
+    </ion-col>
+  </ion-row>
+
+  <ion-row padding *ngIf="!loading && !ticketIdsFiltered.length">
+    <ion-col width-100 text-center>
+      Vous n'avez pas de tickets
+    </ion-col>
+  </ion-row>
+
+  <ion-infinite-scroll (infinite)="loadMore($event)" *ngIf="!loading && ticketIdsFiltered.length">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Chargement des tickets...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+

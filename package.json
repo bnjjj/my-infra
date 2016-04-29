@@ -1,0 +1,52 @@
+{
+  "dependencies": {
+    "angular2": "2.0.0-beta.14",
+    "animate.css": "^3.5.1",
+    "bluebird": "^3.3.3",
+    "crypto-js": "^3.1.6",
+    "es6-promise": "3.0.2",
+    "es6-shim": "^0.35.0",
+    "font-awesome": "^4.5.0",
+    "ionic-angular": "2.0.0-beta.4",
+    "ionic-native": "^1.1.0",
+    "ionicons": "3.0.0-alpha.3",
+    "lazy.js": "^0.4.2",
+    "lodash": "^4.5.1",
+    "moment": "^2.12.0",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.6.10"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "0.15.10",
+    "cz-conventional-changelog": "^1.1.6",
+    "strip-sourcemap-loader": "0.0.1",
+    "typescript": "1.7.5"
+  },
+  "name": "my-infra",
+  "description": "My infra: a mobile application to manage some of the OVH products and services.",
+  "scripts": {
+    "preinstall": "npm install -g commitizen",
+    "android-release": "cd platforms/android/build/outputs/apk && rm -f my-infra.apk && ionic build android --release && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore android-release-unsigned.apk my-infra && ~/Library/Android/sdk/build-tools/23.0.3/zipalign -v 4 android-release-unsigned.apk my-infra.apk"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-x-toast",
+    "cordova-plugin-google-analytics",
+    "cordova-plugin-x-socialsharing"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

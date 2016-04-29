@@ -1,0 +1,57 @@
+<ion-card class="project-widget widget-content" *ngIf="project">
+   <ion-item (click)="collapsed = !collapsed" class="widget-header">
+    <ion-avatar item-left>
+      <i class="fa fa-briefcase fa-2x"></i>
+    </ion-avatar>
+    <h2 [textContent]="project.serviceName || 'Mon projet'">
+    </h2>
+  </ion-item>
+  <div *ngFor="#product of project.project">
+    <div *ngIf="collapsed" class="animated fadeIn">
+      <hr/>
+      <div [ngSwitch]="product.category.name">
+        <div *ngSwitchWhen="'WEB'">
+          <web-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </web-widget-content>
+        </div>
+        <div *ngSwitchWhen="'DOMAIN'">
+          <domain-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </domain-widget-content>
+        </div>
+        <div *ngSwitchWhen="'DEDICATED_SERVER'">
+          <dedicated-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </dedicated-widget-content>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <ion-row no-padding>
+    <ion-col width-40>
+
+    </ion-col>
+    <ion-col text-center width-20>
+      <button clear class="button-white" (click)="collapsed = !collapsed">
+        <ion-icon [name]="collapsed ? 'arrow-up' : 'arrow-down'"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col width-40 text-right>
+      <button clear danger (click)="removeMe()">
+        <ion-icon name='trash'></ion-icon>
+        Remove
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-card>

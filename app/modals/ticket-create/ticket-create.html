@@ -1,0 +1,87 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Créer un ticket
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="close()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="create-ticket">
+  <ion-row padding center>
+    <ion-col class="center" width-90>
+      <strong class="fs16">Type de service concerné</strong>
+    </ion-col>
+  </ion-row>
+    <ion-list no-lines center>
+      <ion-item class="center width90">
+        <ion-select class="center" [(ngModel)]="ticket.product" (change)="fetchProducts(ticket.product.url)">
+          <ion-option [value]="CategoryEnum.DOMAIN">Nom de domaine</ion-option>
+          <ion-option [value]="CategoryEnum.WEB">Web</ion-option>
+          <ion-option [value]="CategoryEnum.DEDICATED_SERVER">Serveur dédié</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+  <ion-row padding center *ngIf="ticket.serviceName && ticket.product">
+    <ion-col class="center" width-90>
+      <strong class="fs16">Choix du support</strong>
+    </ion-col>
+  </ion-row>
+  <ion-row center *ngIf="ticket.serviceName && ticket.product">
+    <ion-col class="center" width-90>
+      <ion-select [(ngModel)]="ticket.category">
+      <ion-option [value]="TicketCategoryEnum.ASSISTANCE.ref"><strong>Conseil technique et commercial</strong></ion-option>
+      <ion-option [value]="TicketCategoryEnum.BILLING.ref"><strong>Question concernant une commande</strong></ion-option>
+      <ion-option [value]="TicketCategoryEnum.INCIDENT.ref"><strong>Déclarer un incident</strong></ion-option>
+      </ion-select>
+    </ion-col>
+  </ion-row>
+
+  <ion-list class="tspace20" *ngIf="ticket.product && ticket.serviceName">
+    <ion-item padding text-center>
+      <strong class="fs16">Composition du ticket</strong>
+    </ion-item>
+    <ion-item>
+      <h2>
+        Service concerné
+      </h2>
+      <h3 [textContent]="ticket.serviceName" primary></h3>
+    </ion-item>
+    <ion-item *ngIf="ticket.category">
+      <ion-label floating>Sujet</ion-label>
+      <ion-input [(ngModel)]="ticket.subject"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="ticket.category">
+      <ion-label floating>Message</ion-label>
+      <ion-textarea [(ngModel)]="ticket.body"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <div class="tspace20" *ngIf="!ticket.serviceName">
+    <ion-row *ngFor="#product of products" center>
+      <ion-col width-90 class="center">
+        <button light outline block
+          [textContent]="product"
+          (click)="addProduct(product)">
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!products.length && !loading" center>
+      <ion-col width-90 text-center>
+        Vous n'avez pas de produits
+      </ion-col>
+    </ion-row>
+  </div>
+  <div padding *ngIf="ticket.serviceName && ticket.category && ticket.body && ticket.subject">
+    <button block (click)="createTicket()" secondary>Créer mon ticket</button>
+  </div>
+  <ion-row center *ngIf="loading">
+    <ion-col class="center-flex" width-90>
+      <ion-spinner name="bubbles"></ion-spinner>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

@@ -1,0 +1,221 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Shared Imports
+// --------------------------------------------------
+// These are the imports which make up the design of this app.
+// By default each design mode includes these shared imports.
+// App Shared Sass variables belong in app.variables.scss.
+
+@import "../modals/widget-add/widget-add";
+@import "../modals/ticket-create/ticket-create";
+@import "../modals/network-state/network-state";
+@import "../modals/about/about";
+@import "../pages/login/login";
+@import "../pages/account/account";
+@import "../pages/messages/messages";
+@import "../pages/support/support";
+@import "../pages/dashboard/dashboard";
+@import "../components/loader/loader";
+@import "../components/ticket/ticket";
+@import "../components/widgets/web-widget/web-widget";
+
+.tspace5 {
+  margin-top: 5px;
+}
+
+.tspace15 {
+  margin-top: 15px;
+}
+
+.tspace20 {
+  margin-top: 20px;
+}
+
+.fs16 {
+  font-size: 1.6rem;
+}
+
+.danger-color {
+  color: $danger-color;
+}
+
+.center-flex {
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
+}
+
+.nostyle-item-list {
+  ion-list {
+    & > .item:first-child {
+      border-top: none;
+    }
+    & > .item:first-child {
+      border-bottom: none;
+    }
+  }
+}
+
+
+
+//------------------------------------------------------------------
+
+body {
+  background-image: linear-gradient(to bottom, $ovh-background-top 0%, $ovh-background-bottom 100%);
+}
+.toolbar-background {
+  background-color: $ovh-toolbar;
+}
+ion-title {
+  color: $ovh-font;
+  .toolbar-title {
+    color: $ovh-font;
+  }
+}
+
+// .back-button-text {
+//   color: $ovh-fontd;
+// }
+
+ion-navbar {
+  .button-inner {
+    color: $ovh-font;
+  }
+}
+
+ion-content {
+  background-image: linear-gradient(to bottom, $ovh-background-top 0%, $ovh-background-bottom 100%);
+}
+
+ion-card {
+  h2 {
+    color: $primary-font-color;
+  }
+  box-shadow: 0px 0px 0px transparent;
+  border-radius: 0px;
+  &.transparent {
+    background-color: transparent;
+  }
+
+  ion-card-content {
+    background-color: transparent;
+    color: $primary-font-color;
+  }
+}
+
+ion-tabbar-section {
+  tabbar {
+    background-color: $ovh-toolbar;
+    border-top: 1px solid $ovh-toolbar;
+  }
+
+  .tab-button {
+    border-right: 2px black;
+  }
+
+  .tab-button[aria-selected=true] {
+    color: $steel-blue;
+  }
+}
+
+ion-list {
+  background-color: transparent;
+  color: $primary-font-color;
+  .item {
+    color: $primary-font-color;
+    background-color: transparent;
+  }
+}
+
+.center {
+  margin: auto;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.widget-header {
+  background-color: $shark3;
+  color: $primary-font-color;
+}
+
+.widget-content {
+  background-color: $ovh-widget-background;
+  color: $primary-font-color;
+  .button-white {
+    color: $primary-font-color;
+  }
+
+  .outline-white {
+    border-color: $primary-font-color;
+  }
+
+  // Outer container
+  .progress {
+    overflow: hidden;
+    height: 25px;
+    background-image: linear-gradient(90deg, rgb(99,173,60) 0%, rgb(99,173,75) 50%, rgb(201,160,48) 75%, rgb(206,66,66) 100%);
+    border-radius: 15px;
+    border: 1px solid $primary-font-color;
+  }
+
+  // Bar of progress
+  .progress-bar {
+    float: right;
+    width: 0%;
+    height: 100%;
+    color: black;
+    text-align: center;
+    background-color: $ovh-widget-background;
+  }
+}
+
+.segment-button {
+  border-color: $segment-active-background;
+}
+
+.segment-button {
+  color: $primary-font-color;
+
+  &.segment-activated {
+    color: black;
+    background-color: $segment-active-background;
+  }
+}
+
+ion-spinner svg {
+  fill: $primary-font-color;
+  stroke: $primary-font-color;
+}
+
+.spinner-bubbles circle {
+  fill: $primary-font-color;
+}
+
+ion-col {
+  color: $primary-font-color;
+}
+
+ion-input {
+  color: $primary-font-color;
+}
+
+ion-list .item-inner {
+  border-bottom: 0;
+}
+
+.item {
+  border-bottom: 1px solid #636673;
+}
+
+.select-icon {
+  width: 25px;
+  .select-icon-inner {
+    border-top: 8px solid;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+  }
+}
+

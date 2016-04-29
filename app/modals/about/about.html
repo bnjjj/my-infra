@@ -1,0 +1,96 @@
+<ion-navbar *navbar>
+  <ion-title>
+    A propos
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="close()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="about-page">
+  <ion-card>
+    <ion-card-header class="widget-header">
+      Description
+    </ion-card-header>
+    <ion-card-content class="widget-content">
+      My Infra est une application réalisée par l'initiative de Benjamin Coenen et designée par @MrNokte. Elle est distribuée en open source sur Github. Elle n'est en aucune façon affiliée à OVH mais utilise l'API officielle. Cette application utilise exclusivement l'API OVH publique et ne dispose pas d'autre API externe. Je remercie OVH de nous fournir la possibilité de développer avec leur API publique. Si vous avez des idées d'améliorations ou des bugs n'hésitez pas à aller le proposer dans les issues sur le Github de l'application.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list no-border>
+    <ion-list-header>
+      Information
+    </ion-list-header>
+
+    <ion-item>
+      Version
+      <ion-note item-right>
+        1.0.0
+      </ion-note>
+    </ion-item>
+
+    <a href="https://github.com/bnjjj/my-infra" target="_blank" ion-item>
+      <ion-icon name="logo-github" item-left></ion-icon>
+      <ion-label>
+        Suivez My Infra sur Github
+      </ion-label>
+    </a>
+  </ion-list>
+
+  <ion-list no-border>
+    <ion-list-header>
+      Communauté
+    </ion-list-header>
+    <a href="https://github.com/bnjjj" target="_blank" ion-item>
+      <ion-icon name="logo-github" item-left></ion-icon>
+      <ion-label>
+        Suivez Bnjjj sur Github
+      </ion-label>
+    </a>
+
+    <a href="https://twitter.com/bnj25" target="_blank" ion-item>
+      <ion-icon name="logo-twitter" item-left></ion-icon>
+      <ion-label>
+        Suivez Bnj25 sur Twitter
+      </ion-label>
+    </a>
+
+    <a href="https://twitter.com/MrNokte" target="_blank" ion-item>
+      <ion-icon name="logo-twitter" item-left></ion-icon>
+      <ion-label>
+        Suivez Nokte sur Twitter
+      </ion-label>
+    </a>
+
+    <a href="https://twitter.com/bnj25" target="_blank" ion-item>
+      <ion-icon name="logo-twitter" item-left></ion-icon>
+      <ion-label>
+        Suivez My Infra sur Twitter
+      </ion-label>
+    </a>
+
+    <a href="https://twitter.com/OVH" target="_blank" ion-item>
+      <ion-icon name="logo-twitter" item-left></ion-icon>
+      <ion-label>
+        Suivez OVH sur Twitter
+      </ion-label>
+    </a>
+
+  </ion-list>
+</ion-content>
+<!--
+<ion-toolbar position="bottom">
+  <ion-row center>
+    <ion-col class="center center-flex" width-33>
+      <i class="fa fa-2x fa-twitter-square" (click)="share('twitter')" aria-hidden="true"></i>
+    </ion-col>
+    <ion-col class="center center-flex" width-33>
+      <i class="fa fa-2x fa-facebook-square" (click)="share('facebook')" aria-hidden="true"></i>
+    </ion-col>
+    <ion-col class="center center-flex" width-33>
+      <i class="fa fa-2x fa-envelope" (click)="share('mail')" aria-hidden="true"></i>
+    </ion-col>
+  </ion-row>
+</ion-toolbar> -->

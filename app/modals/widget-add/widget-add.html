@@ -1,0 +1,97 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Ajouter un widget
+  </ion-title>
+  <ion-buttons end>
+    <button (click)="close()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="widget-add-modal">
+  <ion-row padding center>
+    <ion-col class="center" width-90>
+      <strong class="fs16">Type de widget</strong>
+    </ion-col>
+  </ion-row>
+  <ion-list no-lines center>
+    <ion-item class="center width90">
+      <ion-select class="center" [(ngModel)]="category" (change)="selectProduct(category)">
+        <ion-option [value]="CategoryEnum.DOMAIN" [textContent]="CategoryEnum.DOMAIN.text"></ion-option>
+        <ion-option [value]="CategoryEnum.WEB" [textContent]="CategoryEnum.WEB.text"></ion-option>
+        <ion-option [value]="CategoryEnum.DEDICATED_SERVER" [textContent]="CategoryEnum.DEDICATED_SERVER.text"></ion-option>
+        <ion-option [value]="CategoryEnum.PROJECT" [textContent]="CategoryEnum.PROJECT.text"></ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="tspace20" *ngIf="category === CategoryEnum.PROJECT && project.length">
+    <ion-item padding text-center>
+      <strong class="fs16">Composition du projet</strong>
+    </ion-item>
+    <ion-item *ngFor="#projectComposition of project">
+      <h2>
+        <strong [ngSwitch]="projectComposition.category.name">
+          <i class="fa fa-server" *ngSwitchWhen="CategoryEnum.DEDICATED_SERVER.name" item-left></i>
+          <i class="fa fa-globe" *ngSwitchWhen="CategoryEnum.WEB.name" item-left></i>
+          <i class="fa fa-link" *ngSwitchWhen="CategoryEnum.DOMAIN.name" item-left></i>
+        </strong>
+        <strong [textContent]="projectComposition.category.text"></strong>
+      </h2>
+      <h3 [textContent]="projectComposition.serviceName" primary></h3>
+    </ion-item>
+  </ion-list>
+  <ion-row padding center *ngIf="category === CategoryEnum.PROJECT && project.length < 2">
+    <ion-col class="center" width-90>
+      <strong class="fs16">Type de service à ajouter</strong>
+    </ion-col>
+  </ion-row>
+  <ion-list no-lines center *ngIf="category === CategoryEnum.PROJECT && project.length < 2">
+    <ion-item class="center width90">
+      <ion-select [(ngModel)]="subCategory" (change)="selectProduct(subCategory)">
+        <ion-option [value]="CategoryEnum.DOMAIN" *ngIf="!domainSelected">
+          <strong [textContent]="CategoryEnum.DOMAIN.text"></strong>
+        </ion-option>
+        <ion-option [value]="CategoryEnum.WEB" *ngIf="!hardwareSelected">
+          <strong [textContent]="CategoryEnum.WEB.text"></strong>
+        </ion-option>
+        <ion-option *ngIf="!hardwareSelected"
+          [value]="CategoryEnum.DEDICATED_SERVER">
+            <strong [textContent]="CategoryEnum.DEDICATED_SERVER.text"></strong>
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item *ngIf="category === CategoryEnum.PROJECT && project.length >= 2">
+      <ion-label>Nom du projet</ion-label>
+      <ion-input [(ngModel)]="projectName"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="tspace20" *ngIf="project.length < 2">
+    <ion-row *ngFor="#product of products" center>
+      <ion-col width-90 class="center">
+        <button light outline block
+          [textContent]="product"
+          (click)="category === CategoryEnum.PROJECT ? addSubProduct(product, subCategory) : addWidget(product)">
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!products.length && !loading" center>
+      <ion-col width-90 text-center>
+        Vous n'avez pas de produits
+      </ion-col>
+    </ion-row>
+  </div>
+  <div padding *ngIf="category === CategoryEnum.PROJECT && project.length === 2 && projectName">
+    <button block (click)="addProject(projectName)" secondary>Ajouter mon projet</button>
+  </div>
+  <ion-row center *ngIf="loading">
+    <ion-col class="center-flex" width-90>
+      <ion-spinner name="bubbles"></ion-spinner>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

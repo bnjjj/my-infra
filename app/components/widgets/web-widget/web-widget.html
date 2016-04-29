@@ -1,0 +1,28 @@
+<ion-card class="web-widget" *ngIf="serviceName">
+  <web-widget-content
+    [reload]="reload"
+    [serviceName]="serviceName"
+    [(collapsed)]="collapsed">
+  </web-widget-content>
+  <ion-row no-padding class="widget-content">
+    <ion-col width-40>
+      <button clear (click)="openNetworkStateModal()">
+        <a class="button-white" [href]="">
+          <i class="fa fa-heartbeat fa-1x"></i>
+          Travaux
+        </a>
+      </button>
+    </ion-col>
+    <ion-col text-center width-20>
+      <button clear class="button-white" (click)="collapsed = !collapsed">
+        <ion-icon [name]="collapsed ? 'arrow-up' : 'arrow-down'"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col width-40 text-right>
+      <button clear danger (click)="removeMe()">
+        <ion-icon name='trash'></ion-icon>
+        Remove
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-card>

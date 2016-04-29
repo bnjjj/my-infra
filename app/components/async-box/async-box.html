@@ -1,0 +1,4 @@
+<ion-content text-center padding *ngIf="loading">
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-content>
+<ng-content *ngIf="!loading"></ng-content>

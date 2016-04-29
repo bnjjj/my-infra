@@ -1,0 +1,118 @@
+.messagesPage {
+  $supportColor: $steel-blue;
+  $customerColor: $shark2;
+  .talk-bubble {
+    display: inline-block;
+    position: relative;
+    width: 75%;
+    height: auto;
+    background-color: $supportColor;
+    margin-left: 25px;
+    margin-top: 10px;
+  }
+
+  .customer {
+    background-color: $customerColor;
+  }
+
+  .support {
+    background-color: $supportColor;
+  }
+
+  .right {
+    margin-left: 18%;
+  }
+  .left-date {
+    margin-left: 25px;
+  }
+  .border{
+    border: 8px solid #666;
+  }
+  .round{
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+
+  }
+
+  .tri-right {
+    .border {
+      .left-top {
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+        right: auto;
+        bottom: auto;
+
+        :before {
+          content: ' ';
+          position: absolute;
+          width: 0;
+          height: 0;
+          right: auto;
+          bottom: auto;
+          left: -40px;
+          top: -8px;
+          border: 32px solid;
+          border-color: #666 transparent transparent transparent;
+        }
+      }
+    }
+  }
+  .tri-right.left-top:after{
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -20px;
+    right: auto;
+    top: 0px;
+    bottom: auto;
+    border: 22px solid;
+    border-color: $supportColor transparent transparent transparent;
+  }
+
+  /* Right triangle placed top right flush. */
+  .tri-right.border.right-top:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -40px;
+    top: -8px;
+    bottom: auto;
+    border: 32px solid;
+    border-color: #666 transparent transparent transparent;
+  }
+  .tri-right.right-top:after{
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -17px;
+    top: 0px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: $customerColor transparent transparent transparent;
+  }
+
+  .tri-right.right-top-customer:after {
+    @extend .tri-right.right-top:after;
+    border-color: $customerColor transparent transparent transparent;
+  }
+
+  /* talk bubble contents */
+  .talktext{
+    padding: 1em;
+    text-align: left;
+    line-height: 1.5em;
+    p {
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+      color: white;
+    }
+  }
+}

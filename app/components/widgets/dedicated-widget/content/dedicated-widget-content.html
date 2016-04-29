@@ -1,0 +1,102 @@
+<ion-item class="widget-header">
+ <ion-avatar item-left (click)="updateCollapse()">
+   <i class="fa fa-server fa-2x"></i>
+ </ion-avatar>
+ <div (click)="updateCollapse()">
+   <h2 [textContent]="server.name || server.serviceName" *ngIf="!loading">
+   </h2>
+   <h2 [textContent]="serviceName" *ngIf="loading">
+   </h2>
+ </div>
+ <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()">
+   <i class="fa fa-heartbeat fa-1x"></i>
+ </button>
+</ion-item>
+<div padding *ngIf="collapsed" class="widget-content">
+ <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
+   <ion-segment-button value="general">
+     Général
+   </ion-segment-button>
+   <ion-segment-button value="tasks" (click)="getTasks()">
+     Tâches
+   </ion-segment-button>
+ </ion-segment>
+</div>
+ <ion-card-content *ngIf="!loading" class="widget-content">
+  <ion-row *ngIf="viewMode === 'general' || !collapsed">
+    <ion-col width-40 [ngClass]="{'danger-color animated pulse': server.warning}">
+      <i class="fa fa-warning" *ngIf="server.warning"></i>
+      Expiration
+    </ion-col>
+    <ion-col width-60
+      [ngClass]="{'danger-color animated pulse': server.warning}"
+      [textContent]="server.expirationText">
+    </ion-col>
+  </ion-row>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+     <div *ngSwitchWhen="'general'">
+       <ion-row>
+         <ion-col width-40>
+           Etat du service
+         </ion-col>
+         <ion-col width-60>
+           <div [ngSwitch]="server.state">
+             <ion-badge *ngSwitchWhen="'ok'"
+                class="capitalize"
+               [textContent]="server.state"
+               secondary>
+             </ion-badge>
+             <ion-badge *ngSwitchDefault
+                class="capitalize"
+               [textContent]="server.state"
+               danger>
+             </ion-badge>
+           </div>
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           IPV4
+         </ion-col>
+         <ion-col width-60 [textContent]="server.ip">
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Système (OS)
+         </ion-col>
+         <ion-col width-60 [textContent]="server.os">
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Monitoring
+         </ion-col>
+         <ion-col width-60>
+           <i [hidden]="!server.monitoring" class="fa fa-check fa-1x" secondary></i>
+           <i [hidden]="server.monitoring" class="fa fa-times fa-1x" danger></i>
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Datacentre
+         </ion-col>
+         <ion-col width-60 [textContent]="server.datacenter">
+         </ion-col>
+       </ion-row>
+     </div>
+
+     <div *ngSwitchWhen="'tasks'">
+       <ion-list>
+         <task-details-dedicated *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+         </task-details-dedicated>
+         <ion-item *ngIf="emptyTasks && !loading" text-center>
+           <em>Vous n'avez pas de tâches</em>
+         </ion-item>
+       </ion-list>
+     </div>
+   </div>
+</ion-card-content>
+<ion-card-content *ngIf="loading" class="widget-content" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

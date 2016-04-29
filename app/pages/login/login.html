@@ -1,0 +1,34 @@
+<ion-content class="facturationPage">
+  <ion-row center>
+    <ion-col class="center center-flex" width-90>
+      <img class="logo" src="./build/img/my_infra_logo.svg" alt="My infra logo">
+    </ion-col>
+  </ion-row>
+  <div *ngIf="!loading">
+    <ion-list inset>
+
+      <ion-item>
+        <ion-label floating>Login</ion-label>
+        <ion-input type="text" [(ngModel)]="login"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Mot de passe</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <ion-item></ion-item>
+
+    </ion-list>
+    <ion-row center>
+      <ion-col class="center center-flex" width-90>
+        <button (click)="logme()" block><strong>Se connecter</strong></button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <bnj-loader [hidden]="!loading"></bnj-loader>
+  <ion-row center *ngIf="loading">
+    <ion-col class="center center-flex">
+      La connection nécessite quelques secondes...
+    </ion-col>
+  </ion-row>
+</ion-content>

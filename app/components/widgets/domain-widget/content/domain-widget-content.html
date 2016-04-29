@@ -1,0 +1,90 @@
+ <ion-item class="widget-header">
+  <ion-avatar item-left (click)="updateCollapse()">
+    <i class="fa fa-link fa-2x"></i>
+  </ion-avatar>
+  <div (click)="updateCollapse()">
+    <h2 [textContent]="serviceName" *ngIf="loading">
+    </h2>
+    <h2 [textContent]="domain.domain" *ngIf="!loading">
+    </h2>
+  </div>
+  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
+    <i class="fa fa-heartbeat fa-1x"></i>
+  </button>
+</ion-item>
+<div padding *ngIf="collapsed" class="widget-content">
+  <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
+    <ion-segment-button value="general">
+      Général
+    </ion-segment-button>
+    <ion-segment-button value="tasks" (click)="getTasks()">
+      Tâches
+    </ion-segment-button>
+  </ion-segment>
+</div>
+<ion-card-content class="widget-content" *ngIf="!loading && domain">
+  <ion-row *ngIf="viewMode === 'general' || !collapsed">
+    <ion-col width-40 [ngClass]="{'danger-color animated pulse': domain.warning}">
+      <i class="fa fa-warning" *ngIf="domain.warning"></i>
+      Expiration
+    </ion-col>
+    <ion-col width-60
+      [ngClass]="{'danger-color animated pulse': domain.warning}"
+      [textContent]="domain.expirationText">
+    </ion-col>
+  </ion-row>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+    <div *ngSwitchWhen="'general'">
+      <ion-row>
+        <ion-col width-20>
+          Offre
+        </ion-col>
+        <ion-col width-80>
+          <strong class="capitalize" [textContent]="domain.offer"></strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-80>
+          Support service OwO
+        </ion-col>
+        <ion-col width-20 class="center center-flex">
+          <i [hidden]="!domain.owoSupported" class="fa fa-check fa-2x" secondary></i>
+          <i [hidden]="domain.owoSupported" class="fa fa-times fa-2x" danger></i>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-80>
+          Protection contre le transfert
+        </ion-col>
+        <ion-col width-20>
+          <ion-toggle disabled secondary [checked]="domain.transferLockStatus === 'locked'"></ion-toggle>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-80>
+          Déléguation sécurisée (DNSSEC)
+        </ion-col>
+        <ion-col width-20>
+          <ion-toggle disabled secondary [checked]="domain.dnssecSupported"></ion-toggle>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngSwitchWhen="'tasks'">
+      <ion-list>
+        <task-details-web *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-web>
+        <ion-item *ngIf="emptyTasks && !loading" text-center>
+          <em>Vous n'avez pas de tâches</em>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+
+
+</ion-card-content>
+<ion-card-content class="widget-content" *ngIf="loading" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

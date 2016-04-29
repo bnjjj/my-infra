@@ -1,0 +1,125 @@
+<ion-item class="widget-header">
+  <ion-avatar item-left (click)="updateCollapse()">
+    <i class="fa fa-globe fa-2x"></i>
+  </ion-avatar>
+  <div (click)="updateCollapse()">
+    <h2 [textContent]="serviceName" *ngIf="loading">
+    </h2>
+    <h2 [textContent]="server.displayName || server.serviceName" *ngIf="!loading">
+    </h2>
+  </div>
+  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
+    <i class="fa fa-heartbeat fa-1x"></i>
+  </button>
+</ion-item>
+<div padding *ngIf="collapsed" class="widget-content">
+  <ion-segment [(ngModel)]="viewMode">
+    <ion-segment-button value="general" class="animated fadeIn">
+      Général
+    </ion-segment-button>
+    <ion-segment-button value="tasks" (click)="getTasks()">
+      Tâches
+    </ion-segment-button>
+  </ion-segment>
+</div>
+<ion-card-content class="widget-content" *ngIf="!loading && server">
+  <ion-row *ngIf="viewMode === 'general' || !collapsed">
+    <ion-col width-40 [ngClass]="{'danger-color animated pulse': server.warning}">
+      <i class="fa fa-warning" *ngIf="server.warning"></i>
+      Expiration
+    </ion-col>
+    <ion-col width-60
+      [ngClass]="{'danger-color animated pulse': server.warning}"
+      [textContent]="server.expirationText">
+    </ion-col>
+  </ion-row>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+    <div *ngSwitchWhen="'general'">
+      <ion-row>
+        <ion-col width-40>
+          Etat du service
+        </ion-col>
+        <ion-col width-60>
+          <div [ngSwitch]="server.state">
+            <ion-badge *ngSwitchWhen="'active'"
+              class="capitalize"
+              [textContent]="server.state"
+              secondary>
+            </ion-badge>
+            <ion-badge *ngSwitchWhen="'bloqued'"
+              class="capitalize"
+              [textContent]="server.state"
+              danger>
+            </ion-badge>
+            <ion-badge *ngSwitchDefault
+              [textContent]="server.state">
+            </ion-badge>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Offre
+        </ion-col>
+        <ion-col width-60>
+          <strong class="capitalize" [textContent]="server.offer"></strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          IPV4
+        </ion-col>
+        <ion-col width-60 [textContent]="server.hostingIp">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          IPV6
+        </ion-col>
+        <ion-col width-60 [textContent]="server.hostingIpv6">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Accès cluster
+        </ion-col>
+        <ion-col width-60>
+          <a [href]="'ftp://ftp.' + server.cluster + '.ovh.net'"
+            [textContent]="'ftp.' + server.cluster + '.ovh.net'">
+          </a>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center width-100>
+          Espace disque
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-100>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width]="100 - server.quotaPercentage + '%'">
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center>
+
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngSwitchWhen="'tasks'">
+      <ion-list>
+        <task-details-web *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-web>
+        <ion-item *ngIf="emptyTasks && !loading" text-center>
+          <em>Vous n'avez pas de tâches</em>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-card-content>
+<ion-card-content class="widget-content" *ngIf="loading" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>
