@@ -19,7 +19,6 @@ export class LoginService {
     return this.http.post('https://eu.api.ovh.com/createApp/', 'nic=' + login.toLowerCase() + '&password=' + password + '&applicationName=' + appName + '&applicationDescription=ovh-mobile',
       {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise()
       .then(resp => {
-        console.log('CreateApplication good : ', resp);
         this.analytics.trackEvent('LoginService', 'createApplication', 'Good', resp);
 
         let preArray;
@@ -34,8 +33,6 @@ export class LoginService {
             appSecret: preArray[3].innerHTML
           };
         } else {
-          console.log('Error during authentication : ', resp);
-
           return Promise.reject('Error during authentication');
         }
 
@@ -56,10 +53,8 @@ export class LoginService {
       {headers: new Headers({'Content-Type': 'application/json', 'X-Ovh-Application': appKey})}).toPromise()
       .then(resp => {
         validationInfo = resp.json();
-        console.log('Configure Access good : ', validationInfo);
 
         this.analytics.trackEvent('LoginService', 'configureAccess', 'Good', resp);
-
 
         localStorage.removeItem('consumerKey');
         localStorage.setItem('consumerKey', validationInfo.consumerKey);
@@ -71,8 +66,6 @@ export class LoginService {
         let tempDiv = document.createElement('div');
         let credentialToken = validationInfo.validationUrl.split('credentialToken=')[1];
         this.analytics.trackEvent('LoginService', 'validation', 'Good', resp);
-        console.log('Validation login good : ', resp);
-
 
         tempDiv.innerHTML = resp.text();
         inputArray = tempDiv.getElementsByTagName('input');
@@ -88,8 +81,6 @@ export class LoginService {
       .then(resp => {
         let tmpDiv = document.createElement('div')
         tmpDiv.innerHTML = resp.text();
-        console.log('Final Validation login good : ', resp);
-
 
         if (tmpDiv.getElementsByClassName('error').length !== 0) {
           return Promise.reject('Error during activation token');
@@ -126,7 +117,7 @@ export class LoginService {
     localStorage.removeItem('credentials');
     localStorage.removeItem('connected');
     this.ovhRequest.setConfiguration({});
-    return this.nav.setRoot(LoginPage);
 
+    return this.nav.setRoot(LoginPage);
   }
 }

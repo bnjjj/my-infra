@@ -1,19 +1,19 @@
-  <div *ngIf="!loading && ticket" class="ticket-component">
-    <ion-item [navPush]="messagePage" [navParams]="{ticket: ticket}">
-      <ion-avatar item-left>
-        <div [ngSwitch]="ticket.state">
-          <i *ngSwitchWhen="'closed'" class="fa fa-check-circle fa-2x" secondary></i>
-          <i *ngSwitchWhen="'open'" class="fa fa-clock-o fa-2x" primary></i>
-          <i *ngSwitchWhen="'unknown'" class="fa fa-exclamation fa-2x" danger></i>
-        </div>
-      </ion-avatar>
-      <h2 [textContent]="ticket.subject"></h2>
-      <h3 *ngIf="ticket.category"><strong>Catégorie : </strong><em [textContent]="TicketCategoryEnum[ticket.category.toUpperCase()].text"></em></h3>
-      <h3 *ngIf="ticket.serviceName"><strong>Service concerné : </strong><em [textContent]="ticket.serviceName"></em></h3>
-      <p><strong>Dernier message </strong><span *ngIf="ticket.lastMessageFrom === 'customer'">de vous</span>
-        <span *ngIf="ticket.lastMessageFrom !== 'customer'">du support OVH</span><br/>
-        <strong>Le </strong><span [textContent]="ticket.updateDateText"></span>
-      </p>
-    </ion-item>
-  </div>
+<div *ngIf="!loading && ticket && !error" class="ticket-component">
+  <ion-item [navPush]="messagePage" [navParams]="{ticket: ticket}">
+    <ion-avatar item-left>
+      <div [ngSwitch]="ticket.state">
+        <i *ngSwitchWhen="'closed'" class="fa fa-check-circle fa-2x" secondary></i>
+        <i *ngSwitchWhen="'open'" class="fa fa-clock-o fa-2x" primary></i>
+        <i *ngSwitchWhen="'unknown'" class="fa fa-exclamation fa-2x" danger></i>
+      </div>
+    </ion-avatar>
+    <h2 [textContent]="ticket.subject"></h2>
+    <h3 *ngIf="ticket.category"><strong>Catégorie : </strong><em [textContent]="TicketCategoryEnum[ticket.category.toUpperCase()].text"></em></h3>
+    <h3 *ngIf="ticket.serviceName"><strong>Service concerné : </strong><em [textContent]="ticket.serviceName"></em></h3>
+    <p><strong>Dernier message </strong><span *ngIf="ticket.lastMessageFrom === 'customer'">de vous</span>
+      <span *ngIf="ticket.lastMessageFrom !== 'customer'">du support OVH</span><br/>
+      <strong>Le </strong><span [textContent]="ticket.updateDateText"></span>
+    </p>
+  </ion-item>
+</div>
 

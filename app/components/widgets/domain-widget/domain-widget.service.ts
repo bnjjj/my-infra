@@ -15,6 +15,10 @@ export class DomainWidgetService {
     return this.ovhRequest.get(['/domain', serviceName].join('/')).toPromise();
   }
 
+  putInfos(serviceName: string, data: any) {
+    return this.ovhRequest.put(['/domain', serviceName].join('/'), JSON.stringify(data));
+  }
+
   getServiceInfos(serviceName: string) {
     return this.ovhRequest.get(['/domain', serviceName, 'serviceInfos'].join('/')).toPromise()
       .then((resp) => {
@@ -30,6 +34,6 @@ export class DomainWidgetService {
   }
 
   getTask(serviceName: string, id: number) {
-    return this.ovhRequest.get(['/hosting/web', serviceName, 'task', id].join('/')).toPromise();
+    return this.ovhRequest.get(['/domain', serviceName, 'task', id].join('/')).toPromise();
   }
 }

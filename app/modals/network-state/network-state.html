@@ -11,7 +11,7 @@
 
 <ion-content class="network-state-modal">
   <ion-list *ngIf="!loading">
-    <div *ngIf="!loading && networkTasks">
+    <div *ngIf="!loading && networkTasks && !error">
       <ion-card *ngFor="#networkTask of networkTasks.items" class="widget-content">
         <ion-card-header class="widget-header">
           <b [textContent]="networkTask.title"></b>

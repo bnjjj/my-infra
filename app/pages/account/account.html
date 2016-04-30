@@ -25,7 +25,7 @@
     </ion-refresher-content>
   </ion-refresher>
   <async-box [loading]="loading">
-        <form #accountForm="ngForm" *ngIf="!loading && accountInfos">
+        <form #accountForm="ngForm" *ngIf="!loading && accountInfos && !error">
         <ion-list>
           <ion-item>
             <ion-label>

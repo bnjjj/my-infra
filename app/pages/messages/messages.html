@@ -4,7 +4,7 @@
   </ion-title>
 </ion-navbar>
 
-<ion-content class="messagesPage" *ngIf="!loading && messages.length">
+<ion-content class="messagesPage" *ngIf="!loading && !error && messages.length">
   <ion-list>
     <div *ngFor="#message of messages" item-right>
       <div class="talk-bubble tri-right round"

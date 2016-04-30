@@ -1,13 +1,14 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
+import {TaskDetailsDomainComponent} from '../task-details/task-details';
 import {DomainWidgetService} from './../domain-widget.service';
 import {WidgetsService} from '../../widgets.service';
 
 @Component({
   selector: 'domain-widget-content',
   templateUrl: 'build/components/widgets/domain-widget/content/domain-widget-content.html',
-  directives: [IONIC_DIRECTIVES],
+  directives: [IONIC_DIRECTIVES, TaskDetailsDomainComponent],
   providers: [DomainWidgetService, WidgetsService]
 })
 export class DomainWidgetContentComponent implements OnChanges, OnInit {
@@ -19,7 +20,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;
-  emptyTasks: boolean;
+  emptyTasks: boolean = true;
   domain: any;
   error: any;
   tasks: Array<any> = [];
@@ -79,5 +80,13 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   updateCollapse(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  changeTransferLockStatus(): void {
+    this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
+    this.domainWidgetService.putInfos(this.serviceName, { transferLockStatus: this.domain.transferLockStatus })
+      .subscribe(null, () => {
+        this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
+      });
   }
 }

@@ -19,7 +19,7 @@ export class ToastService {
       }
     }, options);
 
-    return Toast.showWithOptions(opts);
+    return Toast.showWithOptions(opts).subscribe();
   }
 
   error(message: string, options?: any) {
@@ -34,7 +34,7 @@ export class ToastService {
       }
     }, options);
 
-    return Toast.showWithOptions(opts);
+    return Toast.showWithOptions(opts).subscribe();
   }
 
   success(message: string, options?: any) {
@@ -49,7 +49,7 @@ export class ToastService {
       }
     }, options);
 
-    return Toast.showWithOptions(opts);
+    return Toast.showWithOptions(opts).subscribe();
   }
 }
 

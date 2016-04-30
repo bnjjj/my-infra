@@ -47,7 +47,6 @@ export class LoginPage {
           this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error + ' login: ' + this.login);
           this.keyboard.close();
           this.toast.error('Erreur lors de la connection');
-          console.log('erreur : ', err);
           this.loading = false;
         }
       );

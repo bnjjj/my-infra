@@ -13,6 +13,8 @@ export class OvhRequestService {
   timestampServer: number;
   timestampLocal: number;
   timestampLag: number;
+  timeRequestSended: boolean = false;
+  timeObservable: Observable<any>;
 
   constructor(private http: Http) {
 
@@ -38,21 +40,26 @@ export class OvhRequestService {
   }
 
   getHeaders(url, config: any = {}) {
-    let observable = Observable.fromPromise(new Promise(resolve => resolve(Math.round(Date.now() / 1000) + this.timestampLag)))
-      .map(resp => resp);
-
     if (!this.timestampLag) {
-      observable = this.http.get('https://eu.api.ovh.com/1.0/auth/time')
-        .map(resp => resp.json())
-        .map(timestamp => {
-          this.timestampServer = timestamp;
-          this.timestampLocal = Date.now();
-          this.timestampLag = timestamp - Math.round(Date.now() / 1000);
+      if (!this.timeRequestSended) {
+        this.timeRequestSended = true;
+        this.timeObservable = this.http.get('https://eu.api.ovh.com/1.0/auth/time')
+          .retry(3)
+          .share()
+          .map(resp => resp.json())
+          .map(timestamp => {
+            this.timestampServer = timestamp;
+            this.timestampLocal = Date.now();
+            this.timestampLag = timestamp - Math.round(Date.now() / 1000);
 
-          return timestamp;
-        });
+            return timestamp;
+          });
+      }
+    } else {
+      this.timeObservable = Observable.fromPromise(new Promise(resolve => resolve(Math.round(Date.now() / 1000) + this.timestampLag)))
+        .map(resp => resp);
     }
-    return observable
+    return this.timeObservable
       .map(timestamp => {
         let reqBody = null;
         let headers = {};

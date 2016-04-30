@@ -5,7 +5,7 @@
   <div (click)="updateCollapse()">
     <h2 [textContent]="serviceName" *ngIf="loading">
     </h2>
-    <h2 [textContent]="server.displayName || server.serviceName" *ngIf="!loading">
+    <h2 [textContent]="server.displayName || server.serviceName" *ngIf="!loading && !error">
     </h2>
   </div>
   <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
@@ -22,7 +22,7 @@
     </ion-segment-button>
   </ion-segment>
 </div>
-<ion-card-content class="widget-content" *ngIf="!loading && server">
+<ion-card-content class="widget-content" *ngIf="!loading && server && !error">
   <ion-row *ngIf="viewMode === 'general' || !collapsed">
     <ion-col width-40 [ngClass]="{'danger-color animated pulse': server.warning}">
       <i class="fa fa-warning" *ngIf="server.warning"></i>

@@ -9,7 +9,7 @@ let moment = require('moment');
   templateUrl: 'build/components/widgets/domain-widget/task-details/task-details.html',
   directives: [IONIC_DIRECTIVES]
 })
-export class TaskDetailsDedicatedComponent {
+export class TaskDetailsDomainComponent {
   @Input() serviceName: string;
   @Input() id: number;
   loading: boolean = true;
