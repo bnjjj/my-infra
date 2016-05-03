@@ -13,8 +13,8 @@ If you want a new feature or improvements. You have 2 choices. You can submit a 
 
 To try My infra you can go on these stores :
 
-[![My infra on Play store](http://www.omyoga.ma/wp-content/uploads/Android-app-on-Google-play-logo-vector-2.png)](https://play.google.com/store/apps/details?id=myinfra.bnjjj.com)
-[![My infra on Appstore](http://www.icertifi.co.uk/images/appstorelogogrey%20.png)]()
+[![My infra on Play store](http://www.omyoga.ma/wp-content/uploads/Android-app-on-Google-play-logo-vector-2.png)](http://bit.ly/myinfra-android)
+[![My infra on Appstore](http://www.icertifi.co.uk/images/appstorelogogrey%20.png)](http://bit.ly/myinfra-ios)
 
 ### Contributing to Ionic 2
 
