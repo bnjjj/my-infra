@@ -31,7 +31,6 @@
   "name": "my-infra",
   "description": "My infra: a mobile application to manage some of the OVH products and services.",
   "scripts": {
-    "preinstall": "npm install -g commitizen",
     "android-release": "cd platforms/android/build/outputs/apk && rm -f my-infra.apk && ionic build android --release && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore android-release-unsigned.apk my-infra && ~/Library/Android/sdk/build-tools/23.0.3/zipalign -v 4 android-release-unsigned.apk my-infra.apk"
   },
   "cordovaPlugins": [

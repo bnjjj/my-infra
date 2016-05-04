@@ -16,7 +16,7 @@ import {LoginPage} from './pages/login/login';
 let providers = [
   HTTP_PROVIDERS,
   provide(OvhRequestService, {
-    useFactory: http => {
+    useFactory: (http) => {
       let myService = new OvhRequestService(http);
       let appKey = localStorage.getItem('appKey');
       let appSecret = localStorage.getItem('appSecret');

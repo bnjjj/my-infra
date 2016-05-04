@@ -1,3 +1,14 @@
+# 1.0.5 (2016-05-04)
+
+### Features
+
+* **App:** Improvement about errors handling
+* **Http:** Improvement about number of http request
+
+### Chore
+
+* **Ionic:** upgrade version of ionic and adapt build plan for ionic cli
+
 # 1.0.4 (2016-04-29)
 
 ### Features
