@@ -2,7 +2,7 @@
 ## Mobile application for OVH created with Ionic2/angular2
 
 ### Installation
-+ Pay attention !!!! Use node version >= 4.0
++ Pay attention !!!! Use node version >= 4.0 and use the latest release of ionic cli (```npm install -g ionic@beta``` even if you already have the ionic v2 cli installed)
 ```
 $ npm install -g ionic@beta typings typescript
 $ git clone https://github.com/bnjjj/my-infra.git
