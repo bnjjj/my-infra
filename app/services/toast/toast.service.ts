@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Toast} from 'ionic-native';
+import {Toast} from 'ionic-angular';
 
 @Injectable()
 export class ToastService {
@@ -10,46 +10,34 @@ export class ToastService {
   alert(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 'long',
+      duration: 1000,
       position: 'top',
-      styling: {
-        opacity: 0.90,
-        backgroundColor: '#387ef5',
-        cornerRadius: 10
-      }
+      cssClass: 'toast-alert'
     }, options);
 
-    return Toast.showWithOptions(opts).subscribe();
+    return Toast.create(opts);
   }
 
   error(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 'long',
+      duration: 1000,
       position: 'top',
-      styling: {
-        opacity: 0.90,
-        backgroundColor: '#f53d3d',
-        cornerRadius: 10
-      }
+      cssClass: 'toast-error'
     }, options);
 
-    return Toast.showWithOptions(opts).subscribe();
+    return Toast.create(opts);
   }
 
   success(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 'long',
+      duration: 1000,
       position: 'top',
-      styling: {
-        opacity: 0.90,
-        backgroundColor: '#32db64',
-        cornerRadius: 10
-      }
+      cssClass: 'toast-success'
     }, options);
 
-    return Toast.showWithOptions(opts).subscribe();
+    return Toast.create(opts);
   }
 }
 

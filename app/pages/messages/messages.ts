@@ -1,4 +1,4 @@
-import {Page, NavParams} from 'ionic-angular';
+import {Page, NavParams, NavController} from 'ionic-angular';
 import {ToastService} from '../../services/toast/toast.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {MessagesService} from './messages.service';
@@ -13,7 +13,8 @@ export class MessagesPage {
   messages: Array<any> = [];
   response: string = "";
   ticket: any;
-  constructor(private messagesService: MessagesService, private params: NavParams, private toast: ToastService, private analytics: AnalyticsService) {
+  constructor(private messagesService: MessagesService, private params: NavParams, private toast: ToastService,
+      private analytics: AnalyticsService, private nav: NavController) {
     this.ticket = this.params.get('ticket');
     this.getMessages();
     this.analytics.trackView('Messages');
@@ -27,7 +28,7 @@ export class MessagesPage {
         this.loading = false;
       }, err => {
         this.error = err;
-        this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err));
+        this.nav.present(this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err)));
         this.loading = false;
       });
   }
@@ -42,7 +43,7 @@ export class MessagesPage {
       })
       .catch(err => {
         this.error = err.message ? err.message : err;
-        this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error);
+        this.nav.present(this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error));
         this.loading = false;
         this.analytics.trackEvent('Messages', 'Reply', 'Error', this.error);
       });

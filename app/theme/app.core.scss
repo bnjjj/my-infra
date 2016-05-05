@@ -40,10 +40,38 @@
   color: $danger-color;
 }
 
+.toast-alert {
+  .toast-wrapper {
+    opacity: 0.90;
+    background-color: map-get($colors, primary);
+    border-radius: 10;
+  }
+}
+
+.toast-alert {
+  .toast-wrapper {
+    opacity: 0.90;
+    background-color: map-get($colors, danger);
+    border-radius: 10;
+  }
+}
+
+.toast-success {
+  .toast-wrapper {
+    opacity: 0.90;
+    background-color: map-get($colors, secondary);
+    border-radius: 10;
+  }
+}
+
 .center-flex {
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
+}
+
+.toast-wrapper {
+  background-color: red;
 }
 
 .nostyle-item-list {

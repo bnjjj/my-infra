@@ -33,7 +33,7 @@ export class SupportPage {
         this.loading = false;
       }, err => {
         this.error = err;
-        this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err));
+        this.nav.present(this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err)));
         this.loading = false;
       });
   }

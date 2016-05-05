@@ -1,3 +1,20 @@
+# 1.0.6 (2016-05-05)
+
+### Features
+
+* **Toast:** Improvements
+* **Login:** Add the ability to connect with your email
+
+### Bug Fixes
+
+* **widget-add:** Fix a bug when you want to add a project widget
+
+
+### Chore
+
+* **Linter:** Add tslint
+
+
 # 1.0.5 (2016-05-04)
 
 ### Features

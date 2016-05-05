@@ -17,7 +17,7 @@
   </ion-row>
   <ion-list no-lines center>
     <ion-item class="center width90">
-      <ion-select class="center" [(ngModel)]="category" (change)="selectProduct(category)">
+      <ion-select class="center" [(ngModel)]="category" (change)="selectCategory(category)">
         <ion-option [value]="CategoryEnum.DOMAIN" [textContent]="CategoryEnum.DOMAIN.text"></ion-option>
         <ion-option [value]="CategoryEnum.WEB" [textContent]="CategoryEnum.WEB.text"></ion-option>
         <ion-option [value]="CategoryEnum.DEDICATED_SERVER" [textContent]="CategoryEnum.DEDICATED_SERVER.text"></ion-option>

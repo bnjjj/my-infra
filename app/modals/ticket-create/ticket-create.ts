@@ -1,4 +1,4 @@
-import {Page, ViewController, NavParams} from 'ionic-angular';
+import {Page, ViewController, NavParams, NavController} from 'ionic-angular';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {ProductsService} from '../../services/products/common.service';
 import {SupportService} from '../../pages/support/support.service';
@@ -25,7 +25,8 @@ export class TicketCreateModal {
   errors: any;
 
   constructor(private viewCtrl: ViewController, private productService: ProductsService,
-    private params: NavParams, private analytics: AnalyticsService, private supportService: SupportService, private toast: ToastService) {
+    private params: NavParams, private analytics: AnalyticsService, private supportService: SupportService,
+      private toast: ToastService, private nav: NavController) {
     this.fetchProducts(this.ticket.product.url);
     this.analytics.trackView('Ticket-create');
   }
@@ -47,7 +48,7 @@ export class TicketCreateModal {
         this.loading = false;
       })
       .catch(() => {
-        this.toast.error('La création du ticket a échouée');
+        this.nav.present(this.toast.error('La création du ticket a échouée'));
         this.viewCtrl.dismiss();
         this.loading = false;
       });
