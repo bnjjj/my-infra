@@ -54,8 +54,8 @@ export class WidgetAddModal {
     }
   }
 
-  selectProduct(category: any): void {
-    this.analytics.trackEvent('Widget-add', 'addWidget', 'Add', category);
+  selectCategory(category: any): void {
+    this.analytics.trackEvent('Widget-add', 'addWidgetCategory', 'Add', category);
     if (category !== this.CategoryEnum.PROJECT) {
       this.project = [];
       this.hardwareSelected = false;
@@ -63,6 +63,11 @@ export class WidgetAddModal {
       this.projectName = null;
       this.fetchProducts(category.url);
     }
+  }
+
+  selectProduct(category: any): void {
+    this.analytics.trackEvent('Widget-add', 'addWidgetProduct', 'Add', category);
+    this.fetchProducts(category.url);
   }
 
   fetchProducts(category: string): void {
