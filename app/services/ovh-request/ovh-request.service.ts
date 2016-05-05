@@ -8,8 +8,7 @@ let timestampValidity = 10000;
 
 @Injectable()
 export class OvhRequestService {
-  opts: any = {};
-  urlRoot: string = 'https://eu.api.ovh.com/1.0';
+  config: any;
   timestampServer: number;
   timestampLocal: number;
   timestampLag: number;
@@ -17,17 +16,46 @@ export class OvhRequestService {
   timeObservable: Observable<any>;
 
   constructor(private http: Http) {
-
+    this.config = {
+      endpoint: '',
+      consumerKey: '',
+      validationUrl: '',
+      urlRoot: '',
+      appKey: '',
+      appSecret: ''
+    };
+    for(var key in this.config) {
+      this.config[key] = localStorage.getItem(key);
+    }
   }
 
-  setConfiguration(opts: any) {
-    this.opts = opts;
+  setConfiguration(config: any) {
+    if(config) {
+      for(var key in this.config) {
+        if(config[key]) {
+          this.config[key] = config[key];
+        }
+        localStorage.removeItem(key);
+        if(this.config[key]) {
+          localStorage.setItem(key, this.config[key]);
+        }
+      }
+    } else {
+      for(var key in this.config) {
+        localStorage.removeItem(key);
+        this.config[key] = '';
+      }
+    }
+  }
+
+  checkConfig() {
+    return (this.config.urlRoot && this.config.appKey && this.config.appSecret && this.config.consumerKey && this.config.endpoint);
   }
 
   getHashedSignature(httpMethod, url, body, timestamp) {
     const signature = [
-      this.opts.appSecret,
-      this.opts.consumerKey,
+      this.config.appSecret,
+      this.config.consumerKey,
       httpMethod,
       url,
       body || '',
@@ -43,7 +71,7 @@ export class OvhRequestService {
     if (!this.timestampLag) {
       if (!this.timeRequestSended) {
         this.timeRequestSended = true;
-        this.timeObservable = this.http.get('https://eu.api.ovh.com/1.0/auth/time')
+        this.timeObservable = this.http.get(this.config.urlRoot + '/auth/time')
           .retry(3)
           .share()
           .map(resp => resp.json())
@@ -75,10 +103,10 @@ export class OvhRequestService {
         }
 
         headers = Object.assign({}, {
-          'X-Ovh-Consumer': this.opts.consumerKey,
-          'X-Ovh-Signature': this.getHashedSignature(config.method || 'GET', this.urlRoot + url, config.body || null, timestamp),
+          'X-Ovh-Consumer': this.config.consumerKey,
+          'X-Ovh-Signature': this.getHashedSignature(config.method || 'GET', this.config.urlRoot + url, config.body || null, timestamp),
           'X-Ovh-Timestamp': timestamp,
-          'X-Ovh-Application': this.opts.appKey
+          'X-Ovh-Application': this.config.appKey
         }, headers);
 
         if (config.method === 'POST' || config.method === 'PUT') {
@@ -91,28 +119,28 @@ export class OvhRequestService {
 
   get(url, opts = {}) {
     return this.getHeaders(url, { method: 'GET' })
-      .map(headers => this.http.get(this.urlRoot + url, Object.assign({}, opts, headers)))
+      .map(headers => this.http.get(this.config.urlRoot + url, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }
 
   post(url, data, opts = {}) {
     return this.getHeaders(url, { method: 'POST', body: data })
-      .map(headers => this.http.post(this.urlRoot + url, data, Object.assign({}, opts, headers)))
+      .map(headers => this.http.post(this.config.urlRoot + url, data, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }
 
   put(url, data, opts = {}) {
     return this.getHeaders(url, { method: 'PUT', body: data })
-      .map(headers => this.http.put(this.urlRoot + url, data, Object.assign({}, opts, headers)))
+      .map(headers => this.http.put(this.config.urlRoot + url, data, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }
 
   delete(url, opts = {}) {
     return this.getHeaders(url, { method: 'DELETE' })
-      .map(headers => this.http.delete(this.urlRoot + url, Object.assign({}, opts, headers)))
+      .map(headers => this.http.delete(this.config.urlRoot + url, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }

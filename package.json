@@ -7,7 +7,7 @@
     "es6-shim": "^0.35.0",
     "font-awesome": "^4.5.0",
     "ionic-angular": "^2.0.0-beta.6-201604212137",
-    "ionic-native": "^1.1.0",
+    "ionic-native": "^1.2.0",
     "ionicons": "3.0.0-alpha.3",
     "lazy.js": "^0.4.2",
     "moment": "^2.12.0",
@@ -45,7 +45,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
     "cordova-plugin-google-analytics",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",
