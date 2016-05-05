@@ -31,14 +31,16 @@ export class LoginPage {
     this.error = null;
     this.keyboard.close();
     this.analytics.trackEvent('Login', 'logme', 'Launch', this.login);
-    this.login = this.login.indexOf('-ovh') === -1 ? [this.login, '-ovh'].join('') : this.login;
+    if (this.login.indexOf('@') === -1) {
+      this.login = this.login.indexOf('-ovh') === -1 ? [this.login, '-ovh'].join('') : this.login;
+    }
     this.loginService.login(this.login, this.password)
       .then(
         () => {
           this.analytics.trackEvent('Login', 'logme', 'Success', this.login);
 
           this.keyboard.close();
-          this.toast.success('Compte activé avec succès', {duration: 'short'});
+          this.nav.present(this.toast.success('Compte activé avec succès'));
           this.nav.push(TabsPage);
           // this.loading = false;
         },
@@ -46,7 +48,7 @@ export class LoginPage {
           this.error = err.message ? err.message : JSON.stringify(err);
           this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error + ' login: ' + this.login);
           this.keyboard.close();
-          this.toast.error('Erreur lors de la connection');
+          this.nav.present(this.toast.error('Erreur lors de la connection'));
           this.loading = false;
         }
       );

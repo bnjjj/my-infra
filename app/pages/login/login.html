@@ -25,7 +25,7 @@
       </ion-col>
     </ion-row>
   </div>
-  <bnj-loader [hidden]="!loading"></bnj-loader>
+  <bnj-loader *ngIf="loading"></bnj-loader>
   <ion-row center *ngIf="loading">
     <ion-col class="center center-flex">
       La connection nécessite quelques secondes...
