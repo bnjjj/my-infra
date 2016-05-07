@@ -64,6 +64,21 @@
   }
 }
 
+.refresher-pulling-icon {
+  color: $primary-font-color;
+}
+
+.refresher-pulling-text {
+  color: $primary-font-color;
+}
+
+.refresher-refreshing-icon {
+  color: $primary-font-color;
+}
+
+.refresher-refreshing-text {
+  color: $primary-font-color;
+}
 .center-flex {
   display: flex;
   justify-content: center; /* align horizontal */
@@ -214,6 +229,11 @@ ion-list {
 }
 
 ion-spinner svg {
+  fill: $primary-font-color;
+  stroke: $primary-font-color;
+}
+
+.spinner-circles {
   fill: $primary-font-color;
   stroke: $primary-font-color;
 }
