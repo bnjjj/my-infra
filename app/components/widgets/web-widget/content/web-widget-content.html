@@ -24,11 +24,11 @@
 </div>
 <ion-card-content class="widget-content" *ngIf="!loading && server && !error">
   <ion-row *ngIf="viewMode === 'general' || !collapsed">
-    <ion-col width-33 [ngClass]="{'danger-color animated pulse': server.warning}">
+    <ion-col width-50 [ngClass]="{'danger-color animated pulse': server.warning}">
       <i class="fa fa-warning" *ngIf="server.warning"></i>
       Expiration
     </ion-col>
-    <ion-col width-67 text-right
+    <ion-col width-50 text-right
       [ngClass]="{'danger-color animated pulse': server.warning}"
       [textContent]="server.expirationText">
     </ion-col>

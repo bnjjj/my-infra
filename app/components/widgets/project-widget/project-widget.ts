@@ -6,11 +6,12 @@ import {IONIC_DIRECTIVES, NavController} from 'ionic-angular';
 import {WebWidgetContentComponent} from '../web-widget/content/web-widget-content';
 import {DomainWidgetContentComponent} from '../domain-widget/content/domain-widget-content';
 import {DedicatedWidgetContentComponent} from '../dedicated-widget/content/dedicated-widget-content';
+import {VpsWidgetContentComponent} from '../vps-widget/content/vps-widget-content';
 
 @Component({
   selector: 'project-widget',
   templateUrl: 'build/components/widgets/project-widget/project-widget.html',
-  directives: [IONIC_DIRECTIVES, WebWidgetContentComponent, DomainWidgetContentComponent, DedicatedWidgetContentComponent],
+  directives: [IONIC_DIRECTIVES, WebWidgetContentComponent, DomainWidgetContentComponent, DedicatedWidgetContentComponent, VpsWidgetContentComponent],
   providers: [WidgetsService]
 })
 export class ProjectWidgetComponent {

@@ -18,10 +18,7 @@
   <ion-list no-lines center>
     <ion-item class="center width90">
       <ion-select class="center" [(ngModel)]="category" (change)="selectCategory(category)">
-        <ion-option [value]="CategoryEnum.DOMAIN" [textContent]="CategoryEnum.DOMAIN.text"></ion-option>
-        <ion-option [value]="CategoryEnum.WEB" [textContent]="CategoryEnum.WEB.text"></ion-option>
-        <ion-option [value]="CategoryEnum.DEDICATED_SERVER" [textContent]="CategoryEnum.DEDICATED_SERVER.text"></ion-option>
-        <ion-option [value]="CategoryEnum.PROJECT" [textContent]="CategoryEnum.PROJECT.text"></ion-option>
+        <ion-option *ngFor="#categoryKey of categoryKeys" [value]="CategoryEnum[categoryKey]" [textContent]="CategoryEnum[categoryKey].text"></ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
@@ -50,15 +47,9 @@
   <ion-list no-lines center *ngIf="category === CategoryEnum.PROJECT && project.length < 2">
     <ion-item class="center width90">
       <ion-select [(ngModel)]="subCategory" (change)="selectProduct(subCategory)">
-        <ion-option [value]="CategoryEnum.DOMAIN" *ngIf="!domainSelected">
-          <strong [textContent]="CategoryEnum.DOMAIN.text"></strong>
-        </ion-option>
-        <ion-option [value]="CategoryEnum.WEB" *ngIf="!hardwareSelected">
-          <strong [textContent]="CategoryEnum.WEB.text"></strong>
-        </ion-option>
-        <ion-option *ngIf="!hardwareSelected"
-          [value]="CategoryEnum.DEDICATED_SERVER">
-            <strong [textContent]="CategoryEnum.DEDICATED_SERVER.text"></strong>
+        <ion-option *ngFor="#subCategorySelect of subCategoryKeys"
+          [value]="CategoryEnum[subCategorySelect]"
+          [textContent]="CategoryEnum[subCategorySelect].text">
         </ion-option>
       </ion-select>
     </ion-item>

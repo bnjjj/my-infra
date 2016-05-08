@@ -21,7 +21,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   loading: boolean;
   tasksLoaded: boolean = false;
   emptyTasks: boolean = true;
-  domain: any;
+  domain: any = {};
   error: any;
   tasks: Array<any> = [];
 
@@ -35,7 +35,8 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.domainWidgetService.getInfos(this.serviceName), this.domainWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.domainWidgetService.getInfos(this.serviceName),
+         this.domainWidgetService.getServiceInfos(this.serviceName)])
       .then(resp => {
         this.domain = Object.assign({}, resp[0], resp[1]);
         this.loading = false;

@@ -1,0 +1,21 @@
+.vps-widget {
+  .progressbar {
+    border-color: black;
+    ion-col {
+      background-color: map-get($colors, primary);
+      width: 65%;
+      border-radius: 50px;
+    }
+  }
+
+  .text-primary {
+    color: map-get($colors, primary);
+  }
+
+  .expiration {
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    -webkit-animation-iteration-count: 3;
+    animation-iteration-count: 3;
+  }
+}

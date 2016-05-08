@@ -34,6 +34,6 @@ export class DedicatedWidgetService {
   }
 
   reboot(serviceName: string) {
-    return this.ovhRequest.post(['/dedicated/server', serviceName, 'reboot'].join('/'), null).toPromise();
+    return this.ovhRequest.post(['/dedicated/server', serviceName, 'reboot'].join('/'), JSON.stringify({})).toPromise();
   }
 }

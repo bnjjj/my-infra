@@ -3,6 +3,7 @@ import {Page, Modal, NavController} from 'ionic-angular';
 import {WebWidgetComponent} from '../../components/widgets/web-widget/web-widget';
 import {DomainWidgetComponent} from '../../components/widgets/domain-widget/domain-widget';
 import {DedicatedWidgetComponent} from '../../components/widgets/dedicated-widget/dedicated-widget';
+import {VpsWidgetComponent} from '../../components/widgets/vps-widget/vps-widget';
 import {ProjectWidgetComponent} from '../../components/widgets/project-widget/project-widget';
 import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
@@ -10,7 +11,7 @@ import {categoryEnum} from '../../config/constants';
 
 @Page({
   templateUrl: 'build/pages/dashboard/dashboard.html',
-  directives: [WebWidgetComponent, DomainWidgetComponent, DedicatedWidgetComponent, ProjectWidgetComponent]
+  directives: [WebWidgetComponent, DomainWidgetComponent, DedicatedWidgetComponent, ProjectWidgetComponent, VpsWidgetComponent]
 })
 export class DashboardPage {
   widgets: Array<any> = [];

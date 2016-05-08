@@ -44,6 +44,12 @@
         (remove)="removeWidget($event)">
       </dedicated-widget>
 
+      <vps-widget *ngSwitchWhen="CategoryEnum.VPS.url"
+        [reload]="reload"
+        [serviceName]="widget.serviceName"
+        (remove)="removeWidget($event)">
+      </vps-widget>
+
       <project-widget *ngSwitchWhen="CategoryEnum.PROJECT.url"
         [reload]="reload"
         [project]="widget"

@@ -18,9 +18,9 @@
     <ion-list no-lines center>
       <ion-item class="center width90">
         <ion-select class="center" [(ngModel)]="ticket.product" (change)="fetchProducts(ticket.product.url)">
-          <ion-option [value]="CategoryEnum.DOMAIN">Nom de domaine</ion-option>
-          <ion-option [value]="CategoryEnum.WEB">Web</ion-option>
-          <ion-option [value]="CategoryEnum.DEDICATED_SERVER">Serveur dédié</ion-option>
+          <ion-option *ngFor="#categorySelect of categoryKeys"
+            [value]="CategoryEnum[categorySelect]"
+            [textContent]="CategoryEnum[categorySelect].text"></ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

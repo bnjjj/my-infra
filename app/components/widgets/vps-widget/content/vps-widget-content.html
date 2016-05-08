@@ -1,0 +1,121 @@
+<ion-item class="widget-header">
+ <ion-avatar item-left (click)="updateCollapse()">
+   <i class="fa fa-hdd-o fa-2x"></i>
+ </ion-avatar>
+ <div (click)="updateCollapse()">
+   <h2 [textContent]="vps.displayName || vps.name" *ngIf="!loading && !error">
+   </h2>
+   <h2 [textContent]="serviceName" *ngIf="loading">
+   </h2>
+   <h2 *ngIf="error" danger>
+    ERREUR
+   </h2>
+ </div>
+ <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()">
+   <i class="fa fa-heartbeat fa-1x"></i>
+ </button>
+</ion-item>
+<div padding *ngIf="collapsed && !error" class="widget-content">
+ <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
+   <ion-segment-button value="general">
+     Général
+   </ion-segment-button>
+   <ion-segment-button value="tasks" (click)="getTasks()">
+     Tâches
+   </ion-segment-button>
+ </ion-segment>
+</div>
+ <ion-card-content *ngIf="!loading && !error" class="widget-content">
+ <div *ngIf="viewMode === 'general' || !collapsed">
+   <ion-row >
+     <ion-col width-50 [ngClass]="{'danger-color animated pulse': vps.warning}">
+       <i class="fa fa-warning" *ngIf="vps.warning"></i>
+       Expiration
+     </ion-col>
+     <ion-col width-50 text-right
+       [ngClass]="{'danger-color animated pulse': vps.warning}"
+       [textContent]="vps.expirationText">
+     </ion-col>
+   </ion-row>
+   <ion-row>
+     <ion-col width-40>
+       Etat du service
+     </ion-col>
+     <ion-col width-60 text-right>
+       <div [ngSwitch]="vps.state">
+         <ion-badge *ngSwitchWhen="'running'"
+            class="capitalize"
+           [textContent]="vps.state"
+           secondary>
+         </ion-badge>
+         <ion-badge *ngSwitchWhen="'maintenance'"
+            class="capitalize"
+           [textContent]="vps.state"
+           primary>
+         </ion-badge>
+         <ion-badge *ngSwitchDefault
+            class="capitalize"
+           [textContent]="vps.state"
+           danger>
+         </ion-badge>
+       </div>
+     </ion-col>
+   </ion-row>
+ </div>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed && !error" class="animated fadeIn">
+     <div *ngSwitchWhen="'general'">
+       <ion-row>
+         <ion-col width-40>
+           Distribution
+         </ion-col>
+         <ion-col width-60 [textContent]="vps.distribution.name + ' (' + vps.distribution.bitFormat + 'bits)'">
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Offre
+         </ion-col>
+         <ion-col width-60 [textContent]="vps.model.offer">
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Zone
+         </ion-col>
+         <ion-col width-60 [textContent]="vps.zone">
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40 class="center">
+           Monitoring SLA
+         </ion-col>
+         <ion-col width-60>
+           <ion-toggle secondary
+             [checked]="vps.slaMonitoring"
+             (click)="changeMonitoringStatus()">
+           </ion-toggle>
+         </ion-col>
+       </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           Limite mémoire
+         </ion-col>
+         <ion-col width-60 [textContent]="vps.memoryLimit + ' MB'">
+         </ion-col>
+       </ion-row>
+     </div>
+
+     <div *ngSwitchWhen="'tasks'">
+       <ion-list>
+         <task-details-vps *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+         </task-details-vps>
+         <ion-item *ngIf="emptyTasks && !loading" text-center>
+           <em>Vous n'avez pas de tâches</em>
+         </ion-item>
+       </ion-list>
+     </div>
+   </div>
+</ion-card-content>
+<ion-card-content *ngIf="loading" class="widget-content" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

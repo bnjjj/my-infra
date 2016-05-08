@@ -7,12 +7,12 @@ import {categoryEnum} from '../../config/constants';
   templateUrl: 'build/modals/widget-add/widget-add.html'
 })
 export class WidgetAddModal {
+  categoryKeys: Array<string> = Object.keys(categoryEnum);
+  subCategoryKeys: Array<string> = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
   CategoryEnum: any = categoryEnum;
   category: any = this.CategoryEnum.DOMAIN;
   subCategory: any = this.CategoryEnum.DOMAIN;
   loading: boolean = true;
-  domainSelected: boolean = false;
-  hardwareSelected: boolean = false;
   projectName: string;
   errors: any;
   products: Array<any> = [];
@@ -45,11 +45,11 @@ export class WidgetAddModal {
   }
 
   filterCategories(category: any): void{
-    if (category.name === 'DOMAIN') {
-      this.domainSelected = true;
+    if (!category.hardware) {
+      this.subCategoryKeys = this.subCategoryKeys.filter((cat) => this.CategoryEnum[cat].hardware);
       this.subCategory = this.CategoryEnum.WEB;
     } else {
-      this.hardwareSelected = true;
+      this.subCategoryKeys = this.subCategoryKeys.filter((cat) => !this.CategoryEnum[cat].hardware);
       this.subCategory = this.CategoryEnum.DOMAIN;
     }
   }
@@ -58,10 +58,9 @@ export class WidgetAddModal {
     this.analytics.trackEvent('Widget-add', 'addWidgetCategory', 'Add', category);
     if (category !== this.CategoryEnum.PROJECT) {
       this.project = [];
-      this.hardwareSelected = false;
-      this.domainSelected = false;
       this.projectName = null;
       this.fetchProducts(category.url);
+      this.subCategoryKeys = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
     }
   }
 

@@ -1,0 +1,30 @@
+<ion-card class="vps-widget widget-content" *ngIf="serviceName">
+
+  <vps-widget-content
+    [reload]="reload"
+    [serviceName]="serviceName"
+    [(collapsed)]="collapsed">
+  </vps-widget-content>
+
+  <ion-row no-padding>
+    <ion-col width-40>
+      <button clear (click)="reboot()">
+        <a class="button-white" [href]="">
+          <ion-icon name='md-refresh'></ion-icon>
+          Redémarrer
+        </a>
+      </button>
+    </ion-col>
+    <ion-col text-center width-20>
+      <button clear class="button-white" (click)="collapsed = !collapsed">
+        <ion-icon [name]="collapsed ? 'arrow-up' : 'arrow-down'"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col width-40 text-right>
+      <button clear danger (click)="removeMe()">
+        <ion-icon name='trash'></ion-icon>
+        Remove
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-card>

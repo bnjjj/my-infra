@@ -10,6 +10,14 @@
     <div *ngIf="collapsed" class="animated fadeIn">
       <hr/>
       <div [ngSwitch]="product.category.name">
+        <div *ngSwitchWhen="'DOMAIN'">
+          <domain-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </domain-widget-content>
+        </div>
         <div *ngSwitchWhen="'WEB'">
           <web-widget-content
             [reload]="reload"
@@ -18,13 +26,13 @@
             [showWorks]="true">
           </web-widget-content>
         </div>
-        <div *ngSwitchWhen="'DOMAIN'">
-          <domain-widget-content
+        <div *ngSwitchWhen="'VPS'">
+          <vps-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
             [collapsed]="collapsed"
             [showWorks]="true">
-          </domain-widget-content>
+          </vps-widget-content>
         </div>
         <div *ngSwitchWhen="'DEDICATED_SERVER'">
           <dedicated-widget-content

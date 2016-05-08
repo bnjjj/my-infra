@@ -10,6 +10,7 @@ import {categoryEnum, ticketCategoryEnum} from '../../config/constants';
   providers: [SupportService]
 })
 export class TicketCreateModal {
+  categoryKeys: Array<string> = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
   CategoryEnum: any = categoryEnum;
   TicketCategoryEnum: any = ticketCategoryEnum;
   ticket: any = {

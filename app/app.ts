@@ -47,6 +47,7 @@ let providers = [
   config: {
     swipeBackEnabled: false
   }, // http://ionicframework.com/docs/v2/api/config/Config/
+  prodMode: true,
   providers: providers
 })
 export class MyApp {

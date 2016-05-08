@@ -1,17 +1,18 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
-import {DedicatedWidgetService} from '../dedicated-widget.service';
+import {VpsWidgetService} from '../vps-widget.service';
 import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
+import {ToastService} from '../../../../services/toast/toast.service';
 import {WidgetsService} from '../../widgets.service';
 
 @Component({
-  selector: 'dedicated-widget-content',
-  templateUrl: 'build/components/widgets/dedicated-widget/content/dedicated-widget-content.html',
+  selector: 'vps-widget-content',
+  templateUrl: 'build/components/widgets/vps-widget/content/vps-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent],
-  providers: [DedicatedWidgetService, WidgetsService]
+  providers: [VpsWidgetService, WidgetsService]
 })
-export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
+export class VpsWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Input() collapsed: boolean;
@@ -21,10 +22,10 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   loading: boolean;
   tasksLoaded: boolean = false;
   emptyTasks: boolean;
-  server: any = {};
+  vps: any = {};
   error: any;
   tasks: Array<any> = [];
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService, private nav: NavController, private toast: ToastService) {
 
   }
 
@@ -34,13 +35,17 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.dedicatedWidgetService.getInfos(this.serviceName), this.dedicatedWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([
+        this.vpsWidgetService.getInfos(this.serviceName),
+        this.vpsWidgetService.getServiceInfos(this.serviceName),
+        this.vpsWidgetService.getDistributionInfos(this.serviceName)])
       .then(resp => {
-        this.server = Object.assign({}, resp[0], resp[1]);
+        this.vps = Object.assign({}, resp[0], resp[1], { distribution: resp[2] });
         this.loading = false;
       })
       .catch(err => {
         this.error = err;
+        this.nav.present(this.toast.error(err.message));
         this.loading = false;
       });
   }
@@ -48,7 +53,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.dedicatedWidgetService.getTasks(this.serviceName)
+      this.vpsWidgetService.getTasks(this.serviceName)
         .then(tasks => {
           this.emptyTasks = tasks.length === 0;
           this.tasks = tasks;
@@ -74,12 +79,21 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
+    let profileModal = Modal.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
     this.nav.present(profileModal);
   }
 
   updateCollapse(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  changeMonitoringStatus(): void {
+    this.vps.slaMonitoring = !this.vps.slaMonitoring;
+    this.vpsWidgetService.putInfos(this.serviceName, { slaMonitoring: this.vps.slaMonitoring })
+      .subscribe(null, (err) => {
+        this.vps.slaMonitoring = !this.vps.slaMonitoring;
+        this.nav.present(this.toast.error(err.message));
+      });
   }
 }

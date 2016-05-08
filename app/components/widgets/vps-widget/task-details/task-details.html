@@ -1,6 +1,6 @@
 <ion-item *ngIf="!loading && !error">
   <ion-avatar item-left>
-    <div [ngSwitch]="task.status">
+    <div [ngSwitch]="task.state">
       <i *ngSwitchWhen="'done'" class="fa fa-check fa-2x" secondary></i>
       <i *ngSwitchWhen="'doing'" class="fa fa-clock-o fa-2x" primary></i>
       <i *ngSwitchWhen="'init'" class="fa fa-clock-o fa-2x" primary></i>
@@ -8,10 +8,9 @@
     </div>
 
   </ion-avatar>
-  <h2 [textContent]="task.function"></h2>
-  <h3 [textContent]="'Statut : ' + task.status"></h3>
-  <p [textContent]="'Créer le ' + task.startDateText"></p>
-  <p [hidden]="!task.doneDate" [textContent]="'Terminée le ' + task.doneDateText"></p>
+  <h2 [textContent]="task.type"></h2>
+  <h3 [textContent]="'Statut : ' + task.state"></h3>
+  <p [textContent]="task.progress + '%'"></p>
 </ion-item>
 <ion-item text-center *ngIf="loading">
   <div class="center center-flex">
