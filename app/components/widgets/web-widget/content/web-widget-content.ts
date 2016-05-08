@@ -17,12 +17,12 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
 
-  server: any;
+  server: any = {};
   loading: boolean;
   viewMode: string = 'general';
   tasksLoaded: boolean = false;
   emptyTasks: boolean;
-  error: any = {};
+  error: any;
   tasks: Array<any> = [];
 
   constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService, private nav: NavController) {

@@ -23,37 +23,40 @@
  </ion-segment>
 </div>
  <ion-card-content *ngIf="!loading && !error" class="widget-content">
-  <ion-row *ngIf="viewMode === 'general' || !collapsed">
-    <ion-col width-50 [ngClass]="{'danger-color animated pulse': server.warning}">
-      <i class="fa fa-warning" *ngIf="server.warning"></i>
-      Expiration
-    </ion-col>
-    <ion-col width-50 text-right
-      [ngClass]="{'danger-color animated pulse': server.warning}"
-      [textContent]="server.expirationText">
-    </ion-col>
-  </ion-row>
+   <div *ngIf="viewMode === 'general' || !collapsed">
+     <ion-row>
+       <ion-col width-50 [ngClass]="{'danger-color animated pulse': server.warning}">
+         <i class="fa fa-warning" *ngIf="server.warning"></i>
+         Expiration
+       </ion-col>
+       <ion-col width-50 text-right
+         [ngClass]="{'danger-color animated pulse': server.warning}"
+         [textContent]="server.expirationText">
+       </ion-col>
+     </ion-row>
+     <ion-row>
+       <ion-col width-40>
+         Etat du service
+       </ion-col>
+       <ion-col width-60 text-right>
+         <div [ngSwitch]="server.state">
+           <ion-badge *ngSwitchWhen="'ok'"
+              class="capitalize"
+             [textContent]="server.state"
+             secondary>
+           </ion-badge>
+           <ion-badge *ngSwitchDefault
+              class="capitalize"
+             [textContent]="server.state"
+             danger>
+           </ion-badge>
+         </div>
+       </ion-col>
+     </ion-row>
+   </div>
+
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
      <div *ngSwitchWhen="'general'">
-       <ion-row>
-         <ion-col width-40>
-           Etat du service
-         </ion-col>
-         <ion-col width-60>
-           <div [ngSwitch]="server.state">
-             <ion-badge *ngSwitchWhen="'ok'"
-                class="capitalize"
-               [textContent]="server.state"
-               secondary>
-             </ion-badge>
-             <ion-badge *ngSwitchDefault
-                class="capitalize"
-               [textContent]="server.state"
-               danger>
-             </ion-badge>
-           </div>
-         </ion-col>
-       </ion-row>
        <ion-row>
          <ion-col width-40>
            IPV4
