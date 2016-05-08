@@ -28,7 +28,7 @@
         <form #accountForm="ngForm" *ngIf="!loading && accountInfos && !error">
         <ion-list>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Prénom
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.firstname" ngControl="firstname">
@@ -36,14 +36,14 @@
           </ion-item>
 
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Nom
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.name" ngControl="name">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Sexe
             </ion-label>
             <ion-select [(ngModel)]="accountInfos.sex" ngControl="sex">
@@ -51,14 +51,14 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Lieu de naissance
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.birthCity" ngControl="birthCity">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Forme juridique
             </ion-label>
             <ion-select [(ngModel)]="accountInfos.legalform" ngControl="legalform">
@@ -66,28 +66,28 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Adresse
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.address" ngControl="address">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Code postal
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.zip" ngControl="zip">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Ville
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.city" ngControl="city">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Pays
             </ion-label>
             <ion-select [(ngModel)]="accountInfos.country" ngControl="country">
@@ -96,28 +96,28 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Téléphone
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.phone" ngControl="phone">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Fax
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.fax" ngControl="fax">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Email
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.email" ngControl="email">
             </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>
+            <ion-label floating>
               Email de secours
             </ion-label>
             <ion-input [(ngModel)]="accountInfos.spareEmail" ngControl="spareEmail">

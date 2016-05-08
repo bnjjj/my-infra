@@ -9,6 +9,7 @@ $ git clone https://github.com/bnjjj/my-infra.git
 $ cd my-infra
 $ npm i
 $ typings install
+$ ionic state restore
 ```
 
 ### Run
@@ -16,9 +17,12 @@ $ typings install
 $ ionic serve --lab
 ```
 
+### Ionic cli
+If you're not used to use Ionic, go on the [Ionic Documentation](http://ionicframework.com/docs/v2/)
+
 ### Creating an Issue
 
-If you have a question about using the framework, please ask on the [My infra Gitter](SOON) group.
+If you have a question about using the framework, please ask me on my [twitter](https://twitter.com/BnJ25) in order to have a personal access to our [https://my-infra.slack.com](slack).
 
 If you think you have found a bug, or have a new feature idea, please start by making sure it hasn't already been [reported](https://github.com/bnjjj/my-infra/issues?utf8=%E2%9C%93&q=is%3Aissue). You can search through existing issues to see if there is a similar one reported. Include closed issues as it may have been closed with a solution.
 
@@ -40,7 +44,7 @@ Looking for an issue to fix? Make sure to look through our issues with the [help
 
 ### Commiting
 1. Install Commitizen (add sudo if on OSX/Linux): npm install -g commitizen
-2. Use commitizen to commit instead of git commit: git cz
+2. Use commitizen to commit instead of git commit: git cz or git-cz
 3. This will prompt you with questions and commit when you are finished.
 4. Submit the Pull Request!
 
