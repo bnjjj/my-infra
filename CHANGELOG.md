@@ -1,3 +1,17 @@
+# 1.1.0 (... ?)
+
+### Features
+
+* **Vps:** Add vps widget
+* **Widget:** Add more information about your service without collapse
+* **Support:** Add vps support
+
+### Bug Fixes
+
+* **account:** Change label for input
+* **refresher:** Improve pull to refresh style
+* **Widget:** Fix bug when displaying the expiration date
+
 # 1.0.6 (2016-05-05)
 
 ### Features
