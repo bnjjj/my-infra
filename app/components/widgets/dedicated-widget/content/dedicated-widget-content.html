@@ -3,7 +3,7 @@
    <i class="fa fa-server fa-2x"></i>
  </ion-avatar>
  <div (click)="updateCollapse()">
-   <h2 [textContent]="server.name || server.serviceName" *ngIf="!loading">
+   <h2 [textContent]="server.reverse || server.name || server.serviceName" *ngIf="!loading">
    </h2>
    <h2 [textContent]="serviceName" *ngIf="loading">
    </h2>
