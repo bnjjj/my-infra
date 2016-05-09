@@ -104,15 +104,13 @@
          </ion-col>
        </ion-row>
        <ion-row>
-         <ion-col width-40>
+         <ion-col width-20>
            IPs
          </ion-col>
-         <ion-col width-60>
-          <ul>
-            <li *ngFor="#ip of vps.ips" [textContent]="ip">
-            </li>
-          </ul>
-         </ion-col>
+          <ion-col width-80 text-right>
+            <p *ngFor="#ip of vps.ips" [textContent]="ip">
+            </p>
+          </ion-col>
        </ion-row>
      </div>
 

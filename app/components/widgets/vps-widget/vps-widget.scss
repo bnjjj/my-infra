@@ -6,4 +6,8 @@
   .text-primary {
     color: map-get($colors, primary);
   }
+
+  p {
+    color: $primary-font-color;
+  }
 }
