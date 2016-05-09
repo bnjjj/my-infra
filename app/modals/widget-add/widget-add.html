@@ -61,7 +61,7 @@
       <ion-input [(ngModel)]="projectName"></ion-input>
     </ion-item>
   </ion-list>
-  <div class="tspace20" *ngIf="project.length < 2">
+  <div class="tspace20" *ngIf="project.length < 2 && !loading">
     <ion-row *ngFor="#product of products" center>
       <ion-col width-90 class="center">
         <button light outline block
