@@ -5,6 +5,7 @@
   <author email="benjamin.coenen@hotmail.com" href="http://benjamincoenen.ovh/">Coenen Benjamin</author>
   <content src="index.html"/>
   <access origin="*"/>
+  <allow-intent href="*"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
@@ -73,6 +74,10 @@
   <preference name="SplashScreenDelay" value="3000"/>
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
+  </feature>
+  <feature name="InAppBrowser">
+    <param name="ios-package" value="CDVInAppBrowser" />
+    <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
   </feature>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>

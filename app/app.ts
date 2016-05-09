@@ -15,26 +15,7 @@ import {LoginPage} from './pages/login/login';
 
 let providers = [
   HTTP_PROVIDERS,
-  provide(OvhRequestService, {
-    useFactory: (http) => {
-      let myService = new OvhRequestService(http);
-      let appKey = localStorage.getItem('appKey');
-      let appSecret = localStorage.getItem('appSecret');
-      let consumerKey = localStorage.getItem('consumerKey');
-
-      if (appKey && appSecret && consumerKey) {
-        myService.setConfiguration({
-          endpoint: 'ovh-eu',
-          appKey,
-          appSecret,
-          consumerKey
-        });
-      }
-
-      return myService;
-    },
-    deps: [Http]
-  }),
+  OvhRequestService,
   provide(PLATFORM_DIRECTIVES, {useValue: LoaderComponent, multi: true}),
   provide(PLATFORM_DIRECTIVES, {useValue: AsyncBoxComponent, multi: true}),
   ProductsService,
@@ -55,11 +36,7 @@ export class MyApp {
   connected: boolean = false;
 
   constructor(platform: Platform) {
-    let credentials = localStorage.getItem('connected') && localStorage.getItem('appKey') &&
-      localStorage.getItem('appSecret') && localStorage.getItem('consumerKey');
-
-    this.rootPage = credentials ? TabsPage : LoginPage;
-    // this.rootPage = LoginPage;
+    this.rootPage = LoginPage;
     platform.ready().then(() => {
       document.addEventListener('backbutton', (event) => {
         event.preventDefault();

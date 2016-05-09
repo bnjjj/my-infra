@@ -5,30 +5,36 @@
     </ion-col>
   </ion-row>
   <div *ngIf="!loading">
-    <ion-list inset>
-
-      <ion-item>
-        <ion-label floating>Login</ion-label>
-        <ion-input type="text" [(ngModel)]="login"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label floating>Mot de passe</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
-      </ion-item>
-      <ion-item></ion-item>
-
-    </ion-list>
     <ion-row center>
       <ion-col class="center center-flex" width-90>
-        <button (click)="logme()" block><strong>Se connecter</strong></button>
+        <div text-center *ngIf="!loggingIn">
+          Choisissez le site sur lequel vous connecter :<br /><br />
+          <div>
+            <button (click)="startLogin('ovh-eu')"><strong>OVH Europe</strong></button><br />
+            <button (click)="startLogin('ovh-ca')"><strong>OVH Canada</strong></button>
+          </div>
+          <div>
+            <button (click)="startLogin('soyoustart-eu')"><strong>So you Start Europe</strong></button><br />
+            <button (click)="startLogin('soyoustart-ca')"><strong>So you Start Canada</strong></button>
+          </div>
+          <div>
+            <button (click)="startLogin('kimsufi-eu')" disabled><strong>Kimsufi Europe</strong></button><br />
+            <button (click)="startLogin('kimsufi-ca')" disabled><strong>Kimsufi Canada</strong></button>
+          </div>
+          <div>
+            <button (click)="startLogin('runabove-ca')" disabled><strong>Runabove</strong></button>
+          </div>
+        </div>
+        <div text-center *ngIf="loggingIn">
+          Une pop-up s'est ouverte afin de vous permettre de vous connecter à votre compte.<br />
+          <br />
+          <button (click)="checkLogin(true)"><strong>Ré-essayer</strong></button>
+        </div>
       </ion-col>
     </ion-row>
   </div>
   <bnj-loader *ngIf="loading"></bnj-loader>
   <ion-row center *ngIf="loading">
-    <ion-col class="center center-flex">
-      La connection nécessite quelques secondes...
-    </ion-col>
+    <ion-col class="center center-flex" [textContent]="loadingText"></ion-col>
   </ion-row>
 </ion-content>
