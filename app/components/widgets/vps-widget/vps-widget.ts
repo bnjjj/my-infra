@@ -4,6 +4,7 @@ import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {VpsWidgetService} from './vps-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {VpsWidgetContentComponent} from './content/vps-widget-content';
+import {AnalyticsService} from '../../../services/analytics/analytics.service';
 
 @Component({
   selector: 'vps-widget',
@@ -23,8 +24,9 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   server: any;
   error: any;
   tasks: Array<any> = [];
-  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
-
+  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
+      private nav: NavController, private analytics: AnalyticsService) {
+    this.analytics.trackView('Vps-widget');
   }
 
   ngOnInit(): void {

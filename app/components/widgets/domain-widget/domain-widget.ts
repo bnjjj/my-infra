@@ -2,6 +2,7 @@ import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange}
 import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {WidgetsService} from '../widgets.service';
+import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {DomainWidgetContentComponent} from './content/domain-widget-content';
 
 @Component({
@@ -17,8 +18,8 @@ export class DomainWidgetComponent {
   viewMode: string = 'general';
   loading: boolean;
 
-  constructor(private widgetsService: WidgetsService, private nav: NavController) {
-
+  constructor(private widgetsService: WidgetsService, private nav: NavController, private analytics: AnalyticsService) {
+    this.analytics.trackView('Domain-widget');
   }
 
   openNetworkStateModal(): void {

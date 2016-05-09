@@ -4,6 +4,7 @@ import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {DedicatedWidgetService} from './dedicated-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {DedicatedWidgetContentComponent} from './content/dedicated-widget-content';
+import {AnalyticsService} from '../../../services/analytics/analytics.service';
 
 @Component({
   selector: 'dedicated-widget',
@@ -23,8 +24,9 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   server: any;
   error: any;
   tasks: Array<any> = [];
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
-
+  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService,
+      private nav: NavController, private analytics: AnalyticsService) {
+    this.analytics.trackView('Dedicated-widget');
   }
 
   ngOnInit(): void {
