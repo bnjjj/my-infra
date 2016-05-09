@@ -6,7 +6,6 @@
 * **Widget:** Add more information about your service without collapse
 * **Support:** Add vps support
 * **Login:** Modification of "login" word and add application version
-* **Login:** Modification of "login" word and add application version
 
 ### Bug Fixes
 
