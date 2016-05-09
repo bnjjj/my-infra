@@ -19,6 +19,7 @@
 @import "../components/loader/loader";
 @import "../components/ticket/ticket";
 @import "../components/widgets/web-widget/web-widget";
+@import "../components/widgets/vps-widget/vps-widget";
 
 .tspace5 {
   margin-top: 5px;
@@ -38,6 +39,10 @@
 
 .danger-color {
   color: $danger-color;
+}
+
+.has-refresher > scroll-content {
+  border-top: none;
 }
 
 .toast-alert {
@@ -87,6 +92,13 @@
 
 .toast-wrapper {
   background-color: red;
+}
+
+.expiration {
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+  -webkit-animation-iteration-count: 3;
+  animation-iteration-count: 3;
 }
 
 .nostyle-item-list {
