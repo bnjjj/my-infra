@@ -103,6 +103,17 @@
          <ion-col width-60 [textContent]="vps.memoryLimit + ' MB'">
          </ion-col>
        </ion-row>
+       <ion-row>
+         <ion-col width-40>
+           IPs
+         </ion-col>
+         <ion-col width-60>
+          <ul>
+            <li *ngFor="#ip of vps.ips" [textContent]="ip">
+            </li>
+          </ul>
+         </ion-col>
+       </ion-row>
      </div>
 
      <div *ngSwitchWhen="'tasks'">

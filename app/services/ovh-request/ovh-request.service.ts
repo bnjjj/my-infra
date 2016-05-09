@@ -1,9 +1,11 @@
 declare var require: any;
 import {Injectable, EventEmitter} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers, URLSearchParams} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 let CryptoJs = require('../../../node_modules/crypto-js/crypto-js');
+let querystring = require('querystring');
+let _ = require('lazy.js');
 let timestampValidity = 10000;
 
 @Injectable()
@@ -71,12 +73,15 @@ export class OvhRequestService {
               return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
             });
             headers['Content-Length'] = reqBody.length;
+          } else {
+            url += ('?' + querystring.stringify(_(config.body).filter((elm) => elm != null).value()));
+            config.body = {};
           }
         }
 
         headers = Object.assign({}, {
           'X-Ovh-Consumer': this.opts.consumerKey,
-          'X-Ovh-Signature': this.getHashedSignature(config.method || 'GET', this.urlRoot + url, config.body || null, timestamp),
+          'X-Ovh-Signature': this.getHashedSignature(config.method || 'GET', this.urlRoot + url, Object.keys(config.body).length ? config.body : null, timestamp),
           'X-Ovh-Timestamp': timestamp,
           'X-Ovh-Application': this.opts.appKey
         }, headers);
@@ -89,21 +94,33 @@ export class OvhRequestService {
       });
   }
 
-  get(url, opts = {}) {
-    return this.getHeaders(url, { method: 'GET' })
+  get(url: string, opts: any = {}) {
+    let params = new URLSearchParams();
+    let body = Object.assign({}, opts.search);
+
+    if (opts.search) {
+      Object.keys(opts.search).forEach((key) => {
+        if (opts.search[key]) {
+          params.set(key, opts.search[key]);
+        }
+      });
+      opts.search = params;
+    }
+
+    return this.getHeaders(url, { method: 'GET', body })
       .map(headers => this.http.get(this.urlRoot + url, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }
 
-  post(url, data, opts = {}) {
+  post(url, data: any = {}, opts = {}) {
     return this.getHeaders(url, { method: 'POST', body: data })
       .map(headers => this.http.post(this.urlRoot + url, data, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
   }
 
-  put(url, data, opts = {}) {
+  put(url, data: any = {}, opts = {}) {
     return this.getHeaders(url, { method: 'PUT', body: data })
       .map(headers => this.http.put(this.urlRoot + url, data, Object.assign({}, opts, headers)))
       .mergeAll()

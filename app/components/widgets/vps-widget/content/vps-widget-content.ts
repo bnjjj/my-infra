@@ -5,12 +5,13 @@ import {VpsWidgetService} from '../vps-widget.service';
 import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {WidgetsService} from '../../widgets.service';
+import {IpService} from '../../../../services/ip/ip.service';
 
 @Component({
   selector: 'vps-widget-content',
   templateUrl: 'build/components/widgets/vps-widget/content/vps-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent],
-  providers: [VpsWidgetService, WidgetsService]
+  providers: [VpsWidgetService, WidgetsService, IpService]
 })
 export class VpsWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -25,7 +26,8 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   vps: any = {};
   error: any;
   tasks: Array<any> = [];
-  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService, private nav: NavController, private toast: ToastService) {
+  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
+    private nav: NavController, private toast: ToastService, private ipService: IpService) {
 
   }
 
@@ -38,12 +40,14 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
     Promise.all([
         this.vpsWidgetService.getInfos(this.serviceName),
         this.vpsWidgetService.getServiceInfos(this.serviceName),
-        this.vpsWidgetService.getDistributionInfos(this.serviceName)])
+        this.vpsWidgetService.getDistributionInfos(this.serviceName),
+        this.ipService.getAll(null, null, this.serviceName, 'vps')])
       .then(resp => {
-        this.vps = Object.assign({}, resp[0], resp[1], { distribution: resp[2] });
+        this.vps = Object.assign({}, resp[0], resp[1], { distribution: resp[2] }, { ips: resp[3] });
         this.loading = false;
       })
       .catch(err => {
+        console.log('error : ', err);
         this.error = err;
         this.nav.present(this.toast.error(err.message));
         this.loading = false;
