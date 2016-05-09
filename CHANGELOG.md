@@ -1,16 +1,21 @@
-# 1.1.0 (... ?)
+# 1.1.0 (2016-05-09)
 
 ### Features
 
 * **Vps:** Add vps widget
 * **Widget:** Add more information about your service without collapse
 * **Support:** Add vps support
+* **Login:** Modification of "login" word and add application version
+* **Login:** Modification of "login" word and add application version
 
 ### Bug Fixes
 
 * **account:** Change label for input
 * **refresher:** Improve pull to refresh style
 * **Widget:** Fix bug when displaying the expiration date
+* **Widget-add:** Fix loader for products
+* **Account:** Fix bug when you update your data
+* **Dedicated-widget:** Display reverse instead serviceName
 
 # 1.0.6 (2016-05-05)
 
