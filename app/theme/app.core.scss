@@ -84,6 +84,11 @@
 .refresher-refreshing-text {
   color: $primary-font-color;
 }
+
+ion-card p {
+  color: $primary-font-color;
+}
+
 .center-flex {
   display: flex;
   justify-content: center; /* align horizontal */
