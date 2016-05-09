@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/finally';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {AboutModal} from '../../modals/about/about';
+import {ToastService} from '../../services/toast/toast.service';
 import {LoginService} from '../login/login.service';
 let _ = require('lazy.js');
 
@@ -24,7 +25,7 @@ export class AccountPage implements OnInit{
   keys: Array<string>;
 
   constructor(private accountService: AccountService, private keyboard: Keyboard,
-    private analytics: AnalyticsService, private nav: NavController, private login: LoginService) {
+    private analytics: AnalyticsService, private nav: NavController, private login: LoginService, private toast: ToastService) {
     this.init();
     this.analytics.trackView('Account');
   }
@@ -46,6 +47,7 @@ export class AccountPage implements OnInit{
         this.loading = !['accountInfos', 'previousInfos', 'meModel', 'newAccountModel'].reduce((prev, curr) => prev && Object.keys(this[curr]).length > 0, true);
       }, err => {
         this.error = err;
+        this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message));
         this.loading = false;
       });
   }
