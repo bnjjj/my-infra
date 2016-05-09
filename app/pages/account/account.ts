@@ -85,7 +85,8 @@ export class AccountPage implements OnInit{
 
     this.analytics.trackEvent('Account', 'save', 'Launch', 'Action is launched');
     this.loading = true;
-    this.accountService.save(_(this.accountInfos).pick(args));
+    console.log(_(this.accountInfos).pick(args).value());
+    this.accountService.save(_(this.accountInfos).pick(args).value());
   }
 
   cancel(): void {
