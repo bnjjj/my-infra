@@ -5,6 +5,7 @@ import {DedicatedWidgetService} from './dedicated-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {DedicatedWidgetContentComponent} from './content/dedicated-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
+import {ToastService} from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'dedicated-widget',
@@ -25,7 +26,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService,
-      private nav: NavController, private analytics: AnalyticsService) {
+      private nav: NavController, private analytics: AnalyticsService, private toast: ToastService) {
     this.analytics.trackView('Dedicated-widget');
   }
 
@@ -97,13 +98,12 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
         {
           text: 'Oui',
           handler: () => {
-            this.loading = true;
             this.dedicatedWidgetService.reboot(this.serviceName)
               .then(
-                () => this.loading = false,
+                () => this.nav.present(this.toast.success('Redémarrage en cours...')),
                 err => {
                   this.error = err;
-                  this.loading = false;
+                  this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message));
                 }
               );
           }

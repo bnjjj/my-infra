@@ -42,7 +42,7 @@ export class MessagesPage {
         this.analytics.trackEvent('Messages', 'Reply', 'Success', 'Replying is a success');
       })
       .catch(err => {
-        this.error = err.message ? err.message : err;
+        this.error = err.message ? err.message : JSON.stringify(err);
         this.nav.present(this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error));
         this.loading = false;
         this.analytics.trackEvent('Messages', 'Reply', 'Error', this.error);

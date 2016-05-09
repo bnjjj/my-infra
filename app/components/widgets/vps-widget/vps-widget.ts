@@ -5,6 +5,7 @@ import {VpsWidgetService} from './vps-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {VpsWidgetContentComponent} from './content/vps-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
+import {ToastService} from '../../../services/toast/toast.service';
 
 @Component({
   selector: 'vps-widget',
@@ -25,7 +26,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
-      private nav: NavController, private analytics: AnalyticsService) {
+      private nav: NavController, private analytics: AnalyticsService, private toast: ToastService) {
     this.analytics.trackView('Vps-widget');
   }
 
@@ -98,7 +99,10 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
           text: 'Oui',
           handler: () => {
             this.vpsWidgetService.reboot(this.serviceName)
-              .then(null , err => this.error = err);
+              .then(
+                () => this.nav.present(this.toast.success('Redémarrage en cours ...')),
+                (err) => this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message))
+              );
           }
         }
       ]
