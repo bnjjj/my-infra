@@ -1,6 +1,7 @@
 import {Toast} from 'ionic-native';
 import {Page, Modal, NavController} from 'ionic-angular';
 import {WebWidgetComponent} from '../../components/widgets/web-widget/web-widget';
+import {PrivateDatabaseWidgetComponent} from '../../components/widgets/private-database-widget/private-database-widget';
 import {DomainWidgetComponent} from '../../components/widgets/domain-widget/domain-widget';
 import {DedicatedWidgetComponent} from '../../components/widgets/dedicated-widget/dedicated-widget';
 import {VpsWidgetComponent} from '../../components/widgets/vps-widget/vps-widget';
@@ -11,7 +12,10 @@ import {categoryEnum} from '../../config/constants';
 
 @Page({
   templateUrl: 'build/pages/dashboard/dashboard.html',
-  directives: [WebWidgetComponent, DomainWidgetComponent, DedicatedWidgetComponent, ProjectWidgetComponent, VpsWidgetComponent]
+  directives: [WebWidgetComponent, DomainWidgetComponent,
+    DedicatedWidgetComponent, ProjectWidgetComponent,
+    VpsWidgetComponent, PrivateDatabaseWidgetComponent
+  ]
 })
 export class DashboardPage {
   widgets: Array<any> = [];

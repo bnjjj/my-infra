@@ -38,6 +38,12 @@
         (remove)="removeWidget($event)">
       </web-widget>
 
+      <private-database-widget *ngSwitchWhen="CategoryEnum.PRIVATE_DATABASE.url"
+        [reload]="reload"
+        [serviceName]="widget.serviceName"
+        (remove)="removeWidget($event)">
+      </private-database-widget>
+
       <dedicated-widget *ngSwitchWhen="CategoryEnum.DEDICATED_SERVER.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"

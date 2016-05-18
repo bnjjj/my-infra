@@ -1,11 +1,11 @@
 <ion-item class="widget-header">
   <ion-avatar item-left (click)="updateCollapse()">
-    <i class="fa fa-globe fa-2x"></i>
+    <i class="fa fa-database fa-2x"></i>
   </ion-avatar>
   <div (click)="updateCollapse()">
     <h2 [textContent]="serviceName" *ngIf="loading">
     </h2>
-    <h2 [textContent]="server.displayName || server.serviceName" *ngIf="!loading && !error">
+    <h2 [textContent]="bdd.displayName || bdd.serviceName" *ngIf="!loading && !error">
     </h2>
   </div>
   <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
@@ -22,16 +22,16 @@
     </ion-segment-button>
   </ion-segment>
 </div>
-<ion-card-content class="widget-content" *ngIf="!loading && server && !error">
+<ion-card-content class="widget-content" *ngIf="!loading && bdd && !error">
   <div *ngIf="viewMode === 'general' || !collapsed">
     <ion-row>
-      <ion-col width-50 [ngClass]="{'danger-color animated pulse': server.warning}">
-        <i class="fa fa-warning" *ngIf="server.warning"></i>
+      <ion-col width-50 [ngClass]="{'danger-color animated pulse': bdd.warning}">
+        <i class="fa fa-warning" *ngIf="bdd.warning"></i>
         Expiration
       </ion-col>
       <ion-col width-50 text-right
-        [ngClass]="{'danger-color animated pulse': server.warning}"
-        [textContent]="server.expirationText">
+        [ngClass]="{'danger-color animated pulse': bdd.warning}"
+        [textContent]="bdd.expirationText">
       </ion-col>
     </ion-row>
     <ion-row>
@@ -39,19 +39,19 @@
         Etat du service
       </ion-col>
       <ion-col width-60 text-right>
-        <div [ngSwitch]="server.state">
-          <ion-badge *ngSwitchWhen="'active'"
+        <div [ngSwitch]="bdd.state">
+          <ion-badge *ngSwitchWhen="'started'"
             class="capitalize"
-            [textContent]="server.state"
+            [textContent]="bdd.state"
             secondary>
           </ion-badge>
-          <ion-badge *ngSwitchWhen="'bloqued'"
+          <ion-badge *ngSwitchWhen="'stopped'"
             class="capitalize"
-            [textContent]="server.state"
+            [textContent]="bdd.state"
             danger>
           </ion-badge>
           <ion-badge *ngSwitchDefault
-            [textContent]="server.state">
+            [textContent]="bdd.state">
           </ion-badge>
         </div>
       </ion-col>
@@ -62,33 +62,55 @@
     <div *ngSwitchWhen="'general'">
       <ion-row>
         <ion-col width-40>
-          Offre
+          Version
         </ion-col>
         <ion-col width-60>
-          <strong class="capitalize" [textContent]="server.offer"></strong>
+          <strong class="capitalize" [textContent]="bdd.version"></strong>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-40>
-          IPV4
-        </ion-col>
-        <ion-col width-60 [textContent]="server.hostingIp">
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col width-40>
-          IPV6
-        </ion-col>
-        <ion-col width-60 [textContent]="server.hostingIpv6">
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col width-40>
-          Accès cluster
+          RAM
         </ion-col>
         <ion-col width-60>
-          <a [href]="'ftp://ftp.' + server.cluster + '.ovh.net'"
-            [textContent]="'ftp.' + server.cluster + '.ovh.net'"
+          <strong class="capitalize" [textContent]="bdd.ram.value + ' ' + bdd.ram.unit"></strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="center" width-40>
+          Nom d'hôte SQL
+        </ion-col>
+        <ion-col width-60 [textContent]="bdd.hostname">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Port SQL
+        </ion-col>
+        <ion-col width-60 [textContent]="bdd.port">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="center" width-40>
+          Nom d'hôte SFTP
+        </ion-col>
+        <ion-col width-60 [textContent]="bdd.hostnameFtp">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Port SFTP
+        </ion-col>
+        <ion-col width-60 [textContent]="bdd.portFtp">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Interface utilisateur
+        </ion-col>
+        <ion-col class="center" width-60>
+          <a [href]="bdd.guiURL"
+            [textContent]="bdd.guiURL"
             target="_blank">
           </a>
         </ion-col>
@@ -101,7 +123,7 @@
       <ion-row>
         <ion-col width-100>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" [style.width]="100 - server.quotaPercentage + '%'">
+            <div class="progress-bar" role="progressbar" [style.width]="100 - bdd.quotaPercentage + '%'">
             </div>
           </div>
         </ion-col>
