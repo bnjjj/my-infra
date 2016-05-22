@@ -1,5 +1,6 @@
 declare var require;
 import {Page, ViewController, NavParams} from 'ionic-angular';
+import {AppVersion} from 'ionic-native';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 // import {SocialSharing} from 'ionic-native';
 
@@ -8,9 +9,15 @@ import {AnalyticsService} from '../../services/analytics/analytics.service';
   providers: []
 })
 export class AboutModal {
+  version: string = '';
 
   constructor(private viewCtrl: ViewController, params: NavParams, private analytics: AnalyticsService) {
     this.analytics.trackView('About-page');
+    AppVersion.getVersionNumber()
+      .then(
+        (version) => this.version = version,
+        (err) => console.log(err)
+      );
   }
 
   // share(): void {

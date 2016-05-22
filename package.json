@@ -46,7 +46,8 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
     "cordova-plugin-google-analytics",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "ios",

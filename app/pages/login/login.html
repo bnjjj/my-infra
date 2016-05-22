@@ -31,9 +31,9 @@
       La connexion nécessite quelques secondes...
     </ion-col>
   </ion-row>
-  <ion-row center bottom>
+  <ion-row center bottom *ngIf="version">
     <ion-col class="center center-flex">
-      Version 1.1.0
+      Version {{version}}
     </ion-col>
   </ion-row>
 

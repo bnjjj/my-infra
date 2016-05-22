@@ -1,5 +1,6 @@
 import {Page, NavController, Keyboard} from 'ionic-angular';
 import {LoginService} from './login.service';
+import {AppVersion} from 'ionic-native';
 import {ToastService} from '../../services/toast/toast.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {TabsPage} from '../tabs/tabs';
@@ -15,12 +16,18 @@ export class LoginPage {
   login: string;
   password: string;
   loading: any = false;
+  version: string = '';
 
   constructor(private loginService: LoginService, private nav: NavController,
                 private keyboard: Keyboard, private analytics: AnalyticsService,
                  private toast: ToastService) {
 
     this.analytics.trackView('Login');
+    AppVersion.getVersionNumber()
+      .then(
+        (version) => this.version = version,
+        (err) => console.log(err)
+      );
   }
 
   logme(): void {
