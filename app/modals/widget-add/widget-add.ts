@@ -75,7 +75,7 @@ export class WidgetAddModal {
       .then(products => {
         if (this.category !== this.CategoryEnum.PROJECT) {
           this.products = products.filter(product => {
-            return !(this.params.get('widgets').find(widget => widget.serviceName === product && this.category === widget.category));
+            return !(this.params.get('widgets').find(widget => widget.serviceName === product && this.category.name === widget.category.name));
           });
         } else {
           this.products = products;
