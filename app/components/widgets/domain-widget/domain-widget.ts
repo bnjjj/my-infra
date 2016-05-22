@@ -4,6 +4,7 @@ import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {WidgetsService} from '../widgets.service';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {DomainWidgetContentComponent} from './content/domain-widget-content';
+import {categoryEnum} from '../../../config/constants';
 
 @Component({
   selector: 'domain-widget',
@@ -14,7 +15,7 @@ import {DomainWidgetContentComponent} from './content/domain-widget-content';
 export class DomainWidgetComponent {
   @Input() serviceName: string;
   @Input() reload: boolean;
-  @Output() remove: EventEmitter<string> = new EventEmitter();
+  @Output() remove: EventEmitter<any> = new EventEmitter();
   viewMode: string = 'general';
   loading: boolean;
 
@@ -28,7 +29,7 @@ export class DomainWidgetComponent {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit(this.serviceName);
+    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.DOMAIN.url});
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     this.nav.present(alert);

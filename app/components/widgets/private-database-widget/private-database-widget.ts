@@ -4,6 +4,7 @@ import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {PrivateDatabaseWidgetContentComponent} from './content/private-database-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {WidgetsService} from '../widgets.service';
+import {categoryEnum} from '../../../config/constants';
 
 @Component({
   selector: 'private-database-widget',
@@ -14,7 +15,7 @@ import {WidgetsService} from '../widgets.service';
 export class PrivateDatabaseWidgetComponent {
   @Input() serviceName: string;
   @Input() reload: boolean;
-  @Output() remove: EventEmitter<string> = new EventEmitter();
+  @Output() remove: EventEmitter<any> = new EventEmitter();
 
   constructor(private widgetsService: WidgetsService, private nav: NavController, private analytics: AnalyticsService) {
     this.analytics.trackView('Private-databse-widget');
@@ -26,7 +27,7 @@ export class PrivateDatabaseWidgetComponent {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit(this.serviceName);
+    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.PRIVATE_DATABASE.url});
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     this.nav.present(alert);

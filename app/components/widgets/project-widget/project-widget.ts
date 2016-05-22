@@ -8,6 +8,7 @@ import {PrivateDatabaseWidgetContentComponent} from '../private-database-widget/
 import {DomainWidgetContentComponent} from '../domain-widget/content/domain-widget-content';
 import {DedicatedWidgetContentComponent} from '../dedicated-widget/content/dedicated-widget-content';
 import {VpsWidgetContentComponent} from '../vps-widget/content/vps-widget-content';
+import {categoryEnum} from '../../../config/constants';
 
 @Component({
   selector: 'project-widget',
@@ -21,7 +22,7 @@ import {VpsWidgetContentComponent} from '../vps-widget/content/vps-widget-conten
 export class ProjectWidgetComponent {
   @Input() project: any;
   @Input() reload: boolean;
-  @Output() remove: EventEmitter<string> = new EventEmitter();
+  @Output() remove: EventEmitter<any> = new EventEmitter();
   collapsed: boolean = false;
 
   constructor(private widgetsService: WidgetsService, private nav: NavController, private analytics: AnalyticsService) {
@@ -29,7 +30,7 @@ export class ProjectWidgetComponent {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit(this.project.serviceName);
+    let handler = () => this.remove.emit({ serviceName: this.project.serviceName, url: categoryEnum.PROJECT.url });
     let alert = this.widgetsService.getDeleteAlert(this.project.serviceName, handler);
 
     this.nav.present(alert);

@@ -5,6 +5,7 @@ import {DedicatedWidgetService} from './dedicated-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {DedicatedWidgetContentComponent} from './content/dedicated-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
+import {categoryEnum} from '../../../config/constants';
 import {ToastService} from '../../../services/toast/toast.service';
 
 @Component({
@@ -16,7 +17,7 @@ import {ToastService} from '../../../services/toast/toast.service';
 export class DedicatedWidgetComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
-  @Output() remove: EventEmitter<string> = new EventEmitter();
+  @Output() remove: EventEmitter<any> = new EventEmitter();
   viewMode: string = 'general';
   loading: boolean;
   collapsed: boolean = false;
@@ -81,7 +82,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit(this.serviceName);
+    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.DEDICATED_SERVER.url });
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     this.nav.present(alert);

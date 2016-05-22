@@ -6,6 +6,7 @@ import {WidgetsService} from '../widgets.service';
 import {VpsWidgetContentComponent} from './content/vps-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {ToastService} from '../../../services/toast/toast.service';
+import {categoryEnum} from '../../../config/constants';
 
 @Component({
   selector: 'vps-widget',
@@ -16,7 +17,7 @@ import {ToastService} from '../../../services/toast/toast.service';
 export class VpsWidgetComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
-  @Output() remove: EventEmitter<string> = new EventEmitter();
+  @Output() remove: EventEmitter<any> = new EventEmitter();
   viewMode: string = 'general';
   loading: boolean;
   collapsed: boolean = false;
@@ -81,7 +82,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit(this.serviceName);
+    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.VPS.url});
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     this.nav.present(alert);

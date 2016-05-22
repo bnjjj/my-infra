@@ -50,8 +50,8 @@ export class DashboardPage {
     localStorage.setItem('widgets', JSON.stringify(this.widgets));
   }
 
-  removeWidget(serviceName: string): void {
-    this.widgets = this.widgets.filter(widget => widget.serviceName !== serviceName);
+  removeWidget(widgetInfos: any): void {
+    this.widgets = this.widgets.filter(widget => widget.serviceName !== widgetInfos.serviceName || widget.category.url !== widgetInfos.url);
     localStorage.setItem('widgets', JSON.stringify(this.widgets));
   }
 }
