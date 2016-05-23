@@ -1,0 +1,99 @@
+<ion-item class="widget-header">
+  <ion-avatar item-left (click)="updateCollapse()">
+    <i class="fa fa-cloud fa-2x"></i>
+  </ion-avatar>
+  <div (click)="updateCollapse()">
+    <h2 [textContent]="serviceName" *ngIf="loading">
+    </h2>
+    <h2 [textContent]="cloud.description || cloud.serviceName" *ngIf="!loading && !error">
+    </h2>
+  </div>
+  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
+    <i class="fa fa-heartbeat fa-1x"></i>
+  </button>
+</ion-item>
+<div padding *ngIf="collapsed" class="widget-content">
+  <ion-segment [(ngModel)]="viewMode">
+    <ion-segment-button value="general" class="animated fadeIn">
+      Général
+    </ion-segment-button>
+    <ion-segment-button value="tasks" (click)="getTasks()">
+      Tâches
+    </ion-segment-button>
+  </ion-segment>
+</div>
+<ion-card-content class="widget-content" *ngIf="!loading && cloud && !error">
+  <div *ngIf="viewMode === 'general' || !collapsed">
+    <ion-row>
+      <ion-col width-50 [ngClass]="{'danger-color animated pulse': cloud.warning}">
+        <i class="fa fa-warning" *ngIf="cloud.warning"></i>
+        Expiration
+      </ion-col>
+      <ion-col width-50 text-right
+        [ngClass]="{'danger-color animated pulse': cloud.warning}"
+        [textContent]="cloud.expirationText">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-40>
+        Etat du projet
+      </ion-col>
+      <ion-col width-60 text-right>
+        <state-label
+          [status]="cloud.status"
+          [text]="cloud.status"
+          success="['ok']"
+          error="['deleted', 'suspended']">
+        </state-label>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+    <div *ngSwitchWhen="'general'">
+      <ion-row>
+        <ion-col width-100 text-center>
+          <strong>Etat des {{cloud.instances.length}} instances</strong>
+        </ion-col>
+      </ion-row>
+      <status-details
+        [inError]="cloud.inError"
+        [inSuccess]="cloud.inSuccess"
+        [inOther]="cloud.inOther">
+      </status-details>
+
+      <ion-row>
+        <ion-col width-100 text-center>
+          <strong>Etat des {{cloud.snapshots.list.length}} snapshots</strong>
+        </ion-col>
+      </ion-row>
+      <status-details
+        [inError]="cloud.snapshots.inError"
+        [inSuccess]="cloud.snapshots.inSuccess"
+        [inOther]="cloud.snapshots.inOther">
+      </status-details>
+      <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
+        <ion-list *ngIf="displayInSuccess">
+          <ion-item
+            *ngFor="#successInstance of cloud.inSuccess"
+            [textContent]="successInstance.name">
+          </ion-item>
+        </ion-list>
+      </ion-row>
+
+    </div>
+
+    <div *ngSwitchWhen="'tasks'">
+      <ion-list>
+        <task-details-cloud *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-cloud>
+        <ion-item *ngIf="emptyTasks && !loading" text-center>
+          <em>Vous n'avez pas de tâches</em>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-card-content>
+<ion-card-content class="widget-content" *ngIf="loading" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

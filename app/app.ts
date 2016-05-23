@@ -10,6 +10,7 @@ import {AnalyticsService} from './services/analytics/analytics.service';
 import {ProductsService} from './services/products/common.service';
 import {LoaderComponent} from './components/loader/loader';
 import {AsyncBoxComponent} from './components/async-box/async-box';
+import {StateLabelComponent} from './components/state-label/state-label';
 import {Type} from 'angular2/core';
 import {LoginPage} from './pages/login/login';
 
@@ -37,6 +38,7 @@ let providers = [
   }),
   provide(PLATFORM_DIRECTIVES, {useValue: LoaderComponent, multi: true}),
   provide(PLATFORM_DIRECTIVES, {useValue: AsyncBoxComponent, multi: true}),
+  provide(PLATFORM_DIRECTIVES, { useValue: StateLabelComponent, multi: true }),
   ProductsService,
   ToastService,
   AnalyticsService

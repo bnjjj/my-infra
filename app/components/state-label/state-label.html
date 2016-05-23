@@ -1,0 +1,15 @@
+<div>
+  <ion-badge *ngIf="displaySuccess"
+    class="capitalize"
+    [textContent]="status"
+    secondary>
+  </ion-badge>
+  <ion-badge *ngIf="displayError"
+    class="capitalize"
+    [textContent]="status"
+    danger>
+  </ion-badge>
+  <ion-badge *ngIf="!displayError && !displaySuccess"
+    [textContent]="status">
+  </ion-badge>
+</div>

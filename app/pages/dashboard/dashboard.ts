@@ -5,6 +5,7 @@ import {PrivateDatabaseWidgetComponent} from '../../components/widgets/private-d
 import {DomainWidgetComponent} from '../../components/widgets/domain-widget/domain-widget';
 import {DedicatedWidgetComponent} from '../../components/widgets/dedicated-widget/dedicated-widget';
 import {VpsWidgetComponent} from '../../components/widgets/vps-widget/vps-widget';
+import {CloudWidgetComponent} from '../../components/widgets/cloud-widget/cloud-widget';
 import {ProjectWidgetComponent} from '../../components/widgets/project-widget/project-widget';
 import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
@@ -14,7 +15,8 @@ import {categoryEnum} from '../../config/constants';
   templateUrl: 'build/pages/dashboard/dashboard.html',
   directives: [WebWidgetComponent, DomainWidgetComponent,
     DedicatedWidgetComponent, ProjectWidgetComponent,
-    VpsWidgetComponent, PrivateDatabaseWidgetComponent
+    VpsWidgetComponent, PrivateDatabaseWidgetComponent,
+    CloudWidgetComponent
   ]
 })
 export class DashboardPage {

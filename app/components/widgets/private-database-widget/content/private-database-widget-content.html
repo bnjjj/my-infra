@@ -137,8 +137,8 @@
 
     <div *ngSwitchWhen="'tasks'">
       <ion-list>
-        <task-details-web *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
-        </task-details-web>
+        <task-details-private-database *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-private-database>
         <ion-item *ngIf="emptyTasks && !loading" text-center>
           <em>Vous n'avez pas de tâches</em>
         </ion-item>

@@ -1,0 +1,74 @@
+<ion-row>
+  <ion-col width-33 text-center>
+    <button
+      (click)="display('SUCCESS')"
+      round
+      secondary>
+      <span [textContent]="inSuccess.length"></span>
+      <ion-icon
+        *ngIf="inSuccess.length"
+        [name]="displayInSuccess ? 'arrow-up' : 'arrow-down'">
+      </ion-icon>
+    </button>
+  </ion-col>
+  <ion-col width-33 text-center>
+    <button
+      (click)="display('OTHER')"
+      round>
+      <span [textContent]="inOther.length">
+      </span>
+      <ion-icon
+        *ngIf="inOther.length"
+        [name]="displayInOther ? 'arrow-up' : 'arrow-down'">
+      </ion-icon>
+    </button>
+  </ion-col>
+  <ion-col width-33 text-center>
+    <button
+      (click)="display('ERROR')"
+      round
+      danger>
+      <span [textContent]="inError.length">
+      </span>
+      <ion-icon
+        *ngIf="inError.length"
+        [name]="displayInError ? 'arrow-up' : 'arrow-down'">
+      </ion-icon>
+    </button>
+  </ion-col>
+</ion-row>
+<ion-list *ngIf="displayInSuccess">
+  <ion-item
+    *ngFor="#successInstance of inSuccess">
+    <span [textContent]="successInstance.name"></span>
+    <ion-badge
+      class="capitalize"
+      [textContent]="successInstance.status"
+      item-right
+      secondary>
+    </ion-badge>
+  </ion-item>
+</ion-list>
+<ion-list *ngIf="displayInOther">
+  <ion-item
+    *ngFor="#otherInstance of inOther">
+    <span [textContent]="otherInstance.name"></span>
+    <ion-badge
+      class="capitalize"
+      [textContent]="otherInstance.status"
+      item-right>
+    </ion-badge>
+  </ion-item>
+</ion-list>
+<ion-list *ngIf="displayInError">
+  <ion-item
+    *ngFor="#errorInstance of inError">
+    <span [textContent]="errorInstance.name"></span>
+    <ion-badge
+      class="capitalize"
+      [textContent]="errorInstance.status"
+      item-right
+      danger>
+    </ion-badge>
+  </ion-item>
+</ion-list>

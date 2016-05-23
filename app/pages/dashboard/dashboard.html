@@ -50,6 +50,12 @@
         (remove)="removeWidget($event)">
       </dedicated-widget>
 
+      <cloud-widget *ngSwitchWhen="CategoryEnum.CLOUD.url"
+        [reload]="reload"
+        [serviceName]="widget.serviceName"
+        (remove)="removeWidget($event)">
+      </cloud-widget>
+
       <vps-widget *ngSwitchWhen="CategoryEnum.VPS.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"

@@ -1,24 +1,25 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
-import {WebWidgetService} from '../web-widget.service';
+import {CloudWidgetService} from '../cloud-widget.service';
 import {WidgetsService} from '../../widgets.service';
-import {TaskDetailsWebComponent} from '../task-details/task-details';
+import {TaskDetailsCloudComponent} from '../task-details/task-details';
+import {StatusDetailsComponent} from '../status-details/status-details';
 
 @Component({
-  selector: 'web-widget-content',
-  templateUrl: 'build/components/widgets/web-widget/content/web-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent],
-  providers: [WebWidgetService, WidgetsService]
+  selector: 'cloud-widget-content',
+  templateUrl: 'build/components/widgets/cloud-widget/content/cloud-widget-content.html',
+  directives: [IONIC_DIRECTIVES, StatusDetailsComponent, TaskDetailsCloudComponent],
+  providers: [CloudWidgetService, WidgetsService]
 })
-export class WebWidgetContentComponent implements OnChanges, OnInit {
+export class CloudWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() showWorks: boolean = false;
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
 
-  server: any = {};
+  cloud: any = {};
   loading: boolean;
   viewMode: string = 'general';
   tasksLoaded: boolean = false;
@@ -26,7 +27,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
 
-  constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
 
   }
 
@@ -36,9 +37,11 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.webWidgetService.getInfos(this.serviceName), this.webWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.cloudWidgetService.getInfos(this.serviceName), this.cloudWidgetService.getServiceInfos(this.serviceName),
+        this.cloudWidgetService.getInstances(this.serviceName), this.cloudWidgetService.getSnapshots(this.serviceName)
+      ])
       .then(resp => {
-        this.server = Object.assign(resp[0], resp[1]);;
+        this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);;
         this.loading = false;
       })
       .catch(err => {
@@ -47,11 +50,10 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
       });
   }
 
-
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.webWidgetService.getTasks(this.serviceName)
+      this.cloudWidgetService.getTasks(this.serviceName)
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;
@@ -75,7 +77,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '4', categoryName: 'hébergement web' });
+    let profileModal = Modal.create(NetworkStateModal, { category: '18', categoryName: 'Cloud' });
     this.nav.present(profileModal);
   }
 

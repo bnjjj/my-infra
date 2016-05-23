@@ -1,21 +1,21 @@
 declare var require;
 import {Component, Input} from 'angular2/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {WebWidgetService} from '../web-widget.service';
+import {CloudWidgetService} from '../cloud-widget.service';
 let moment = require('moment');
 
 @Component({
-  selector: 'task-details-web',
-  templateUrl: 'build/components/widgets/web-widget/task-details/task-details.html',
+  selector: 'task-details-cloud',
+  templateUrl: 'build/components/widgets/cloud-widget/task-details/task-details.html',
   directives: [IONIC_DIRECTIVES]
 })
-export class TaskDetailsWebComponent {
+export class TaskDetailsCloudComponent {
   @Input() serviceName: string;
   @Input() id: number;
   loading: boolean = true;
   error: any;
   task: Object;
-  constructor(private webWidgetService: WebWidgetService) {
+  constructor(private cloudWidgetService: CloudWidgetService) {
 
   }
 
@@ -25,7 +25,7 @@ export class TaskDetailsWebComponent {
 
   getTask() {
     this.loading = true;
-    return this.webWidgetService.getTask(this.serviceName, this.id)
+    return this.cloudWidgetService.getTask(this.serviceName, this.id)
       .then(task => {
         task.startDateText = moment(new Date(task.startDate)).format('DD/MM/YYYY à HH:mm');
         task.doneDateText = task.doneDate ? moment(new Date(task.doneDate)).format('DD/MM/YYYY à HH:mm') : null;

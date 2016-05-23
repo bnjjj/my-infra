@@ -3,6 +3,8 @@
     font-size: 25px;
   }
   .item {
-    border-bottom: 0;
+    &.widget-header {
+      border-bottom: 0;
+    }
   }
 }

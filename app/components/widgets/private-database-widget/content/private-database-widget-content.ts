@@ -3,11 +3,12 @@ import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {PrivateDatabaseWidgetService} from '../private-database-widget.service';
 import {WidgetsService} from '../../widgets.service';
+import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
 
 @Component({
   selector: 'private-database-widget-content',
   templateUrl: 'build/components/widgets/private-database-widget/content/private-database-widget-content.html',
-  directives: [IONIC_DIRECTIVES],
+  directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent],
   providers: [PrivateDatabaseWidgetService, WidgetsService]
 })
 export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit {

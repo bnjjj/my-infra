@@ -2,7 +2,7 @@ import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange}
 import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {VpsWidgetService} from '../vps-widget.service';
-import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
+import {TaskDetailsVpsComponent} from '../task-details/task-details';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {WidgetsService} from '../../widgets.service';
 import {IpService} from '../../../../services/ip/ip.service';
@@ -10,7 +10,7 @@ import {IpService} from '../../../../services/ip/ip.service';
 @Component({
   selector: 'vps-widget-content',
   templateUrl: 'build/components/widgets/vps-widget/content/vps-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsVpsComponent],
   providers: [VpsWidgetService, WidgetsService, IpService]
 })
 export class VpsWidgetContentComponent implements OnChanges, OnInit {
