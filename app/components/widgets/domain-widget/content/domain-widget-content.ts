@@ -16,7 +16,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   @Input() collapsed: boolean;
   @Input() reload: boolean;
   @Input() showWorks: boolean = false;
-  @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;

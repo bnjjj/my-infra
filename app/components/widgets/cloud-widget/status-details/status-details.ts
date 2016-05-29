@@ -11,7 +11,7 @@ export class StatusDetailsComponent implements OnInit {
   @Input() inOther: Array<any> = [];
   @Input() inError: Array<any> = [];
   @Input() type: string;
-  @Output() actionRequest: EventEmitter<string> = new EventEmitter();
+  @Output() actionRequest: EventEmitter<any> = new EventEmitter();
 
   displayInError: boolean = false;
   displayInSuccess: boolean = false;

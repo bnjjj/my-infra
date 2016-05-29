@@ -7,6 +7,9 @@
     </h2>
     <h2 [textContent]="cloud.description || cloud.serviceName" *ngIf="!loading && !error">
     </h2>
+    <h2 *ngIf="error" danger>
+     ERREUR
+    </h2>
   </div>
   <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
     <i class="fa fa-heartbeat fa-1x"></i>

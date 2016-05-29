@@ -16,7 +16,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() showWorks: boolean = false;
   @Input() reload: boolean;
   @Input() collapsed: boolean;
-  @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
 
   server: any = {};
   loading: boolean;

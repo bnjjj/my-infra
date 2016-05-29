@@ -13,7 +13,7 @@ import {ticketCategoryEnum} from '../../config/constants';
 })
 export class TicketComponent implements OnInit {
   @Input() ticketId: number;
-  @Output() loaded: EventEmitter<boolean> = new EventEmitter();
+  @Output() loaded: EventEmitter<any> = new EventEmitter();
 
   TicketCategoryEnum: any = ticketCategoryEnum;
   loading: boolean = true;

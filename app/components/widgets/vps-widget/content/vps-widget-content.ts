@@ -18,7 +18,7 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Input() showWorks: boolean = false;
-  @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;

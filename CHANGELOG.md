@@ -1,3 +1,16 @@
+# 1.1.1 (2016-05-29)
+
+### Features
+
+* **Cloud:** Add cloud widget
+* **Private database:** Add private database widget
+* **Support:** Add cloud and private database support
+
+### Bug Fixes
+* **widget-add:** Don't give the ability to add 2 same widget
+* **app:** Display dynamically the application's version
+* **Widget:** Fix bug when you want to remove a widget with the same servicename than another
+
 # 1.1.0 (2016-05-09)
 
 ### Features
