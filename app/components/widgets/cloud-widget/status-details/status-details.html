@@ -41,6 +41,12 @@
   <ion-item
     *ngFor="#successInstance of inSuccess">
     <span [textContent]="successInstance.name"></span>
+    <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(successInstance.id)">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action(successInstance.id)">
+      <ion-icon name="sync"></ion-icon>
+    </button>
     <ion-badge
       class="capitalize"
       [textContent]="successInstance.status"
@@ -53,6 +59,12 @@
   <ion-item
     *ngFor="#otherInstance of inOther">
     <span [textContent]="otherInstance.name"></span>
+    <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(otherInstance.id)">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action(otherInstance.id)">
+      <ion-icon name="sync"></ion-icon>
+    </button>
     <ion-badge
       class="capitalize"
       [textContent]="otherInstance.status"
@@ -61,9 +73,14 @@
   </ion-item>
 </ion-list>
 <ion-list *ngIf="displayInError">
-  <ion-item
-    *ngFor="#errorInstance of inError">
+  <ion-item *ngFor="#errorInstance of inError">
     <span [textContent]="errorInstance.name"></span>
+    <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(errorInstance.id)">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action(errorInstance.id)">
+      <ion-icon name="sync"></ion-icon>
+    </button>
     <ion-badge
       class="capitalize"
       [textContent]="errorInstance.status"

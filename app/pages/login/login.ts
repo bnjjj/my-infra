@@ -45,11 +45,9 @@ export class LoginPage {
       .then(
         () => {
           this.analytics.trackEvent('Login', 'logme', 'Success', this.login);
-
           this.keyboard.close();
           this.nav.present(this.toast.success('Compte activé avec succès'));
           this.nav.push(TabsPage);
-          // this.loading = false;
         },
         (err) => {
           this.error = err.message ? err.message : JSON.stringify(err);

@@ -79,11 +79,16 @@ export class CloudWidgetService {
     return { [isSnapshot ? 'list' : 'instances']: instances, inError, inSuccess, inOther };
   }
 
-  getTasks(serviceName: string) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'tasks'].join('/')).toPromise();
+  rebootInstance(serviceName: string, id: string, type: string) {
+    return this.ovhRequest.post([categoryEnum.CLOUD.url, serviceName, 'instance', id, 'reboot'].join('/'),
+      JSON.stringify({ type })).toPromise();
   }
 
-  getTask(serviceName: string, id: number) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'tasks', id].join('/')).toPromise();
+  deleteSnapshot(serviceName: string, id: string) {
+    return this.ovhRequest.delete([categoryEnum.CLOUD.url, serviceName, 'snapshot', id].join('/')).toPromise();
+  }
+
+  getIps(serviceName) {
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'ip'].join('/')).toPromise();
   }
 }

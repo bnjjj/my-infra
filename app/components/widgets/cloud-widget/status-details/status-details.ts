@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({
@@ -10,6 +10,8 @@ export class StatusDetailsComponent implements OnInit {
   @Input() inSuccess: Array<any> = [];
   @Input() inOther: Array<any> = [];
   @Input() inError: Array<any> = [];
+  @Input() type: string;
+  @Output() actionRequest: EventEmitter<string> = new EventEmitter();
 
   displayInError: boolean = false;
   displayInSuccess: boolean = false;
@@ -41,6 +43,10 @@ export class StatusDetailsComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  action(id: string): void {
+    this.actionRequest.emit(id);
   }
 
 }

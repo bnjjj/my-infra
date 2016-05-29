@@ -42,6 +42,14 @@
             [showWorks]="true">
           </vps-widget-content>
         </div>
+        <div *ngSwitchWhen="'CLOUD'">
+          <cloud-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </cloud-widget-content>
+        </div>
         <div *ngSwitchWhen="'DEDICATED_SERVER'">
           <dedicated-widget-content
             [reload]="reload"

@@ -17,8 +17,8 @@
     <ion-segment-button value="general" class="animated fadeIn">
       Général
     </ion-segment-button>
-    <ion-segment-button value="tasks" (click)="getTasks()">
-      Tâches
+    <ion-segment-button value="ips" (click)="getIps()">
+      Ips
     </ion-segment-button>
   </ion-segment>
 </div>
@@ -59,7 +59,9 @@
       <status-details
         [inError]="cloud.inError"
         [inSuccess]="cloud.inSuccess"
-        [inOther]="cloud.inOther">
+        [inOther]="cloud.inOther"
+        type="instance"
+        (actionRequest)="rebootInstance($event)">
       </status-details>
 
       <ion-row>
@@ -70,7 +72,9 @@
       <status-details
         [inError]="cloud.snapshots.inError"
         [inSuccess]="cloud.snapshots.inSuccess"
-        [inOther]="cloud.snapshots.inOther">
+        [inOther]="cloud.snapshots.inOther"
+        type="snapshot"
+        (actionRequest)="deleteSnapshot($event)">
       </status-details>
       <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
         <ion-list *ngIf="displayInSuccess">
@@ -83,12 +87,18 @@
 
     </div>
 
-    <div *ngSwitchWhen="'tasks'">
+    <div *ngSwitchWhen="'ips'">
       <ion-list>
-        <task-details-cloud *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
-        </task-details-cloud>
-        <ion-item *ngIf="emptyTasks && !loading" text-center>
-          <em>Vous n'avez pas de tâches</em>
+        <ion-item *ngFor="#ip of ips">
+          <span [textContent]="ip.ip"></span>
+          <ion-badge
+            class="capitalize"
+            [textContent]="ip.type"
+            item-right>
+          </ion-badge>
+        </ion-item>
+        <ion-item *ngIf="!ips.length && !loading" text-center>
+          <em>Vous n'avez pas d'ip</em>
         </ion-item>
       </ion-list>
     </div>

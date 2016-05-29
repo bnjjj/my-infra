@@ -8,6 +8,7 @@ import {PrivateDatabaseWidgetContentComponent} from '../private-database-widget/
 import {DomainWidgetContentComponent} from '../domain-widget/content/domain-widget-content';
 import {DedicatedWidgetContentComponent} from '../dedicated-widget/content/dedicated-widget-content';
 import {VpsWidgetContentComponent} from '../vps-widget/content/vps-widget-content';
+import {CloudWidgetContentComponent} from '../cloud-widget/content/cloud-widget-content';
 import {categoryEnum} from '../../../config/constants';
 
 @Component({
@@ -15,7 +16,8 @@ import {categoryEnum} from '../../../config/constants';
   templateUrl: 'build/components/widgets/project-widget/project-widget.html',
   directives: [IONIC_DIRECTIVES, WebWidgetContentComponent,
     DomainWidgetContentComponent, DedicatedWidgetContentComponent,
-    VpsWidgetContentComponent, PrivateDatabaseWidgetContentComponent
+    VpsWidgetContentComponent, PrivateDatabaseWidgetContentComponent,
+    CloudWidgetContentComponent
   ],
   providers: [WidgetsService]
 })

@@ -3,13 +3,13 @@ import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {CloudWidgetService} from '../cloud-widget.service';
 import {WidgetsService} from '../../widgets.service';
-import {TaskDetailsCloudComponent} from '../task-details/task-details';
 import {StatusDetailsComponent} from '../status-details/status-details';
+import {ToastService} from '../../../../services/toast/toast.service';
 
 @Component({
   selector: 'cloud-widget-content',
   templateUrl: 'build/components/widgets/cloud-widget/content/cloud-widget-content.html',
-  directives: [IONIC_DIRECTIVES, StatusDetailsComponent, TaskDetailsCloudComponent],
+  directives: [IONIC_DIRECTIVES, StatusDetailsComponent],
   providers: [CloudWidgetService, WidgetsService]
 })
 export class CloudWidgetContentComponent implements OnChanges, OnInit {
@@ -25,9 +25,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   tasksLoaded: boolean = false;
   emptyTasks: boolean;
   error: any;
-  tasks: Array<any> = [];
+  ips: Array<any> = [];
 
-  constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService,
+    private nav: NavController, private toastService: ToastService) {
 
   }
 
@@ -50,28 +51,24 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       });
   }
 
-  getTasks(): void {
-    if (!this.tasksLoaded) {
-      this.loading = true;
-      this.cloudWidgetService.getTasks(this.serviceName)
-        .then(tasks => {
-          this.emptyTasks = !tasks.length;
-          this.tasks = tasks;
-          this.loading = false;
-          this.tasksLoaded = true;
-        }, err => {
-          this.error = err;
-          this.loading = false;
-        });
-    }
+  getIps(): void {
+    this.loading = true;
+    this.cloudWidgetService.getIps(this.serviceName)
+      .then((ips) => {
+        this.ips = ips;
+        this.loading = false;
+      }, (err) => {
+        this.error = err;
+        this.loading = false;
+      });
   }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
     if (changes['reload'] && changes['reload'].currentValue !== changes['reload'].previousValue) {
       this.getInfos();
       this.tasksLoaded = false;
-      if (this.viewMode === 'tasks') {
-        this.getTasks();
+      if (this.viewMode === 'ips') {
+        this.getIps();
       }
     }
   }
@@ -84,5 +81,76 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   updateCollapse(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  rebootInstance(id: string): void {
+    let handlerSoft = () => {
+      this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
+        .then(
+          () => this.nav.present(this.toastService.success('Redémarrage en cours...')),
+          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+        );
+    };
+
+    let handlerHard = () => {
+      this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
+        .then(
+          () => {
+            this.nav.present(this.toastService.success('Redémarrage en cours...'));
+            this.getInfos();
+          },
+          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+        );
+    };
+
+    let rebootAlert = Alert.create({
+      title: 'Redémarrer votre instance',
+      message: 'Quel type de redémarrage souhaitez-vous pour redémarrer votre instance maintenant ?',
+      buttons: [
+        {
+          text: 'Hard',
+          handler: handlerHard
+        },
+        {
+          text: 'Soft',
+          handler: handlerSoft
+        },
+        {
+          text: 'Annuler'
+        }
+      ]
+    });
+
+    this.nav.present(rebootAlert);
+  }
+
+  deleteSnapshot(id): void {
+    let handler = () => {
+      this.cloudWidgetService.deleteSnapshot(this.serviceName, id)
+        .then(
+          () => {
+            this.nav.present(this.toastService.success('Suppression effectuée avec succès'));
+            this.getInfos();
+          },
+          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+        );
+    };
+
+    let deleteAlert = Alert.create({
+      title: 'Suppression snapshot',
+      message: 'Voulez-vous supprimer ce snapshot ?',
+      buttons: [
+        {
+          text: 'Non'
+        },
+        {
+          text: 'Oui',
+          handler: handler
+        }
+      ]
+    });
+
+
+    this.nav.present(deleteAlert);
   }
 }

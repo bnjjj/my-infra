@@ -128,7 +128,7 @@ export class OvhRequestService {
   }
 
   delete(url, opts = {}) {
-    return this.getHeaders(url, { method: 'DELETE' })
+    return this.getHeaders(url, { method: 'DELETE', body: {} })
       .map(headers => this.http.delete(this.urlRoot + url, Object.assign({}, opts, headers)))
       .mergeAll()
       .map(res => res.json());
