@@ -7,7 +7,8 @@
       <span [textContent]="inSuccess.length"></span>
       <ion-icon
         *ngIf="inSuccess.length"
-        [name]="displayInSuccess ? 'arrow-up' : 'arrow-down'">
+        [name]="displayInSuccess ? 'arrow-up' : 'arrow-down'"
+        [md]="displayInSuccess ? 'ios-arrow-up' : 'ios-arrow-down'">
       </ion-icon>
     </button>
   </ion-col>
@@ -19,7 +20,8 @@
       </span>
       <ion-icon
         *ngIf="inOther.length"
-        [name]="displayInOther ? 'arrow-up' : 'arrow-down'">
+        [name]="displayInOther ? 'arrow-up' : 'arrow-down'"
+        [md]="displayInSuccess ? 'ios-arrow-up' : 'ios-arrow-down'">
       </ion-icon>
     </button>
   </ion-col>
@@ -32,7 +34,8 @@
       </span>
       <ion-icon
         *ngIf="inError.length"
-        [name]="displayInError ? 'arrow-up' : 'arrow-down'">
+        [name]="displayInError ? 'arrow-up' : 'arrow-down'"
+        [md]="displayInSuccess ? 'ios-arrow-up' : 'ios-arrow-down'">
       </ion-icon>
     </button>
   </ion-col>
@@ -43,6 +46,9 @@
     <span [textContent]="successInstance.name"></span>
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(successInstance.id)">
       <ion-icon name="trash"></ion-icon>
+    </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action2(successInstance.id)">
+      <ion-icon name="cloud-upload"></ion-icon>
     </button>
     <button clear item-right *ngIf="type === 'instance'" (click)="action(successInstance.id)">
       <ion-icon name="sync"></ion-icon>
@@ -62,6 +68,9 @@
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(otherInstance.id)">
       <ion-icon name="trash"></ion-icon>
     </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action2(otherInstance.id)">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
     <button clear item-right *ngIf="type === 'instance'" (click)="action(otherInstance.id)">
       <ion-icon name="sync"></ion-icon>
     </button>
@@ -77,6 +86,9 @@
     <span [textContent]="errorInstance.name"></span>
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(errorInstance.id)">
       <ion-icon name="trash"></ion-icon>
+    </button>
+    <button clear item-right *ngIf="type === 'instance'" (click)="action2(errorInstance.id)">
+      <ion-icon name="cloud-upload"></ion-icon>
     </button>
     <button clear item-right *ngIf="type === 'instance'" (click)="action(errorInstance.id)">
       <ion-icon name="sync"></ion-icon>

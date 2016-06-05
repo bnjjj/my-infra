@@ -127,7 +127,43 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
     this.nav.present(rebootAlert);
   }
 
-  deleteSnapshot(id): void {
+  createSnapshot(id: string): void {
+    let handler = (data) => {
+      this.cloudWidgetService.createSnapshot(this.serviceName, id, data.snapshotName)
+        .then(
+          () => {
+            this.nav.present(this.toastService.success('Snapshot en cours de création...'));
+            this.getInfos();
+          },
+          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+        );
+    };
+
+    let deleteAlert = Alert.create({
+      title: 'Création snapshot',
+      message: 'Voulez-vous créer un snapshot de cet instance ?',
+      inputs: [
+        {
+          name: 'snapshotName',
+          placeholder: 'Nom du snapshot'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Non'
+        },
+        {
+          text: 'Oui',
+          handler: handler
+        }
+      ]
+    });
+
+
+    this.nav.present(deleteAlert);
+  }
+
+  deleteSnapshot(id: string): void {
     let handler = () => {
       this.cloudWidgetService.deleteSnapshot(this.serviceName, id)
         .then(

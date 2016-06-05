@@ -55,6 +55,16 @@
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
     <div *ngSwitchWhen="'general'">
       <ion-row>
+        <ion-col width-40>
+          Dernier snapshot le
+        </ion-col>
+        <ion-col
+          width-60
+          text-right
+          [textContent]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText">
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col width-100 text-center>
           <strong>Etat des {{cloud.instances.length}} instances</strong>
         </ion-col>
@@ -64,7 +74,8 @@
         [inSuccess]="cloud.inSuccess"
         [inOther]="cloud.inOther"
         type="instance"
-        (actionRequest)="rebootInstance($event)">
+        (actionRequest)="rebootInstance($event)"
+        (actionRequest2)="createSnapshot($event)">
       </status-details>
 
       <ion-row>

@@ -12,6 +12,7 @@ export class StatusDetailsComponent implements OnInit {
   @Input() inError: Array<any> = [];
   @Input() type: string;
   @Output() actionRequest: EventEmitter<any> = new EventEmitter();
+  @Output() actionRequest2: EventEmitter<any> = new EventEmitter();
 
   displayInError: boolean = false;
   displayInSuccess: boolean = false;
@@ -47,6 +48,10 @@ export class StatusDetailsComponent implements OnInit {
 
   action(id: string): void {
     this.actionRequest.emit(id);
+  }
+
+  action2(id: string): void {
+    this.actionRequest2.emit(id);
   }
 
 }

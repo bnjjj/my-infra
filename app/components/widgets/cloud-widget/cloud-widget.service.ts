@@ -55,6 +55,7 @@ export class CloudWidgetService {
 
     instances.forEach((instance) => {
       instance.status = isSnapshot ? instance.status.toUpperCase() : instance.status;
+      instance.creationDateText = moment(new Date(instance.creationDate)).format('DD/MM/YYYY à HH:mm');
       switch (instance.status) {
         case 'ACTIVE':
           inSuccess.push(instance);
@@ -86,6 +87,11 @@ export class CloudWidgetService {
 
   deleteSnapshot(serviceName: string, id: string) {
     return this.ovhRequest.delete([categoryEnum.CLOUD.url, serviceName, 'snapshot', id].join('/')).toPromise();
+  }
+
+  createSnapshot(serviceName: string, id: string, snapshotName: string) {
+    return this.ovhRequest.post([categoryEnum.CLOUD.url, serviceName, 'instance', id, 'snapshot'].join('/'),
+      JSON.stringify({ snapshotName })).toPromise();
   }
 
   getIps(serviceName) {
