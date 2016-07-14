@@ -10,7 +10,7 @@ export class ToastService {
   alert(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 1000,
+      duration: 2000,
       position: 'top',
       cssClass: 'toast-alert'
     }, options);
@@ -21,7 +21,7 @@ export class ToastService {
   error(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 1000,
+      duration: 2000,
       position: 'top',
       cssClass: 'toast-error'
     }, options);
@@ -32,7 +32,7 @@ export class ToastService {
   success(message: string, options?: any) {
     let opts = Object.assign({}, {
       message,
-      duration: 1000,
+      duration: 2000,
       position: 'top',
       cssClass: 'toast-success'
     }, options);

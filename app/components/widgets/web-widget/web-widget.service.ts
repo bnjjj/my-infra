@@ -47,6 +47,22 @@ export class WebWidgetService {
     }
   }
 
+  getSsl(serviceName: string) {
+    return new Promise((resolve) => {
+      this.ovhRequest.get(['/hosting/web', serviceName, 'ssl'].join('/')).toPromise()
+        .then((resp) => resolve(resp))
+        .catch(() => resolve({status: 'none'}));
+    });
+  }
+
+  createSsl(serviceName: string) {
+    return this.ovhRequest.post(['/hosting/web', serviceName, 'ssl'].join('/'), JSON.stringify({})).toPromise();
+  }
+
+  deleteSsl(serviceName: string) {
+    return this.ovhRequest.delete(['/hosting/web', serviceName, 'ssl'].join('/')).toPromise();
+  }
+
   getTasks(serviceName: string) {
     return this.ovhRequest.get(['/hosting/web', serviceName, 'tasks'].join('/')).toPromise();
   }

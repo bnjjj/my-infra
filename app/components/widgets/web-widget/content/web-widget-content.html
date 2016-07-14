@@ -69,6 +69,20 @@
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col width-40 class="center">
+         SSL (Let's encrypt)
+        </ion-col>
+        <ion-col width-60>
+         <ion-toggle secondary
+          *ngIf="server.ssl != null && !sslIsPending(server.ssl.status)"
+           [checked]="server.ssl != null && server.ssl.status === 'created'"
+           (click)="!sslIsPending(server.ssl.status) && changeSslStatus()">
+         </ion-toggle>
+         <ion-spinner name="bubbles" *ngIf="server.ssl != null && sslIsPending(server.ssl.status)">
+         </ion-spinner>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col width-40>
           IPV4
         </ion-col>
