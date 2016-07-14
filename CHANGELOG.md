@@ -1,3 +1,15 @@
+# 1.1.2 (2016-07-14)
+
+### Features
+
+* **Cloud:** add create snapshot, and last snapshot date
+* **Web:** Add support of ssl let's encrypt for hosting web
+* **Support:** Add cloud and private database support
+
+### Bug Fixes
+* **Web:** change the url of ftp cluster for GRA and P19
+* **Toast:** Display during 2 seconds now
+
 # 1.1.1 (2016-05-29)
 
 ### Features
