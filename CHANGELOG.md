@@ -4,7 +4,6 @@
 
 * **Cloud:** add create snapshot, and last snapshot date
 * **Web:** Add support of ssl let's encrypt for hosting web
-* **Support:** Add cloud and private database support
 
 ### Bug Fixes
 * **Web:** change the url of ftp cluster for GRA and P19
