@@ -44,7 +44,6 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
       ])
       .then(resp => {
         this.server = Object.assign(resp[0], resp[1], { ssl: resp[2] });;
-        console.log(this.server);
         this.loading = false;
       })
       .catch(err => {
