@@ -17,6 +17,10 @@ export class LoginPage {
   password: string;
   loading: any = false;
   version: string = '';
+  doubleAuthSmsEnabled: boolean = false;
+  smsCode: string;
+  credentialToken: string;
+  sessionId: string;
 
   constructor(private loginService: LoginService, private nav: NavController,
                 private keyboard: Keyboard, private analytics: AnalyticsService,
@@ -30,7 +34,7 @@ export class LoginPage {
       );
   }
 
-  logme(): void {
+  logme() {
     if (!this.login || !this.password) {
       return;
     }
@@ -43,11 +47,15 @@ export class LoginPage {
     }
     this.loginService.login(this.login, this.password)
       .then(
-        () => {
-          this.analytics.trackEvent('Login', 'logme', 'Success', this.login);
-          this.keyboard.close();
-          this.nav.present(this.toast.success('Compte activé avec succès'));
-          this.nav.push(TabsPage);
+        (authTypeInfos) => {
+          if (authTypeInfos.sms) {
+            this.doubleAuthSmsEnabled = true;
+            this.loading = false;
+            this.credentialToken = authTypeInfos.credentialToken;
+            this.sessionId = authTypeInfos.sessionId;
+          } else {
+            this.redirectSuccess();
+          }
         },
         (err) => {
           this.error = err.message ? err.message : JSON.stringify(err);
@@ -57,5 +65,34 @@ export class LoginPage {
           this.loading = false;
         }
       );
+  }
+
+  doubleAuthSmsConfirm() {
+    if (!this.smsCode) {
+      return;
+    }
+
+    this.loading = true;
+
+    this.loginService.doubleAuthSmsValidation(this.smsCode, this.credentialToken, this.sessionId)
+      .then(
+        () => this.redirectSuccess(),
+        (err) => this.redirectError(err)
+      );
+  }
+
+  redirectSuccess() {
+    this.analytics.trackEvent('Login', 'logme', 'Success', this.login);
+    this.keyboard.close();
+    this.nav.present(this.toast.success('Compte activé avec succès'));
+    this.nav.push(TabsPage);
+  }
+
+  redirectError(err: any) {
+    this.error = err.message ? err.message : JSON.stringify(err);
+    this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error + ' login: ' + this.login);
+    this.keyboard.close();
+    this.nav.present(this.toast.error('Erreur lors de la connection'));
+    this.loading = false;
   }
 }

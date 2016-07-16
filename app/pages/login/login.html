@@ -4,7 +4,7 @@
       <img class="logo" src="./build/img/my_infra_logo_official.svg" alt="My infra logo">
     </ion-col>
   </ion-row>
-  <div *ngIf="!loading">
+  <div *ngIf="!loading && !doubleAuthSmsEnabled">
     <ion-list inset>
 
       <ion-item>
@@ -31,6 +31,35 @@
       La connexion nécessite quelques secondes...
     </ion-col>
   </ion-row>
+
+  <!-- DOUBLE AUTH SMS -->
+  <div *ngIf="!loading && doubleAuthSmsEnabled">
+    <ion-row center>
+      <ion-col class="center center-flex" width-90>
+        <p class="double-auth-explanation">
+          Vous avez activé la double authentification par SMS sur votre compte. Veuillez indiquer le code que vous avez reçu par SMS.
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row center class="center-flex">
+      <ion-list inset>
+        <ion-item>
+          <ion-label floating>Code SMS</ion-label>
+          <ion-input type="text" [(ngModel)]="smsCode"></ion-input>
+        </ion-item>
+        <ion-item></ion-item>
+      </ion-list>
+    </ion-row>
+
+    <ion-row center>
+      <ion-col class="center center-flex" width-90>
+        <button (click)="doubleAuthSmsConfirm()" block><strong>Confirmer</strong></button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
   <ion-row center bottom *ngIf="version">
     <ion-col class="center center-flex">
       Version {{version}}

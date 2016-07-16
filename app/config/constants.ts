@@ -14,3 +14,12 @@ export let ticketCategoryEnum: any = {
   INCIDENT: { ref: 'incident', text: 'Déclarer un incident' }
 };
 
+export let loginConfiguration: any = {
+  'ovh-eu': {
+     endpoint: 'ovh-eu',
+     rootUrl: 'https://eu.api.ovh.com',
+     appKey: 'pChewtm5q6eHxBeq',
+     appSecret: 'QfEkT7FoWqtYxgNQBPaiB56q0y3CEHHp'
+  }
+};
+
