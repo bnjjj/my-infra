@@ -79,19 +79,12 @@ export class LoginService {
   }
 
   login(login: string, password: string) {
-    let validationUrl;
-
-    localStorage.removeItem('appKey');
-    localStorage.removeItem('appSecret');
-    localStorage.setItem('appKey', loginConfiguration['ovh-eu'].appKey);
-    localStorage.setItem('appSecret', loginConfiguration['ovh-eu'].appSecret);
-
     return this.configureAccess(login, password, loginConfiguration['ovh-eu'].appKey)
       .then((infos: any) => {
         let config = {
           endpoint: 'ovh-eu',
-          appKey: localStorage.getItem('appKey'),
-          appSecret: localStorage.getItem('appSecret'),
+          appKey: loginConfiguration['ovh-eu'].appKey,
+          appSecret: loginConfiguration['ovh-eu'].appSecret,
           consumerKey: localStorage.getItem('consumerKey')
         };
 

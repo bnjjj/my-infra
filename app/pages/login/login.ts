@@ -59,7 +59,7 @@ export class LoginPage {
         },
         (err) => {
           this.error = err.message ? err.message : JSON.stringify(err);
-          this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error + ' login: ' + this.login);
+          this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
           this.keyboard.close();
           this.nav.present(this.toast.error('Erreur lors de la connection'));
           this.loading = false;
@@ -76,13 +76,20 @@ export class LoginPage {
 
     this.loginService.doubleAuthSmsValidation(this.smsCode, this.credentialToken, this.sessionId)
       .then(
-        () => this.redirectSuccess(),
-        (err) => this.redirectError(err)
+        () => {
+          this.redirectSuccess();
+          this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Success', 'good');
+        },
+        (err) => {
+          this.redirectError(err);
+          this.error = err.message ? err.message : JSON.stringify(err);
+          this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Error', 'error : ' + this.error);
+        }
       );
   }
 
   redirectSuccess() {
-    this.analytics.trackEvent('Login', 'logme', 'Success', this.login);
+    this.analytics.trackEvent('Login', 'logme', 'Success', 'good');
     this.keyboard.close();
     this.nav.present(this.toast.success('Compte activé avec succès'));
     this.nav.push(TabsPage);
@@ -90,7 +97,7 @@ export class LoginPage {
 
   redirectError(err: any) {
     this.error = err.message ? err.message : JSON.stringify(err);
-    this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error + ' login: ' + this.login);
+    this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
     this.keyboard.close();
     this.nav.present(this.toast.error('Erreur lors de la connection'));
     this.loading = false;

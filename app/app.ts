@@ -57,8 +57,7 @@ export class MyApp {
   connected: boolean = false;
 
   constructor(platform: Platform) {
-    let credentials = localStorage.getItem('connected') && localStorage.getItem('appKey') &&
-      localStorage.getItem('appSecret') && localStorage.getItem('consumerKey');
+    let credentials = localStorage.getItem('connected') && localStorage.getItem('consumerKey');
 
     this.rootPage = credentials ? TabsPage : LoginPage;
     // this.rootPage = LoginPage;
