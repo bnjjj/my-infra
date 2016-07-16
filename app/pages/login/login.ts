@@ -76,8 +76,13 @@ export class LoginPage {
 
     this.loginService.doubleAuthSmsValidation(this.smsCode, this.credentialToken, this.sessionId)
       .then(
-        () => {
-          this.redirectSuccess();
+        (connected) => {
+          if (connected) {
+            this.redirectSuccess();
+          } else {
+            this.nav.present(this.toast.error('Mauvais code'));
+            this.loading = false;
+          }
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Success', 'good');
         },
         (err) => {

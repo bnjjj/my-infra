@@ -75,7 +75,17 @@ export class LoginService {
 
   doubleAuthSmsValidation(smsCode: string, credentialToken: string, sessionId: string) {
     return this.http.post(this.rootUrl + '/auth/?credentialToken=' + credentialToken, 'sessionId=' + sessionId + '&credentialToken=' + credentialToken + '&duration=0' + '&sms=' + smsCode + '&otpMethod=sms',
-      {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise();
+      {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise()
+      .then(
+        (resp) => {
+          let tmpDiv = document.createElement('div')
+          tmpDiv.innerHTML = resp.text();
+
+          let inputs = tmpDiv.getElementsByTagName('input');
+
+          return !inputs.length;
+        }
+      );
   }
 
   login(login: string, password: string) {

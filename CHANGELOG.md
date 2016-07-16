@@ -1,3 +1,15 @@
+# 1.2.1 (2016-07-16)
+
+### Bug Fixes
+
+* **Login:** Better support of error code for double authentication SMS
+
+# 1.2.0 (2016-07-16)
+
+### Features
+
+* **Login:** add double authentication with SMS
+
 # 1.1.2 (2016-07-14)
 
 ### Features
