@@ -14,6 +14,10 @@ let _ = require('lazy.js');
 export class LoginService {
   localStorage: Storage;
   rootUrl: string= loginConfiguration['ovh-eu'].rootUrl;
+  validationUrl: string;
+  loginId: string;
+  passwordId: string;
+
   constructor(private http: Http, private ovhRequest: OvhRequestService, private nav: NavController, private analytics: AnalyticsService) {
     this.localStorage = new Storage(LocalStorage);
   }
@@ -23,54 +27,65 @@ export class LoginService {
     let validationInfo: any;
     let credentialToken: string;
 
-    return this.http.post(this.rootUrl + '/1.0/auth/credential', accessRules,
-      {headers: new Headers({'Content-Type': 'application/json', 'X-Ovh-Application': appKey})}).toPromise()
-      .then((resp) => {
-        validationInfo = resp.json();
+    return new Promise((resolve, reject) => {
+      this.http.post(this.rootUrl + '/1.0/auth/credential', accessRules,
+        {headers: new Headers({'Content-Type': 'application/json', 'X-Ovh-Application': appKey})}).toPromise()
+        .then((resp) => {
+          validationInfo = resp.json();
+          this.validationUrl = validationInfo.validationUrl;
 
-        this.analytics.trackEvent('LoginService', 'configureAccess', 'Good', resp);
+          this.analytics.trackEvent('LoginService', 'configureAccess', 'Good', resp);
 
-        localStorage.removeItem('consumerKey');
-        localStorage.setItem('consumerKey', validationInfo.consumerKey);
+          localStorage.removeItem('consumerKey');
+          localStorage.setItem('consumerKey', validationInfo.consumerKey);
 
-        return this.http.get(validationInfo.validationUrl).toPromise();
-      })
-      .then((resp) => {
-        let inputArray, loginId, passwordId;
-        let tempDiv = document.createElement('div');
-        credentialToken = validationInfo.validationUrl.split('credentialToken=')[1];
-        this.analytics.trackEvent('LoginService', 'validation', 'Good', resp);
+          return this.http.get(validationInfo.validationUrl).toPromise();
+        })
+        .then((resp) => {
+          let inputArray;
+          let tempDiv = document.createElement('div');
+          credentialToken = validationInfo.validationUrl.split('credentialToken=')[1];
+          this.analytics.trackEvent('LoginService', 'validation', 'Good', resp);
 
-        tempDiv.innerHTML = resp.text();
-        inputArray = tempDiv.getElementsByTagName('input');
+          tempDiv.innerHTML = resp.text();
+          inputArray = tempDiv.getElementsByTagName('input');
 
-        if (inputArray.length > 2) {
-          loginId = inputArray[1].getAttribute('id');
-          passwordId = inputArray[2].getAttribute('id');
-        }
+          if (inputArray.length > 2) {
+            this.loginId = inputArray[1].getAttribute('id');
+            this.passwordId = inputArray[2].getAttribute('id');
+          }
 
-        return this.http.post(validationInfo.validationUrl, loginId + '=' + login + '&' + passwordId + '=' + password + '&duration=0&credentialToken=' + credentialToken,
-          {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise();
-      })
-      .then((resp) => {
-        let tmpDiv = document.createElement('div')
-        tmpDiv.innerHTML = resp.text();
+          return this.askAuthentication(login, password, credentialToken);
+        })
+        .then((resp) => {
+          let tmpDiv = document.createElement('div')
+          tmpDiv.innerHTML = resp.text();
 
-        let inputs = tmpDiv.getElementsByTagName('input');
-        let inputSms = _(inputs).find((elt) => elt.id === 'codeSMS');
-        let inputSessionId = _(inputs).find((elt) => elt.name === 'sessionId');
+          let inputs = tmpDiv.getElementsByTagName('input');
+          let inputSms = _(inputs).find((elt) => elt.id === 'codeSMS');
+          let inputSessionId = _(inputs).find((elt) => elt.name === 'sessionId');
 
-        if (tmpDiv.getElementsByClassName('error').length !== 0) {
-          return Promise.reject('Error during activation token');
-        } else if (inputSms && inputSessionId) {
-          // DOUBLE AUTH SMS
-          return { sms: true, credentialToken, sessionId: inputSessionId.value };
-        }
+          if (tmpDiv.getElementsByClassName('error').length !== 0) {
+            return /*Promise.*/reject('Error during activation token');
+          } else if (inputSms && inputSessionId) {
+            // DOUBLE AUTH SMS
+            return resolve({ sms: true, credentialToken, sessionId: inputSessionId.value });
+          }
 
-        this.analytics.trackEvent('LoginService', 'finalValidation', 'Good', resp);
+          this.analytics.trackEvent('LoginService', 'finalValidation', 'Good', resp);
 
-        return { sms: false, credentialToken, sessionId: null };
-      });
+          return resolve({ sms: false, credentialToken, sessionId: null });
+        })
+        .catch((err) => reject(err));
+
+    });
+
+
+  }
+
+  askAuthentication(login: string, password: string, credentialToken: string) {
+    return this.http.post(this.validationUrl, this.loginId + '=' + login + '&' + this.passwordId + '=' + password + '&duration=0&credentialToken=' + credentialToken,
+      {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise();
   }
 
   doubleAuthSmsValidation(smsCode: string, credentialToken: string, sessionId: string) {
@@ -82,8 +97,19 @@ export class LoginService {
           tmpDiv.innerHTML = resp.text();
 
           let inputs = tmpDiv.getElementsByTagName('input');
+          let inputSms = _(inputs).find((elt) => elt.id === 'codeSMS');
 
-          return !inputs.length;
+          console.log('inputs : ', inputs);
+          console.log('inputs : ', inputSms);
+          console.log('compare : ', inputSms != null);
+          if (inputSms == null || inputSms.length === 0) {
+            localStorage.removeItem('connected');
+            localStorage.setItem('connected', 'true');
+
+            return true;
+          } else {
+            return false;
+          }
         }
       );
   }
@@ -99,8 +125,11 @@ export class LoginService {
         };
 
         this.ovhRequest.setConfiguration(config);
-        localStorage.removeItem('connected');
-        localStorage.setItem('connected', 'true');
+        if (!infos.sms) {
+          localStorage.removeItem('connected');
+          localStorage.setItem('connected', 'true');
+        }
+        
 
         return infos;
       });

@@ -80,7 +80,7 @@ export class LoginPage {
           if (connected) {
             this.redirectSuccess();
           } else {
-            this.nav.present(this.toast.error('Mauvais code'));
+            this.nav.present(this.toast.error('Mauvais code, un nouveau code va vous être envoyé', {duration: 4000}));
             this.loading = false;
           }
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Success', 'good');
@@ -90,6 +90,14 @@ export class LoginPage {
           this.error = err.message ? err.message : JSON.stringify(err);
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Error', 'error : ' + this.error);
         }
+      );
+  }
+
+  sendCode() {
+    this.loginService.askAuthentication(this.login, this.password, this.credentialToken)
+      .then(
+        () => this.nav.present(this.toast.success('Un nouveau code vous a été envoyé')),
+        () => this.nav.present(this.toast.error('Une ereur est survenue lors de votre demande'))
       );
   }
 
