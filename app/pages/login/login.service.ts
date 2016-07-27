@@ -99,9 +99,6 @@ export class LoginService {
           let inputs = tmpDiv.getElementsByTagName('input');
           let inputSms = _(inputs).find((elt) => elt.id === 'codeSMS');
 
-          console.log('inputs : ', inputs);
-          console.log('inputs : ', inputSms);
-          console.log('compare : ', inputSms != null);
           if (inputSms == null || inputSms.length === 0) {
             localStorage.removeItem('connected');
             localStorage.setItem('connected', 'true');
@@ -129,7 +126,7 @@ export class LoginService {
           localStorage.removeItem('connected');
           localStorage.setItem('connected', 'true');
         }
-        
+
 
         return infos;
       });
