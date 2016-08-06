@@ -13,14 +13,15 @@ import {AsyncBoxComponent} from './components/async-box/async-box';
 import {StateLabelComponent} from './components/state-label/state-label';
 import {Type} from 'angular2/core';
 import {LoginPage} from './pages/login/login';
+import {loginConfiguration} from './config/constants';
 
 let providers = [
   HTTP_PROVIDERS,
   provide(OvhRequestService, {
     useFactory: (http) => {
       let myService = new OvhRequestService(http);
-      let appKey = localStorage.getItem('appKey');
-      let appSecret = localStorage.getItem('appSecret');
+      let appKey = loginConfiguration['ovh-eu'].appKey;
+      let appSecret = loginConfiguration['ovh-eu'].appSecret;
       let consumerKey = localStorage.getItem('consumerKey');
 
       if (appKey && appSecret && consumerKey) {
@@ -60,7 +61,6 @@ export class MyApp {
     let credentials = localStorage.getItem('connected') && localStorage.getItem('consumerKey');
 
     this.rootPage = credentials ? TabsPage : LoginPage;
-    // this.rootPage = LoginPage;
     platform.ready().then(() => {
       document.addEventListener('backbutton', (event) => {
         event.preventDefault();

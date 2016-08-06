@@ -1,6 +1,6 @@
 export let categoryEnum: any = {
   WEB: { url: '/hosting/web', name: 'WEB', text: 'Hébergement web', supportRef: 'hosting', hardware: true, icon: 'fa fa-globe' },
-  VPS: { url: '/vps', name: 'VPS', text: 'Vps', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o' },
+  VPS: { url: '/vps', name: 'VPS', text: 'VPS', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o' },
   DEDICATED_SERVER: { url: '/dedicated/server', name: 'DEDICATED_SERVER', text: 'Serveur dédié', supportRef: 'dedicated', hardware: true, icon: 'fa fa-server' },
   PRIVATE_DATABASE: { url: '/hosting/privateDatabase', name: 'PRIVATE_DATABASE', text: 'Base de données privée', supportRef: 'hosting', hardware: true, icon: 'fa fa-database' },
   CLOUD: { url: '/cloud/project', name: 'CLOUD', text: 'Cloud', supportRef: 'cloud', hardware: true, icon: 'fa fa-cloud' },

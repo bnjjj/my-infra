@@ -15,7 +15,8 @@ export class LoginPage {
   error: any;
   login: string;
   password: string;
-  loading: any = false;
+  loading: boolean = false;
+  loadingCode: boolean = false;
   version: string = '';
   doubleAuthSmsEnabled: boolean = false;
   smsCode: string;
@@ -41,7 +42,7 @@ export class LoginPage {
     this.loading = true;
     this.error = null;
     this.keyboard.close();
-    this.analytics.trackEvent('Login', 'logme', 'Launch', this.login);
+    this.analytics.trackEvent('Login', 'logme', 'Launch', 'pending');
     if (this.login.indexOf('@') === -1) {
       this.login = this.login.indexOf('-ovh') === -1 ? [this.login, '-ovh'].join('') : this.login;
     }
@@ -53,7 +54,9 @@ export class LoginPage {
             this.loading = false;
             this.credentialToken = authTypeInfos.credentialToken;
             this.sessionId = authTypeInfos.sessionId;
+            this.analytics.trackEvent('Login', 'logme', 'DoubleAuth', 'detected');
           } else {
+            this.analytics.trackEvent('Login', 'logme', 'Basic', 'Good');
             this.redirectSuccess();
           }
         },
@@ -94,10 +97,21 @@ export class LoginPage {
   }
 
   sendCode() {
+    this.loadingCode = true;
+    this.smsCode = '';
+
     this.loginService.askAuthentication(this.login, this.password, this.credentialToken)
       .then(
-        () => this.nav.present(this.toast.success('Un nouveau code vous a été envoyé')),
-        () => this.nav.present(this.toast.error('Une ereur est survenue lors de votre demande'))
+        () => {
+          this.loadingCode = false;
+          this.nav.present(this.toast.success('Un nouveau code vous a été envoyé'));
+          this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Success', 'good');
+        },
+        (err) => {
+          this.loadingCode = false;
+          this.nav.present(this.toast.error('Une ereur est survenue lors de votre demande'));
+          this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Error', JSON.stringify(err));
+        }
       );
   }
 

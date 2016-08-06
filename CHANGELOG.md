@@ -1,8 +1,14 @@
+# 1.2.3 (2016-08-06)
+
+### Bug Fixes
+
+* **Login:** Better UX when you want to send a new code, thanks to [@AkdM_](https://twitter.com/AkdM_) for your feedbacks.
+
 # 1.2.1 (2016-07-16)
 
 ### Bug Fixes
 
-* **Login:** Better support of error code for double authentication SMS
+* **Login:** Better support of error code for double authentication SMS, thanks to [Mathieu M.](https://twitter.com/Morchip13) for your feedbacks.
 
 # 1.2.0 (2016-07-16)
 
