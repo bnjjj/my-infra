@@ -1,6 +1,6 @@
 declare var require;
 import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 let moment = require('moment');

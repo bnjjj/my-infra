@@ -1,10 +1,11 @@
 declare var require;
-import {Page, ViewController, NavParams} from 'ionic-angular';
+import {ViewController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
 import {NetworkStateService} from './network-state.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 let moment = require('moment');
 
-@Page({
+@Component({
   templateUrl: 'build/modals/network-state/network-state.html',
   providers: [NetworkStateService]
 })

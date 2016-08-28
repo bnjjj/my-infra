@@ -1,5 +1,5 @@
 declare var require;
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {OvhRequestService} from '../../services/ovh-request/ovh-request.service';
 import 'rxjs/add/operator/toPromise';
 let moment = require('moment');
@@ -23,7 +23,7 @@ export class MessagesService {
   }
 
   reply(id: number, body: string) {
-    return this.ovhRequest.post(['/support/tickets', id,'reply'].join('/'), JSON.stringify({body})).toPromise();
+    return this.ovhRequest.post(['/support/tickets', id, 'reply'].join('/'), JSON.stringify({body})).toPromise();
   }
 
   reopen(id: number, body: string) {

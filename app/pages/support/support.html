@@ -1,14 +1,16 @@
-<ion-navbar *navbar class="support-page">
-  <ion-title>Assistance</ion-title>
-  <ion-buttons end>
-    <button (click)="createTicket()">
-      <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar class="support-page">
+    <ion-title>Assistance</ion-title>
+    <ion-buttons end>
+      <button (click)="createTicket()">
+        <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="support-page">
-  <ion-refresher (refresh)="doRefresh($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="refresh"
       pullingText="Tirer pour rafraichir"
@@ -20,7 +22,7 @@
     {{error | json}}
   </div>
   <ion-list *ngIf="ticketIdsFiltered.length && !reload">
-     <ticket *ngFor="#id of ticketIdsFiltered" [ticketId]="id" (loaded)="ticketLoaded($event)"></ticket>
+     <ticket *ngFor="let id of ticketIdsFiltered" [ticketId]="id" (loaded)="ticketLoaded($event)"></ticket>
   </ion-list>
 
   <ion-row padding *ngIf="loading">
@@ -35,7 +37,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-infinite-scroll (infinite)="loadMore($event)" *ngIf="!loading && ticketIdsFiltered.length">
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" *ngIf="!loading && ticketIdsFiltered.length">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="Chargement des tickets...">

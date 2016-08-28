@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {VpsWidgetService} from './vps-widget.service';
 import {WidgetsService} from '../widgets.service';
@@ -18,6 +18,8 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
+
   viewMode: string = 'general';
   loading: boolean;
   collapsed: boolean = false;
@@ -27,7 +29,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
-      private nav: NavController, private analytics: AnalyticsService, private toast: ToastService) {
+      private analytics: AnalyticsService, private toast: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.analytics.trackView('Vps-widget');
   }
 
@@ -77,19 +79,19 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal() {
-    let profileModal = Modal.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
+    profileModal.present();
   }
 
   removeMe(): void {
     let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.VPS.url});
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
-    this.nav.present(alert);
+    alert.present();
   }
 
   reboot(): void {
-    let alert = Alert.create({
+    let alert = this.alertCtrl.create({
       title: 'Redémarrage',
       message: 'Voulez-vous redémarrer le vps ' + this.serviceName,
       buttons: [
@@ -101,14 +103,14 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
           handler: () => {
             this.vpsWidgetService.reboot(this.serviceName)
               .then(
-                () => this.nav.present(this.toast.success('Redémarrage en cours ...')),
-                (err) => this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message))
+                () => this.toast.success('Redémarrage en cours ...').present(),
+                (err) => this.toast.error('Une erreur est survenue : ' + err.message).present()
               );
           }
         }
       ]
     });
 
-    this.nav.present(alert);
+    alert.present();
   }
 }

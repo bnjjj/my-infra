@@ -3,9 +3,9 @@
    <i class="fa fa-hdd-o fa-2x"></i>
  </ion-avatar>
  <div (click)="updateCollapse()">
-   <h2 [textContent]="vps.displayName || vps.name" *ngIf="!loading && !error">
+   <h2 [innerText]="vps.displayName || vps.name" *ngIf="!loading && !error">
    </h2>
-   <h2 [textContent]="serviceName" *ngIf="loading">
+   <h2 [innerText]="serviceName" *ngIf="loading">
    </h2>
    <h2 *ngIf="error" danger>
     ERREUR
@@ -34,7 +34,7 @@
      </ion-col>
      <ion-col width-50 text-right
        [ngClass]="{'danger-color animated pulse': vps.warning}"
-       [textContent]="vps.expirationText">
+       [innerText]="vps.expirationText">
      </ion-col>
    </ion-row>
    <ion-row>
@@ -43,19 +43,19 @@
      </ion-col>
      <ion-col width-60 text-right>
        <div [ngSwitch]="vps.state">
-         <ion-badge *ngSwitchWhen="'running'"
+         <ion-badge *ngSwitchCase="'running'"
             class="capitalize"
-           [textContent]="vps.state"
+           [innerText]="vps.state"
            secondary>
          </ion-badge>
-         <ion-badge *ngSwitchWhen="'maintenance'"
+         <ion-badge *ngSwitchCase="'maintenance'"
             class="capitalize"
-           [textContent]="vps.state"
+           [innerText]="vps.state"
            primary>
          </ion-badge>
          <ion-badge *ngSwitchDefault
             class="capitalize"
-           [textContent]="vps.state"
+           [innerText]="vps.state"
            danger>
          </ion-badge>
        </div>
@@ -63,26 +63,26 @@
    </ion-row>
  </div>
   <div [ngSwitch]="viewMode" *ngIf="collapsed && !error" class="animated fadeIn">
-     <div *ngSwitchWhen="'general'">
+     <div *ngSwitchCase="'general'">
        <ion-row>
          <ion-col width-40>
            Distribution
          </ion-col>
-         <ion-col width-60 [textContent]="vps.distribution.name + ' (' + vps.distribution.bitFormat + 'bits)'">
+         <ion-col width-60 [innerText]="vps.distribution.name + ' (' + vps.distribution.bitFormat + 'bits)'">
          </ion-col>
        </ion-row>
        <ion-row>
          <ion-col width-40>
            Offre
          </ion-col>
-         <ion-col width-60 [textContent]="vps.model.offer">
+         <ion-col width-60 [innerText]="vps.model.offer">
          </ion-col>
        </ion-row>
        <ion-row>
          <ion-col width-40>
            Zone
          </ion-col>
-         <ion-col width-60 [textContent]="vps.zone">
+         <ion-col width-60 [innerText]="vps.zone">
          </ion-col>
        </ion-row>
        <ion-row>
@@ -100,7 +100,7 @@
          <ion-col width-40>
            Limite mémoire
          </ion-col>
-         <ion-col width-60 [textContent]="vps.memoryLimit + ' MB'">
+         <ion-col width-60 [innerText]="vps.memoryLimit + ' MB'">
          </ion-col>
        </ion-row>
        <ion-row>
@@ -108,15 +108,15 @@
            IPs
          </ion-col>
           <ion-col width-80 text-right>
-            <p *ngFor="#ip of vps.ips" [textContent]="ip">
+            <p *ngFor="let ip of vps.ips" [innerText]="ip">
             </p>
           </ion-col>
        </ion-row>
      </div>
 
-     <div *ngSwitchWhen="'tasks'">
+     <div *ngSwitchCase="'tasks'">
        <ion-list>
-         <task-details-vps *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+         <task-details-vps *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
          </task-details-vps>
          <ion-item *ngIf="emptyTasks && !loading" text-center>
            <em>Vous n'avez pas de tâches</em>

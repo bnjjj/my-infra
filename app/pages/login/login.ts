@@ -1,11 +1,12 @@
-import {Page, NavController, Keyboard} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, Keyboard} from 'ionic-angular';
 import {LoginService} from './login.service';
 import {AppVersion} from 'ionic-native';
 import {ToastService} from '../../services/toast/toast.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {TabsPage} from '../tabs/tabs';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/login/login.html',
   directives: [],
   providers: [LoginService, ToastService]
@@ -23,9 +24,9 @@ export class LoginPage {
   credentialToken: string;
   sessionId: string;
 
-  constructor(private loginService: LoginService, private nav: NavController,
+  constructor(private loginService: LoginService,
                 private keyboard: Keyboard, private analytics: AnalyticsService,
-                 private toast: ToastService) {
+                 private toast: ToastService, private nav: NavController) {
 
     this.analytics.trackView('Login');
     AppVersion.getVersionNumber()
@@ -64,7 +65,7 @@ export class LoginPage {
           this.error = err.message ? err.message : JSON.stringify(err);
           this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
           this.keyboard.close();
-          this.nav.present(this.toast.error('Erreur lors de la connection'));
+          this.toast.error('Erreur lors de la connection').present();
           this.loading = false;
         }
       );
@@ -83,7 +84,7 @@ export class LoginPage {
           if (connected) {
             this.redirectSuccess();
           } else {
-            this.nav.present(this.toast.error('Mauvais code, un nouveau code va vous être envoyé', {duration: 4000}));
+            this.toast.error('Mauvais code, un nouveau code va vous être envoyé', {duration: 4000}).present();
             this.loading = false;
           }
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Success', 'good');
@@ -104,12 +105,12 @@ export class LoginPage {
       .then(
         () => {
           this.loadingCode = false;
-          this.nav.present(this.toast.success('Un nouveau code vous a été envoyé'));
+          this.toast.success('Un nouveau code vous a été envoyé').present();
           this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Success', 'good');
         },
         (err) => {
           this.loadingCode = false;
-          this.nav.present(this.toast.error('Une ereur est survenue lors de votre demande'));
+          this.toast.error('Une ereur est survenue lors de votre demande').present();
           this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Error', JSON.stringify(err));
         }
       );
@@ -118,7 +119,7 @@ export class LoginPage {
   redirectSuccess() {
     this.analytics.trackEvent('Login', 'logme', 'Success', 'good');
     this.keyboard.close();
-    this.nav.present(this.toast.success('Compte activé avec succès'));
+    this.toast.success('Compte activé avec succès').present();
     this.nav.push(TabsPage);
   }
 
@@ -126,7 +127,7 @@ export class LoginPage {
     this.error = err.message ? err.message : JSON.stringify(err);
     this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
     this.keyboard.close();
-    this.nav.present(this.toast.error('Erreur lors de la connection'));
+    this.toast.error('Erreur lors de la connection').present();
     this.loading = false;
   }
 }

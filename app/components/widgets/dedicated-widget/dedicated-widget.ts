@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {DedicatedWidgetService} from './dedicated-widget.service';
 import {WidgetsService} from '../widgets.service';
@@ -18,6 +18,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
   viewMode: string = 'general';
   loading: boolean;
   collapsed: boolean = false;
@@ -27,7 +28,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService,
-      private nav: NavController, private analytics: AnalyticsService, private toast: ToastService) {
+   private analytics: AnalyticsService, private toast: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.analytics.trackView('Dedicated-widget');
   }
 
@@ -77,19 +78,19 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal() {
-    let profileModal = Modal.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
+    profileModal.present();
   }
 
   removeMe(): void {
     let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.DEDICATED_SERVER.url });
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
-    this.nav.present(alert);
+    alert.present();
   }
 
   reboot(): void {
-    let alert = Alert.create({
+    let alert = this.alertCtrl.create({
       title: 'Redémarrage',
       message: 'Voulez-vous redémarrer le serveur ' + this.serviceName,
       buttons: [
@@ -101,10 +102,10 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
           handler: () => {
             this.dedicatedWidgetService.reboot(this.serviceName)
               .then(
-                () => this.nav.present(this.toast.success('Redémarrage en cours...')),
+                () => this.toast.success('Redémarrage en cours...').present(),
                 err => {
                   this.error = err;
-                  this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message));
+                  this.toast.error('Une erreur est survenue : ' + err.message).present();
                 }
               );
           }
@@ -112,6 +113,6 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
       ]
     });
 
-    this.nav.present(alert);
+    alert.present();
   }
 }

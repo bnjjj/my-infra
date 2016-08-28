@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {TaskDetailsDomainComponent} from '../task-details/task-details';
 import {DomainWidgetService} from './../domain-widget.service';
@@ -17,6 +17,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   @Input() reload: boolean;
   @Input() showWorks: boolean = false;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;
@@ -25,7 +26,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
 
-  constructor(private domainWidgetService: DomainWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private domainWidgetService: DomainWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -74,8 +75,8 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '1', categoryName: 'domaine' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '1', categoryName: 'domaine' });
+    profileModal.present();
   }
 
   updateCollapse(): void {

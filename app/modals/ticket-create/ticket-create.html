@@ -1,13 +1,15 @@
-<ion-navbar *navbar>
-  <ion-title>
-    Créer un ticket
-  </ion-title>
-  <ion-buttons end>
-    <button (click)="close()">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Créer un ticket
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="create-ticket">
   <ion-row padding center>
@@ -17,10 +19,10 @@
   </ion-row>
     <ion-list no-lines center>
       <ion-item class="center width90">
-        <ion-select class="center" [(ngModel)]="ticket.product" (change)="fetchProducts(ticket.product.url)">
-          <ion-option *ngFor="#categorySelect of categoryKeys"
+        <ion-select class="center" [(ngModel)]="ticket.product" (ionChange)="fetchProducts(ticket.product.url)">
+          <ion-option *ngFor="let categorySelect of categoryKeys"
             [value]="CategoryEnum[categorySelect]"
-            [textContent]="CategoryEnum[categorySelect].text"></ion-option>
+            [innerText]="CategoryEnum[categorySelect].text"></ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -48,7 +50,7 @@
       <h2>
         Service concerné
       </h2>
-      <h3 [textContent]="ticket.serviceName" primary></h3>
+      <h3 [innerText]="ticket.serviceName" primary></h3>
     </ion-item>
     <ion-item *ngIf="ticket.category">
       <ion-label floating>Sujet</ion-label>
@@ -61,10 +63,10 @@
   </ion-list>
 
   <div class="tspace20" *ngIf="!ticket.serviceName">
-    <ion-row *ngFor="#product of products" center>
+    <ion-row *ngFor="let product of products" center>
       <ion-col width-90 class="center">
         <button light outline block
-          [textContent]="product"
+          [innerText]="product"
           (click)="addProduct(product)">
         </button>
       </ion-col>

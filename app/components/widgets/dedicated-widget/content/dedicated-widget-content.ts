@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {DedicatedWidgetService} from '../dedicated-widget.service';
 import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
@@ -17,6 +17,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   @Input() collapsed: boolean;
   @Input() showWorks: boolean = false;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;
@@ -24,11 +25,11 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   server: any = {};
   error: any;
   tasks: Array<any> = [];
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.getInfos();
   }
 
@@ -74,8 +75,8 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
+    profileModal.present();
   }
 
   updateCollapse(): void {

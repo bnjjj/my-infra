@@ -3,9 +3,9 @@
     <i class="fa fa-link fa-2x"></i>
   </ion-avatar>
   <div (click)="updateCollapse()">
-    <h2 [textContent]="serviceName" *ngIf="loading">
+    <h2 [innerText]="serviceName" *ngIf="loading">
     </h2>
-    <h2 [textContent]="domain.domain" *ngIf="!loading && !error">
+    <h2 [innerText]="domain.domain" *ngIf="!loading && !error">
     </h2>
   </div>
   <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
@@ -30,17 +30,17 @@
     </ion-col>
     <ion-col width-50 text-right
       [ngClass]="{'danger-color animated pulse': domain.warning}"
-      [textContent]="domain.expirationText">
+      [innerText]="domain.expirationText">
     </ion-col>
   </ion-row>
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
-    <div *ngSwitchWhen="'general'">
+    <div *ngSwitchCase="'general'">
       <ion-row>
         <ion-col width-20>
           Offre
         </ion-col>
         <ion-col width-80>
-          <strong class="capitalize" [textContent]="domain.offer"></strong>
+          <strong class="capitalize" [innerText]="domain.offer"></strong>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -78,9 +78,9 @@
       </ion-row>
     </div>
 
-    <div *ngSwitchWhen="'tasks'">
+    <div *ngSwitchCase="'tasks'">
       <ion-list>
-        <task-details-domain *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        <task-details-domain *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
         </task-details-domain>
         <ion-item *ngIf="emptyTasks && !loading" text-center>
           <em>Vous n'avez pas de tâches</em>

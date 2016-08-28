@@ -1,14 +1,14 @@
-import {Injectable} from 'angular2/core';
-import {Alert} from 'ionic-angular';
+import {Injectable} from '@angular/core';
+import {AlertController} from 'ionic-angular';
 
 @Injectable()
 export class WidgetsService {
-  constructor() {
+  constructor(private alertCtrl: AlertController) {
 
   }
 
   getDeleteAlert(serviceName: string, handler: Function) {
-    return Alert.create({
+    return this.alertCtrl.create({
       title: 'Supression de widget',
       message: 'Voulez-vous supprimer le widget de ' + serviceName,
       buttons: [

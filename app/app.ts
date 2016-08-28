@@ -1,9 +1,9 @@
-import {App, Platform} from 'ionic-angular';
+import {Platform, ionicBootstrap} from 'ionic-angular';
 import {Keyboard} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
-import {Http, HTTP_PROVIDERS} from 'angular2/http';
-import {provide} from 'angular2/core';
-import {PLATFORM_DIRECTIVES} from 'angular2/core';
+import {Http, HTTP_PROVIDERS} from '@angular/http';
+import {provide} from '@angular/core';
+import {Component, PLATFORM_DIRECTIVES} from '@angular/core';
 import {OvhRequestService} from './services/ovh-request/ovh-request.service';
 import {ToastService} from './services/toast/toast.service';
 import {AnalyticsService} from './services/analytics/analytics.service';
@@ -11,7 +11,7 @@ import {ProductsService} from './services/products/common.service';
 import {LoaderComponent} from './components/loader/loader';
 import {AsyncBoxComponent} from './components/async-box/async-box';
 import {StateLabelComponent} from './components/state-label/state-label';
-import {Type} from 'angular2/core';
+import {Type} from '@angular/core';
 import {LoginPage} from './pages/login/login';
 import {loginConfiguration} from './config/constants';
 
@@ -37,21 +37,16 @@ let providers = [
     },
     deps: [Http]
   }),
-  provide(PLATFORM_DIRECTIVES, {useValue: LoaderComponent, multi: true}),
-  provide(PLATFORM_DIRECTIVES, {useValue: AsyncBoxComponent, multi: true}),
+  provide(PLATFORM_DIRECTIVES, { useValue: LoaderComponent, multi: true}),
+  provide(PLATFORM_DIRECTIVES, { useValue: AsyncBoxComponent, multi: true}),
   provide(PLATFORM_DIRECTIVES, { useValue: StateLabelComponent, multi: true }),
   ProductsService,
   ToastService,
   AnalyticsService
 ];
 
-@App({
-  template: '<ion-nav [swipeBackEnabled]="false" [root]="rootPage"></ion-nav>',
-  config: {
-    swipeBackEnabled: false
-  }, // http://ionicframework.com/docs/v2/api/config/Config/
-  prodMode: true,
-  providers: providers
+@Component({
+  template: '<ion-nav [swipeBackEnabled]="false" [root]="rootPage"></ion-nav>'
 })
 export class MyApp {
   rootPage: Type;
@@ -71,3 +66,8 @@ export class MyApp {
     });
   }
 }
+
+ionicBootstrap(MyApp, providers, {
+  swipeBackEnabled: false,
+  prodMode: true
+});

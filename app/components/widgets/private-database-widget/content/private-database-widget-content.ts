@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {PrivateDatabaseWidgetService} from '../private-database-widget.service';
 import {WidgetsService} from '../../widgets.service';
@@ -17,6 +17,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
 
   bdd: any = {};
   loading: boolean;
@@ -26,7 +27,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   error: any;
   tasks: Array<any> = [];
 
-  constructor(private privateDatabaseWidgetService: PrivateDatabaseWidgetService, private widgetsService: WidgetsService, private nav: NavController) {
+  constructor(private privateDatabaseWidgetService: PrivateDatabaseWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -38,7 +39,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
     this.loading = true;
     Promise.all([this.privateDatabaseWidgetService.getInfos(this.serviceName), this.privateDatabaseWidgetService.getServiceInfos(this.serviceName)])
       .then(resp => {
-        this.bdd = Object.assign(resp[0], resp[1]);;
+        this.bdd = Object.assign(resp[0], resp[1]);
         this.loading = false;
       })
       .catch(err => {
@@ -75,8 +76,8 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '4', categoryName: 'Base de données privées' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'Base de données privées' });
+    profileModal.present();
   }
 
   updateCollapse(): void {

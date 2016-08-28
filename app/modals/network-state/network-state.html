@@ -1,27 +1,29 @@
-<ion-navbar *navbar>
-  <ion-title>
-    Travaux (<span [textContent]="categoryName"></span>)
-  </ion-title>
-  <ion-buttons end>
-    <button (click)="close()">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Travaux (<span [innerText]="categoryName"></span>)
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="network-state-modal">
   <ion-list *ngIf="!loading">
     <div *ngIf="!loading && networkTasks && !error">
-      <ion-card *ngFor="#networkTask of networkTasks.items" class="widget-content">
+      <ion-card *ngFor="let networkTask of networkTasks.items" class="widget-content">
         <ion-card-header class="widget-header">
-          <b [textContent]="networkTask.title"></b>
+          <b [innerText]="networkTask.title"></b>
         </ion-card-header>
         <ion-card-content>
           <ion-row>
             <ion-col width-33>
               <b>Date :</b>
             </ion-col>
-            <ion-col width-67 [textContent]="networkTask.pubDateText">
+            <ion-col width-67 [innerText]="networkTask.pubDateText">
             </ion-col>
           </ion-row>
           <ion-row>

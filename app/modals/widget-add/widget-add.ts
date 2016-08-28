@@ -1,9 +1,10 @@
-import {Page, ViewController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {ViewController, NavParams} from 'ionic-angular';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {ProductsService} from '../../services/products/common.service';
 import {categoryEnum} from '../../config/constants';
 
-@Page({
+@Component({
   templateUrl: 'build/modals/widget-add/widget-add.html'
 })
 export class WidgetAddModal {
@@ -44,7 +45,7 @@ export class WidgetAddModal {
     }
   }
 
-  filterCategories(category: any): void{
+  filterCategories(category: any): void {
     if (!category.hardware) {
       this.subCategoryKeys = this.subCategoryKeys.filter((cat) => this.CategoryEnum[cat].hardware);
       this.subCategory = this.CategoryEnum.WEB;

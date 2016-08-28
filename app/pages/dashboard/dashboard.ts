@@ -1,5 +1,5 @@
-import {Toast} from 'ionic-native';
-import {Page, Modal, NavController} from 'ionic-angular';
+import {ModalController, NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
 import {WebWidgetComponent} from '../../components/widgets/web-widget/web-widget';
 import {PrivateDatabaseWidgetComponent} from '../../components/widgets/private-database-widget/private-database-widget';
 import {DomainWidgetComponent} from '../../components/widgets/domain-widget/domain-widget';
@@ -11,7 +11,7 @@ import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {categoryEnum} from '../../config/constants';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/dashboard/dashboard.html',
   directives: [WebWidgetComponent, DomainWidgetComponent,
     DedicatedWidgetComponent, ProjectWidgetComponent,
@@ -24,17 +24,18 @@ export class DashboardPage {
   reload: boolean = false;
   CategoryEnum: any = categoryEnum;
 
-  constructor(private nav: NavController, private analytics: AnalyticsService) {
+  constructor(private analytics: AnalyticsService, private nav: NavController, private modalCtrl: ModalController) {
     this.widgets = JSON.parse(localStorage.getItem('widgets')) || [];
     this.analytics.trackView('Dashboard');
   }
 
   addWidgetModal(): void {
-    let addModal = Modal.create(WidgetAddModal, {widgets: this.widgets});
-    addModal.onDismiss(data => {
+    let addModal = this.modalCtrl.create(WidgetAddModal, {widgets: this.widgets});
+    addModal.onDidDismiss(data => {
        this.addWidget(data);
-     });
-    this.nav.present(addModal);
+    });
+
+    addModal.present();
   }
 
   doRefresh(refresher): void {

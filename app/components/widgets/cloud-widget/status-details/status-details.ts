@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({
@@ -53,5 +53,4 @@ export class StatusDetailsComponent implements OnInit {
   action2(id: string): void {
     this.actionRequest2.emit(id);
   }
-
 }

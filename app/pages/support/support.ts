@@ -1,16 +1,18 @@
-import {Page, Modal, NavController} from 'ionic-angular';
+import {ViewChild, Component} from '@angular/core';
+import {ModalController, Nav} from 'ionic-angular';
 import {SupportService} from './support.service';
 import {TicketComponent} from '../../components/ticket/ticket';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {ToastService} from '../../services/toast/toast.service';
 import {TicketCreateModal} from '../../modals/ticket-create/ticket-create';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/support/support.html',
   providers: [SupportService],
   directives: [TicketComponent]
 })
 export class SupportPage {
+  @ViewChild(Nav) nav: Nav;
   infos: any;
   error: any;
   loading: boolean = false;
@@ -19,7 +21,7 @@ export class SupportPage {
   ticketIds: Array<number> = [];
   ticketIdsFiltered: Array<number> = [];
   ticketsLoaded: number = 0;
-  constructor(private supportService: SupportService, private toast: ToastService, private analytics: AnalyticsService, private nav: NavController) {
+  constructor(private supportService: SupportService, private toast: ToastService, private analytics: AnalyticsService, private modalCtrl: ModalController) {
     this.getTickets();
     this.analytics.trackView('Support');
   }
@@ -33,7 +35,7 @@ export class SupportPage {
         this.loading = false;
       }, err => {
         this.error = err;
-        this.nav.present(this.toast.error('Erreur de chargement: ' + (err.message ? err.message : JSON.stringify(err))));
+        this.toast.error('Erreur de chargement: ' + (err.message ? err.message : JSON.stringify(err))).present();
         this.loading = false;
       });
   }
@@ -50,7 +52,7 @@ export class SupportPage {
       this.refreshTicketsList();
       infiniteScroll.complete();
       if (this.ticketIdsFiltered.length >= this.ticketIds.length) {
-        infiniteScroll.enable(false);//Pour desactiver
+        infiniteScroll.enable(false);
       }
     }, 500);
   }
@@ -76,14 +78,14 @@ export class SupportPage {
   }
 
   createTicket(): void {
-    let addModal = Modal.create(TicketCreateModal);
-    addModal.onDismiss(() => {
+    let addModal = this.modalCtrl.create(TicketCreateModal);
+    addModal.onDidDismiss(() => {
       this.reload = true;
       this.getTickets()
         .then(() => this.reload = false)
-        .catch(() => this.reload = false)
+        .catch(() => this.reload = false);
     });
-    this.nav.present(addModal);
+    addModal.present();
   }
 
 }

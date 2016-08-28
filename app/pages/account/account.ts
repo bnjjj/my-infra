@@ -1,8 +1,7 @@
 declare var require;
-import {Page, Keyboard, NavController, Alert, Modal} from 'ionic-angular';
-import {OnInit} from 'angular2/core';
+import {Keyboard, Nav, AlertController, ModalController} from 'ionic-angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AccountService} from './account.service';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/finally';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
@@ -11,11 +10,12 @@ import {ToastService} from '../../services/toast/toast.service';
 import {LoginService} from '../login/login.service';
 let _ = require('lazy.js');
 
-@Page({
+@Component({
   templateUrl: 'build/pages/account/account.html',
   providers: [AccountService, LoginService]
 })
-export class AccountPage implements OnInit{
+export class AccountPage implements OnInit {
+  @ViewChild(Nav) nav: Nav;
   loading: boolean;
   error: any;
   accountInfos: any;
@@ -25,7 +25,8 @@ export class AccountPage implements OnInit{
   keys: Array<string>;
 
   constructor(private accountService: AccountService, private keyboard: Keyboard,
-    private analytics: AnalyticsService, private nav: NavController, private login: LoginService, private toast: ToastService) {
+    private analytics: AnalyticsService, private login: LoginService, private toast: ToastService,
+      private modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.init();
     this.analytics.trackView('Account');
   }
@@ -34,7 +35,7 @@ export class AccountPage implements OnInit{
     this.loading = true;
     this.accountService.getInfos();
     this.accountService.getMeModel();
-    this.accountService.getNewAccountModel()
+    this.accountService.getNewAccountModel();
   }
 
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class AccountPage implements OnInit{
         this.loading = !['accountInfos', 'previousInfos', 'meModel', 'newAccountModel'].reduce((prev, curr) => prev && Object.keys(this[curr]).length > 0, true);
       }, err => {
         this.error = err;
-        this.nav.present(this.toast.error('Une erreur est survenue : ' + err.message));
+        this.toast.error('Une erreur est survenue : ' + err.message).present();
         this.loading = false;
       });
   }
@@ -87,7 +88,6 @@ export class AccountPage implements OnInit{
 
     this.analytics.trackEvent('Account', 'save', 'Launch', 'Action is launched');
     this.loading = true;
-    console.log(_(this.accountInfos).pick(args).value());
     this.accountService.save(_(this.accountInfos).pick(args).value());
   }
 
@@ -104,7 +104,7 @@ export class AccountPage implements OnInit{
       return this.login.logout();
     };
 
-    let alert = Alert.create({
+    let alert = this.alertCtrl.create({
       title: 'Déconnection',
       message: 'Voulez-vous vraiment vous déconnecter ?',
       buttons: [
@@ -118,11 +118,11 @@ export class AccountPage implements OnInit{
       ]
     });
 
-    this.nav.present(alert);
+    alert.present();
   }
 
   about() {
-    let addModal = Modal.create(AboutModal);
-    this.nav.present(addModal);
+    let addModal = this.modalCtrl.create(AboutModal);
+    addModal.present();
   }
 }

@@ -1,21 +1,23 @@
-<ion-navbar *navbar [hideBackButton]="false">
-  <ion-title class="ovh-background">
-    Messages
-  </ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar [hideBackButton]="false">
+    <ion-title class="ovh-background">
+      Messages
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="messagesPage" *ngIf="!loading && !error && messages.length">
   <ion-list>
-    <div *ngFor="#message of messages" item-right>
+    <div class="messageContainer" *ngFor="let message of messages" item-right>
       <div class="talk-bubble tri-right round"
         [ngClass]="{'support left-top': message.from === 'support', 'customer right right-top': message.from === 'customer'}">
         <div class="talktext">
-        <p [textContent]="message.body"></p>
+        <p [innerText]="message.body"></p>
         </div>
       </div>
       <br *ngIf="message.from === 'support'"/>
       <em [ngClass]="{'right': message.from === 'customer', 'left-date': message.from === 'support'}"
-      [textContent]="message.creationDateText"></em>
+      [innerText]="message.creationDateText"></em>
     </div>
   </ion-list>
 </ion-content>
@@ -24,12 +26,14 @@
   <ion-spinner name="bubbles"></ion-spinner>
 </ion-content>
 
-<ion-toolbar position="bottom">
-  <ion-input type="text" placeholder="Réponse" [(ngModel)]="response"></ion-input>
-  <ion-buttons end>
-    <button primary (click)="reply()">
-      <ion-icon name="paper-airplane"></ion-icon>
-      Envoyer
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-footer>
+  <ion-toolbar>
+    <ion-input type="text" placeholder="Réponse" [(ngModel)]="response"></ion-input>
+    <ion-buttons end>
+      <button primary (click)="reply()">
+        <ion-icon name="paper-airplane"></ion-icon>
+        Envoyer
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

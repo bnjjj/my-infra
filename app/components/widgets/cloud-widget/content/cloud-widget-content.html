@@ -3,9 +3,9 @@
     <i class="fa fa-cloud fa-2x"></i>
   </ion-avatar>
   <div (click)="updateCollapse()">
-    <h2 [textContent]="serviceName" *ngIf="loading">
+    <h2 [innerText]="serviceName" *ngIf="loading">
     </h2>
-    <h2 [textContent]="cloud.description || cloud.serviceName" *ngIf="!loading && !error">
+    <h2 [innerText]="cloud.description || cloud.serviceName" *ngIf="!loading && !error">
     </h2>
     <h2 *ngIf="error" danger>
      ERREUR
@@ -34,7 +34,7 @@
       </ion-col>
       <ion-col width-50 text-right
         [ngClass]="{'danger-color animated pulse': cloud.warning}"
-        [textContent]="cloud.expirationText">
+        [innerText]="cloud.expirationText">
       </ion-col>
     </ion-row>
     <ion-row>
@@ -53,7 +53,7 @@
   </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
-    <div *ngSwitchWhen="'general'">
+    <div *ngSwitchCase="'general'">
       <ion-row>
         <ion-col width-40>
           Dernier snapshot le
@@ -61,7 +61,7 @@
         <ion-col
           width-60
           text-right
-          [textContent]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText">
+          [innerText]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText">
         </ion-col>
       </ion-row>
       <ion-row>
@@ -93,21 +93,21 @@
       <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
         <ion-list *ngIf="displayInSuccess">
           <ion-item
-            *ngFor="#successInstance of cloud.inSuccess"
-            [textContent]="successInstance.name">
+            *ngFor="let successInstance of cloud.inSuccess"
+            [innerText]="successInstance.name">
           </ion-item>
         </ion-list>
       </ion-row>
 
     </div>
 
-    <div *ngSwitchWhen="'ips'">
+    <div *ngSwitchCase="'ips'">
       <ion-list>
-        <ion-item *ngFor="#ip of ips">
-          <span [textContent]="ip.ip"></span>
+        <ion-item *ngFor="let ip of ips">
+          <span [innerText]="ip.ip"></span>
           <ion-badge
             class="capitalize"
-            [textContent]="ip.type"
+            [innerText]="ip.type"
             item-right>
           </ion-badge>
         </ion-item>

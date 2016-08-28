@@ -1,13 +1,15 @@
-<ion-navbar *navbar>
-  <ion-title>
-    A propos
-  </ion-title>
-  <ion-buttons end>
-    <button (click)="close()">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      A propos
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="about-page">
   <ion-card>
@@ -26,7 +28,7 @@
 
     <ion-item>
       Version
-      <ion-note item-right [textContent]="version">
+      <ion-note item-right [innerText]="version">
         1.1.0
       </ion-note>
     </ion-item>

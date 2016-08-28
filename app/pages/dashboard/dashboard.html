@@ -1,17 +1,19 @@
-<ion-navbar *navbar class="dashboard-page">
-  <ion-title>
-    Dashboard
-  </ion-title>
-  <ion-buttons end>
-    <button (click)="addWidgetModal()">
-      <!-- <ion-icon name="add"></ion-icon> -->
-      <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar class="dashboard-page">
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="addWidgetModal()">
+        <!-- <ion-icon name="add"></ion-icon> -->
+        <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="dashboard-page">
-  <ion-refresher (refresh)="doRefresh($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="refresh"
       pullingText="Tirer pour rafraichir"
@@ -24,45 +26,45 @@
       Vous n'avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
     </ion-card-content>
   </ion-card>
-  <div *ngFor="#widget of widgets">
+  <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget.category.url" class="animated bounceInUp">
-      <domain-widget *ngSwitchWhen="CategoryEnum.DOMAIN.url"
+      <domain-widget *ngSwitchCase="CategoryEnum.DOMAIN.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </domain-widget>
 
-      <web-widget *ngSwitchWhen="CategoryEnum.WEB.url"
+      <web-widget *ngSwitchCase="CategoryEnum.WEB.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </web-widget>
 
-      <private-database-widget *ngSwitchWhen="CategoryEnum.PRIVATE_DATABASE.url"
+      <private-database-widget *ngSwitchCase="CategoryEnum.PRIVATE_DATABASE.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </private-database-widget>
 
-      <dedicated-widget *ngSwitchWhen="CategoryEnum.DEDICATED_SERVER.url"
+      <dedicated-widget *ngSwitchCase="CategoryEnum.DEDICATED_SERVER.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </dedicated-widget>
 
-      <cloud-widget *ngSwitchWhen="CategoryEnum.CLOUD.url"
+      <cloud-widget *ngSwitchCase="CategoryEnum.CLOUD.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </cloud-widget>
 
-      <vps-widget *ngSwitchWhen="CategoryEnum.VPS.url"
+      <vps-widget *ngSwitchCase="CategoryEnum.VPS.url"
         [reload]="reload"
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </vps-widget>
 
-      <project-widget *ngSwitchWhen="CategoryEnum.PROJECT.url"
+      <project-widget *ngSwitchCase="CategoryEnum.PROJECT.url"
         [reload]="reload"
         [project]="widget"
         (remove)="removeWidget($event)">

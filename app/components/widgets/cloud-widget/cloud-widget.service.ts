@@ -1,6 +1,6 @@
 declare var require;
 import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {categoryEnum} from '../../../config/constants';
 import 'rxjs/add/operator/toPromise';
 
@@ -30,10 +30,10 @@ export class CloudWidgetService {
     return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'snapshot'].join('/')).toPromise()
       .then((snapshots) => {
         if (Array.isArray(snapshots)) {
-          return { snapshots: this.sortInstances(snapshots, true) }
+          return { snapshots: this.sortInstances(snapshots, true) };
           }
 
-          return { snapshots: this.sortInstances([]) }
+          return { snapshots: this.sortInstances([]) };
       });
   }
 

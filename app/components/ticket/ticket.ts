@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
-import {IONIC_DIRECTIVES, NavController} from 'ionic-angular';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, Nav} from 'ionic-angular';
 import {TicketService} from './ticket.service';
 import {MessagesPage} from '../../pages/messages/messages';
 import {ticketCategoryEnum} from '../../config/constants';
@@ -14,6 +14,7 @@ import {ticketCategoryEnum} from '../../config/constants';
 export class TicketComponent implements OnInit {
   @Input() ticketId: number;
   @Output() loaded: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
 
   TicketCategoryEnum: any = ticketCategoryEnum;
   loading: boolean = true;
@@ -21,7 +22,7 @@ export class TicketComponent implements OnInit {
   error: any;
   messagePage = MessagesPage;
 
-  constructor(private ticketService: TicketService, private nav: NavController) {
+  constructor(private ticketService: TicketService) {
 
   }
 

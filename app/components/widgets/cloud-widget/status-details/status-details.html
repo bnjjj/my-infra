@@ -4,7 +4,7 @@
       (click)="display('SUCCESS')"
       round
       secondary>
-      <span [textContent]="inSuccess.length"></span>
+      <span [innerText]="inSuccess.length"></span>
       <ion-icon
         *ngIf="inSuccess.length"
         [name]="displayInSuccess ? 'arrow-up' : 'arrow-down'"
@@ -16,7 +16,7 @@
     <button
       (click)="display('OTHER')"
       round>
-      <span [textContent]="inOther.length">
+      <span [innerText]="inOther.length">
       </span>
       <ion-icon
         *ngIf="inOther.length"
@@ -30,7 +30,7 @@
       (click)="display('ERROR')"
       round
       danger>
-      <span [textContent]="inError.length">
+      <span [innerText]="inError.length">
       </span>
       <ion-icon
         *ngIf="inError.length"
@@ -42,8 +42,8 @@
 </ion-row>
 <ion-list *ngIf="displayInSuccess">
   <ion-item
-    *ngFor="#successInstance of inSuccess">
-    <span [textContent]="successInstance.name"></span>
+    *ngFor="let successInstance of inSuccess">
+    <span [innerText]="successInstance.name"></span>
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(successInstance.id)">
       <ion-icon name="trash"></ion-icon>
     </button>
@@ -55,7 +55,7 @@
     </button>
     <ion-badge
       class="capitalize"
-      [textContent]="successInstance.status"
+      [innerText]="successInstance.status"
       item-right
       secondary>
     </ion-badge>
@@ -63,8 +63,8 @@
 </ion-list>
 <ion-list *ngIf="displayInOther">
   <ion-item
-    *ngFor="#otherInstance of inOther">
-    <span [textContent]="otherInstance.name"></span>
+    *ngFor="let otherInstance of inOther">
+    <span [innerText]="otherInstance.name"></span>
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(otherInstance.id)">
       <ion-icon name="trash"></ion-icon>
     </button>
@@ -76,14 +76,14 @@
     </button>
     <ion-badge
       class="capitalize"
-      [textContent]="otherInstance.status"
+      [innerText]="otherInstance.status"
       item-right>
     </ion-badge>
   </ion-item>
 </ion-list>
 <ion-list *ngIf="displayInError">
-  <ion-item *ngFor="#errorInstance of inError">
-    <span [textContent]="errorInstance.name"></span>
+  <ion-item *ngFor="let errorInstance of inError">
+    <span [innerText]="errorInstance.name"></span>
     <button clear item-right *ngIf="type === 'snapshot'" danger (click)="action(errorInstance.id)">
       <ion-icon name="trash"></ion-icon>
     </button>
@@ -95,7 +95,7 @@
     </button>
     <ion-badge
       class="capitalize"
-      [textContent]="errorInstance.status"
+      [innerText]="errorInstance.status"
       item-right
       danger>
     </ion-badge>

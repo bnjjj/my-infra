@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {WebWidgetService} from '../web-widget.service';
 import {WidgetsService} from '../../widgets.service';
@@ -18,6 +18,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
 
   server: any = {};
   loading: boolean;
@@ -28,7 +29,8 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   tasks: Array<any> = [];
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
 
-  constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService, private nav: NavController, private toast: ToastService) {
+  constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService,
+    private toast: ToastService, private modalCtrl: ModalController) {
 
   }
 
@@ -43,7 +45,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
         this.webWidgetService.getSsl(this.serviceName)
       ])
       .then(resp => {
-        this.server = Object.assign(resp[0], resp[1], { ssl: resp[2] });;
+        this.server = Object.assign(resp[0], resp[1], { ssl: resp[2] });
         this.loading = false;
       })
       .catch(err => {
@@ -57,20 +59,20 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
       this.server.ssl = {status: 'creating'};
       this.webWidgetService.createSsl(this.serviceName)
         .then(
-          () => this.nav.present(this.toast.success('La création de votre certificat SSL est en cours...')),
+          () => this.toast.success('La création de votre certificat SSL est en cours...').present(),
           (err) => {
             this.server.ssl = {status: 'none'};
-            this.nav.present(this.toast.error('Une erreur est survenue lors de la création de votre certificat SSL : ' + JSON.parse(err._body).message));
+            this.toast.error('Une erreur est survenue lors de la création de votre certificat SSL : ' + JSON.parse(err._body).message).present();
           }
         );
     } else {
       this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
       this.webWidgetService.deleteSsl(this.serviceName)
         .then(
-          () => this.nav.present(this.toast.success('La suppression de votre certificat SSL est en cours...')),
+          () => this.toast.success('La suppression de votre certificat SSL est en cours...').present(),
           (err) => {
             this.server.ssl = Object.assign({}, this.server.ssl, {status: 'created'});
-            this.nav.present(this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message));
+            this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message).present();
           }
         );
     }
@@ -108,8 +110,8 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '4', categoryName: 'hébergement web' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'hébergement web' });
+    profileModal.present();
   }
 
   updateCollapse(): void {

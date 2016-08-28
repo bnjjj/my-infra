@@ -3,14 +3,14 @@
     <ion-avatar item-left>
       <i class="fa fa-briefcase fa-2x"></i>
     </ion-avatar>
-    <h2 [textContent]="project.serviceName || 'Mon projet'">
+    <h2 [innerText]="project.serviceName || 'Mon projet'">
     </h2>
   </ion-item>
-  <div *ngFor="#product of project.project">
+  <div *ngFor="let product of project.project">
     <div *ngIf="collapsed" class="animated fadeIn">
       <hr/>
       <div [ngSwitch]="product.category.name">
-        <div *ngSwitchWhen="'DOMAIN'">
+        <div *ngSwitchCase="'DOMAIN'">
           <domain-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
@@ -18,7 +18,7 @@
             [showWorks]="true">
           </domain-widget-content>
         </div>
-        <div *ngSwitchWhen="'WEB'">
+        <div *ngSwitchCase="'WEB'">
           <web-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
@@ -26,7 +26,7 @@
             [showWorks]="true">
           </web-widget-content>
         </div>
-        <div *ngSwitchWhen="'PRIVATE_DATABASE'">
+        <div *ngSwitchCase="'PRIVATE_DATABASE'">
           <private-database-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
@@ -34,7 +34,7 @@
             [showWorks]="true">
           </private-database-widget-content>
         </div>
-        <div *ngSwitchWhen="'VPS'">
+        <div *ngSwitchCase="'VPS'">
           <vps-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
@@ -42,7 +42,7 @@
             [showWorks]="true">
           </vps-widget-content>
         </div>
-        <div *ngSwitchWhen="'CLOUD'">
+        <div *ngSwitchCase="'CLOUD'">
           <cloud-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"
@@ -50,7 +50,7 @@
             [showWorks]="true">
           </cloud-widget-content>
         </div>
-        <div *ngSwitchWhen="'DEDICATED_SERVER'">
+        <div *ngSwitchCase="'DEDICATED_SERVER'">
           <dedicated-widget-content
             [reload]="reload"
             [serviceName]="product.serviceName"

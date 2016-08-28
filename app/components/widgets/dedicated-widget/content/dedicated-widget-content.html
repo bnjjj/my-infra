@@ -3,9 +3,9 @@
    <i class="fa fa-server fa-2x"></i>
  </ion-avatar>
  <div (click)="updateCollapse()">
-   <h2 [textContent]="server.reverse || server.name || server.serviceName" *ngIf="!loading">
+   <h2 [innerText]="server.reverse || server.name || server.serviceName" *ngIf="!loading">
    </h2>
-   <h2 [textContent]="serviceName" *ngIf="loading">
+   <h2 [innerText]="serviceName" *ngIf="loading">
    </h2>
  </div>
  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()">
@@ -31,7 +31,7 @@
        </ion-col>
        <ion-col width-50 text-right
          [ngClass]="{'danger-color animated pulse': server.warning}"
-         [textContent]="server.expirationText">
+         [innerText]="server.expirationText">
        </ion-col>
      </ion-row>
      <ion-row>
@@ -40,14 +40,14 @@
        </ion-col>
        <ion-col width-60 text-right>
          <div [ngSwitch]="server.state">
-           <ion-badge *ngSwitchWhen="'ok'"
+           <ion-badge *ngSwitchCase="'ok'"
               class="capitalize"
-             [textContent]="server.state"
+             [innerText]="server.state"
              secondary>
            </ion-badge>
            <ion-badge *ngSwitchDefault
               class="capitalize"
-             [textContent]="server.state"
+             [innerText]="server.state"
              danger>
            </ion-badge>
          </div>
@@ -56,19 +56,19 @@
    </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
-     <div *ngSwitchWhen="'general'">
+     <div *ngSwitchCase="'general'">
        <ion-row>
          <ion-col width-40>
            IPV4
          </ion-col>
-         <ion-col width-60 [textContent]="server.ip">
+         <ion-col width-60 [innerText]="server.ip">
          </ion-col>
        </ion-row>
        <ion-row>
          <ion-col width-40>
            Système (OS)
          </ion-col>
-         <ion-col width-60 [textContent]="server.os">
+         <ion-col width-60 [innerText]="server.os">
          </ion-col>
        </ion-row>
        <ion-row>
@@ -84,14 +84,14 @@
          <ion-col width-40>
            Datacentre
          </ion-col>
-         <ion-col width-60 [textContent]="server.datacenter">
+         <ion-col width-60 [innerText]="server.datacenter">
          </ion-col>
        </ion-row>
      </div>
 
-     <div *ngSwitchWhen="'tasks'">
+     <div *ngSwitchCase="'tasks'">
        <ion-list>
-         <task-details-dedicated *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+         <task-details-dedicated *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
          </task-details-dedicated>
          <ion-item *ngIf="emptyTasks && !loading" text-center>
            <em>Vous n'avez pas de tâches</em>

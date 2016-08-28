@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({

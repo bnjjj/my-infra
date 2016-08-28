@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {CloudWidgetContentComponent} from './content/cloud-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
@@ -15,21 +15,22 @@ import {categoryEnum} from '../../../config/constants';
 export class CloudWidgetComponent {
   @Input() serviceName: string;
   @Input() reload: boolean;
+  @ViewChild(Nav) nav: Nav;
   @Output() remove: EventEmitter<any> = new EventEmitter();
 
-  constructor(private widgetsService: WidgetsService, private nav: NavController, private analytics: AnalyticsService) {
+  constructor(private widgetsService: WidgetsService, private analytics: AnalyticsService, private modalCtrl: ModalController) {
     this.analytics.trackView('Cloud-widget');
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '18', categoryName: 'Cloud' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '18', categoryName: 'Cloud' });
+    profileModal.present();
   }
 
   removeMe(): void {
     let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.CLOUD.url});
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
-    this.nav.present(alert);
+    alert.present();
   }
 }

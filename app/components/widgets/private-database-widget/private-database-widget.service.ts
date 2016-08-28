@@ -1,6 +1,6 @@
 declare var require;
 import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {categoryEnum} from '../../../config/constants';
 import 'rxjs/add/operator/toPromise';
 
@@ -30,7 +30,7 @@ export class PrivateDatabaseWidgetService {
   }
 
   getQuotaPercentage(quotaSize: any, quotaUsed: any) {
-    switch(quotaUsed.unit) {
+    switch (quotaUsed.unit) {
       case 'MB':
         if (quotaSize.unit === 'MB') {
           return (quotaUsed.value / quotaSize.value) * 100;

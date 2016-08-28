@@ -1,12 +1,11 @@
 declare var require: any;
-import {Injectable, EventEmitter} from 'angular2/core';
-import {Http, Headers, URLSearchParams} from 'angular2/http';
+import {Injectable} from '@angular/core';
+import {Http, Headers, URLSearchParams} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 let CryptoJs = require('../../../node_modules/crypto-js/crypto-js');
 let querystring = require('querystring');
 let _ = require('lazy.js');
-let timestampValidity = 10000;
 
 @Injectable()
 export class OvhRequestService {
@@ -70,7 +69,7 @@ export class OvhRequestService {
           if (config.method === 'PUT' || config.method === 'POST') {
             // Escape unicode
             reqBody = JSON.stringify(config.body).replace(/[\u0080-\uFFFF]/g, function(m) {
-              return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
+              return '\\u' + ('0000' + m.charCodeAt(0).toString(16)).slice(-4);
             });
             headers['Content-Length'] = reqBody.length;
           } else {

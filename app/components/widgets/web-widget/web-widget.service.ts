@@ -1,6 +1,6 @@
 declare var require;
 import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
 let moment = require('moment');
@@ -29,7 +29,7 @@ export class WebWidgetService {
   }
 
   getQuotaPercentage(quotaSize: any, quotaUsed: any) {
-    switch(quotaUsed.unit) {
+    switch (quotaUsed.unit) {
       case 'MB':
         if (quotaSize.unit === 'MB') {
           return (quotaUsed.value / quotaSize.value) * 100;

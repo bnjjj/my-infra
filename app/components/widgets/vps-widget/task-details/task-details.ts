@@ -1,6 +1,6 @@
 declare var require;
-import {Component, Input} from 'angular2/core';
-import {IONIC_DIRECTIVES, NavController} from 'ionic-angular';
+import {Component, Input, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, Nav} from 'ionic-angular';
 import {VpsWidgetService} from '../vps-widget.service';
 import {ToastService} from '../../../../services/toast/toast.service';
 let moment = require('moment');
@@ -13,10 +13,12 @@ let moment = require('moment');
 export class TaskDetailsVpsComponent {
   @Input() serviceName: string;
   @Input() id: number;
+  @ViewChild(Nav) nav: Nav;
+
   loading: boolean = true;
   error: any;
   task: Object;
-  constructor(private vpsWidgetService: VpsWidgetService, private nav: NavController, private toast: ToastService) {
+  constructor(private vpsWidgetService: VpsWidgetService, private toast: ToastService) {
 
   }
 
@@ -34,7 +36,7 @@ export class TaskDetailsVpsComponent {
         this.loading = false;
       }, err => {
         this.error = err;
-        this.nav.present(this.toast.error(err.message));
+        this.toast.error(err.message).present();
         this.loading = false;
       });
   }

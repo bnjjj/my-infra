@@ -1,20 +1,22 @@
-import {Page, NavParams, NavController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavParams, Nav} from 'ionic-angular';
 import {ToastService} from '../../services/toast/toast.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {MessagesService} from './messages.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/messages/messages.html',
   providers: [MessagesService]
 })
 export class MessagesPage {
+  @ViewChild(Nav) nav: Nav;
   loading: boolean = true;
   error: any;
   messages: Array<any> = [];
-  response: string = "";
+  response: string = '';
   ticket: any;
   constructor(private messagesService: MessagesService, private params: NavParams, private toast: ToastService,
-      private analytics: AnalyticsService, private nav: NavController) {
+      private analytics: AnalyticsService) {
     this.ticket = this.params.get('ticket');
     this.getMessages();
     this.analytics.trackView('Messages');
@@ -28,7 +30,7 @@ export class MessagesPage {
         this.loading = false;
       }, err => {
         this.error = err;
-        this.nav.present(this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err)));
+        this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err)).present();
         this.loading = false;
       });
   }
@@ -38,12 +40,12 @@ export class MessagesPage {
     this.messagesService[this.ticket.state !== 'closed' ? 'reply' : 'reopen'](this.ticket.ticketId, this.response)
       .then(() => {
         this.getMessages();
-        this.response = "";
+        this.response = '';
         this.analytics.trackEvent('Messages', 'Reply', 'Success', 'Replying is a success');
       })
       .catch(err => {
         this.error = err.message ? err.message : JSON.stringify(err);
-        this.nav.present(this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error));
+        this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error).present();
         this.loading = false;
         this.analytics.trackEvent('Messages', 'Reply', 'Error', this.error);
       });

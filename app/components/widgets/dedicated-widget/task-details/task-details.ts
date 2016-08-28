@@ -1,5 +1,5 @@
 declare var require;
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
 import {DedicatedWidgetService} from '../dedicated-widget.service';
 let moment = require('moment');

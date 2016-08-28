@@ -1,8 +1,7 @@
 import {WidgetsService} from '../widgets.service';
-import {NetworkStateModal} from '../../../modals/network-state/network-state';
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
-import {IONIC_DIRECTIVES, NavController} from 'ionic-angular';
+import {IONIC_DIRECTIVES, Nav} from 'ionic-angular';
 import {WebWidgetContentComponent} from '../web-widget/content/web-widget-content';
 import {PrivateDatabaseWidgetContentComponent} from '../private-database-widget/content/private-database-widget-content';
 import {DomainWidgetContentComponent} from '../domain-widget/content/domain-widget-content';
@@ -25,9 +24,10 @@ export class ProjectWidgetComponent {
   @Input() project: any;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
   collapsed: boolean = false;
 
-  constructor(private widgetsService: WidgetsService, private nav: NavController, private analytics: AnalyticsService) {
+  constructor(private widgetsService: WidgetsService, private analytics: AnalyticsService) {
     this.analytics.trackView('Widget-project');
   }
 
@@ -35,6 +35,6 @@ export class ProjectWidgetComponent {
     let handler = () => this.remove.emit({ serviceName: this.project.serviceName, url: categoryEnum.PROJECT.url });
     let alert = this.widgetsService.getDeleteAlert(this.project.serviceName, handler);
 
-    this.nav.present(alert);
+    alert.present();
   }
 }

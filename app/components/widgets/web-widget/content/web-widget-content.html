@@ -3,9 +3,9 @@
     <i class="fa fa-globe fa-2x"></i>
   </ion-avatar>
   <div (click)="updateCollapse()">
-    <h2 [textContent]="serviceName" *ngIf="loading">
+    <h2 [innerText]="serviceName" *ngIf="loading">
     </h2>
-    <h2 [textContent]="server.displayName || server.serviceName" *ngIf="!loading && !error">
+    <h2 [innerText]="server.displayName || server.serviceName" *ngIf="!loading && !error">
     </h2>
   </div>
   <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
@@ -31,7 +31,7 @@
       </ion-col>
       <ion-col width-50 text-right
         [ngClass]="{'danger-color animated pulse': server.warning}"
-        [textContent]="server.expirationText">
+        [innerText]="server.expirationText">
       </ion-col>
     </ion-row>
     <ion-row>
@@ -40,18 +40,18 @@
       </ion-col>
       <ion-col width-60 text-right>
         <div [ngSwitch]="server.state">
-          <ion-badge *ngSwitchWhen="'active'"
+          <ion-badge *ngSwitchCase="'active'"
             class="capitalize"
-            [textContent]="server.state"
+            [innerText]="server.state"
             secondary>
           </ion-badge>
-          <ion-badge *ngSwitchWhen="'bloqued'"
+          <ion-badge *ngSwitchCase="'bloqued'"
             class="capitalize"
-            [textContent]="server.state"
+            [innerText]="server.state"
             danger>
           </ion-badge>
           <ion-badge *ngSwitchDefault
-            [textContent]="server.state">
+            [innerText]="server.state">
           </ion-badge>
         </div>
       </ion-col>
@@ -59,13 +59,13 @@
   </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
-    <div *ngSwitchWhen="'general'">
+    <div *ngSwitchCase="'general'">
       <ion-row>
         <ion-col width-40>
           Offre
         </ion-col>
         <ion-col width-60>
-          <strong class="capitalize" [textContent]="server.offer"></strong>
+          <strong class="capitalize" [innerText]="server.offer"></strong>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -86,14 +86,14 @@
         <ion-col width-40>
           IPV4
         </ion-col>
-        <ion-col width-60 [textContent]="server.hostingIp">
+        <ion-col width-60 [innerText]="server.hostingIp">
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-40>
           IPV6
         </ion-col>
-        <ion-col width-60 [textContent]="server.hostingIpv6">
+        <ion-col width-60 [innerText]="server.hostingIpv6">
         </ion-col>
       </ion-row>
       <ion-row>
@@ -102,7 +102,7 @@
         </ion-col>
         <ion-col width-60>
           <a [href]="'ftp://ftp.' + server.cluster + '.hosting.ovh.net'"
-            [textContent]="'ftp.' + server.cluster + '.hosting.ovh.net'"
+            [innerText]="'ftp.' + server.cluster + '.hosting.ovh.net'"
             target="_blank">
           </a>
         </ion-col>
@@ -127,9 +127,9 @@
       </ion-row>
     </div>
 
-    <div *ngSwitchWhen="'tasks'">
+    <div *ngSwitchCase="'tasks'">
       <ion-list>
-        <task-details-web *ngFor="#task of tasks" [id]="task" [serviceName]="serviceName">
+        <task-details-web *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
         </task-details-web>
         <ion-item *ngIf="emptyTasks && !loading" text-center>
           <em>Vous n'avez pas de tâches</em>

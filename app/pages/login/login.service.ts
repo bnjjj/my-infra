@@ -1,7 +1,7 @@
 declare var require;
 
-import {Http, Headers} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {Storage, LocalStorage, NavController} from 'ionic-angular';
 import 'rxjs/add/operator/toPromise';
 import {OvhRequestService} from '../../services/ovh-request/ovh-request.service';
@@ -18,7 +18,7 @@ export class LoginService {
   loginId: string;
   passwordId: string;
 
-  constructor(private http: Http, private ovhRequest: OvhRequestService, private nav: NavController, private analytics: AnalyticsService) {
+  constructor(private http: Http, private ovhRequest: OvhRequestService, private analytics: AnalyticsService, private nav: NavController) {
     this.localStorage = new Storage(LocalStorage);
   }
 
@@ -58,7 +58,7 @@ export class LoginService {
           return this.askAuthentication(login, password, credentialToken);
         })
         .then((resp) => {
-          let tmpDiv = document.createElement('div')
+          let tmpDiv = document.createElement('div');
           tmpDiv.innerHTML = resp.text();
 
           let inputs = tmpDiv.getElementsByTagName('input');
@@ -93,7 +93,7 @@ export class LoginService {
       {headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'})}).toPromise()
       .then(
         (resp) => {
-          let tmpDiv = document.createElement('div')
+          let tmpDiv = document.createElement('div');
           tmpDiv.innerHTML = resp.text();
 
           let inputs = tmpDiv.getElementsByTagName('input');

@@ -1,14 +1,15 @@
-<ion-navbar *navbar>
-  <ion-title>
-    Ajouter un widget
-  </ion-title>
-  <ion-buttons end>
-    <button (click)="close()">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
-
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ajouter un widget
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 <ion-content class="widget-add-modal">
   <ion-row padding center>
     <ion-col class="center" width-90>
@@ -17,8 +18,8 @@
   </ion-row>
   <ion-list no-lines center>
     <ion-item class="center width90">
-      <ion-select class="center" [(ngModel)]="category" (change)="selectCategory(category)">
-        <ion-option *ngFor="#categoryKey of categoryKeys" [value]="CategoryEnum[categoryKey]" [textContent]="CategoryEnum[categoryKey].text"></ion-option>
+      <ion-select class="center" [(ngModel)]="category" (ionChange)="selectCategory(category)">
+        <ion-option *ngFor="let categoryKey of categoryKeys" [value]="CategoryEnum[categoryKey]" [innerText]="CategoryEnum[categoryKey].text"></ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
@@ -27,16 +28,16 @@
     <ion-item padding text-center>
       <strong class="fs16">Composition du projet</strong>
     </ion-item>
-    <ion-item *ngFor="#projectComposition of project">
+    <ion-item *ngFor="let projectComposition of project">
       <h2>
         <strong [ngSwitch]="projectComposition.category.name">
-          <i class="fa fa-server" *ngSwitchWhen="CategoryEnum.DEDICATED_SERVER.name" item-left></i>
-          <i class="fa fa-globe" *ngSwitchWhen="CategoryEnum.WEB.name" item-left></i>
-          <i class="fa fa-link" *ngSwitchWhen="CategoryEnum.DOMAIN.name" item-left></i>
+          <i class="fa fa-server" *ngSwitchCase="CategoryEnum.DEDICATED_SERVER.name" item-left></i>
+          <i class="fa fa-globe" *ngSwitchCase="CategoryEnum.WEB.name" item-left></i>
+          <i class="fa fa-link" *ngSwitchCase="CategoryEnum.DOMAIN.name" item-left></i>
         </strong>
-        <strong [textContent]="projectComposition.category.text"></strong>
+        <strong [innerText]="projectComposition.category.text"></strong>
       </h2>
-      <h3 [textContent]="projectComposition.serviceName" primary></h3>
+      <h3 [innerText]="projectComposition.serviceName" primary></h3>
     </ion-item>
   </ion-list>
   <ion-row padding center *ngIf="category === CategoryEnum.PROJECT && project.length < 2">
@@ -46,10 +47,10 @@
   </ion-row>
   <ion-list no-lines center *ngIf="category === CategoryEnum.PROJECT && project.length < 2">
     <ion-item class="center width90">
-      <ion-select [(ngModel)]="subCategory" (change)="selectProduct(subCategory)">
-        <ion-option *ngFor="#subCategorySelect of subCategoryKeys"
+      <ion-select [(ngModel)]="subCategory" (ionChange)="selectProduct(subCategory)">
+        <ion-option *ngFor="let subCategorySelect of subCategoryKeys"
           [value]="CategoryEnum[subCategorySelect]"
-          [textContent]="CategoryEnum[subCategorySelect].text">
+          [innerText]="CategoryEnum[subCategorySelect].text">
         </ion-option>
       </ion-select>
     </ion-item>
@@ -62,10 +63,10 @@
     </ion-item>
   </ion-list>
   <div class="tspace20" *ngIf="project.length < 2 && !loading">
-    <ion-row *ngFor="#product of products" center>
+    <ion-row *ngFor="let product of products" center>
       <ion-col width-90 class="center">
         <button light outline block
-          [textContent]="product"
+          [innerText]="product"
           (click)="category === CategoryEnum.PROJECT ? addSubProduct(product, subCategory) : addWidget(product)">
         </button>
       </ion-col>

@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {CloudWidgetService} from '../cloud-widget.service';
 import {WidgetsService} from '../../widgets.service';
@@ -17,6 +17,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   @Input() showWorks: boolean = false;
   @Input() reload: boolean;
   @Input() collapsed: boolean;
+  @ViewChild(Nav) nav: Nav;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
 
   cloud: any = {};
@@ -28,7 +29,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   ips: Array<any> = [];
 
   constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService,
-    private nav: NavController, private toastService: ToastService) {
+    private toastService: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
   }
 
@@ -42,7 +43,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
         this.cloudWidgetService.getInstances(this.serviceName), this.cloudWidgetService.getSnapshots(this.serviceName)
       ])
       .then(resp => {
-        this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);;
+        this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);
         this.loading = false;
       })
       .catch(err => {
@@ -74,8 +75,8 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '18', categoryName: 'Cloud' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '18', categoryName: 'Cloud' });
+    profileModal.present();
   }
 
   updateCollapse(): void {
@@ -88,10 +89,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.nav.present(this.toastService.success('Redémarrage en cours...'));
+            this.toastService.success('Redémarrage en cours...').present();
             this.getInfos();
           },
-          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -99,14 +100,14 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.nav.present(this.toastService.success('Redémarrage en cours...'));
+            this.toastService.success('Redémarrage en cours...').present();
             this.getInfos();
           },
-          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
-    let rebootAlert = Alert.create({
+    let rebootAlert = this.alertCtrl.create({
       title: 'Redémarrer votre instance',
       message: 'Quel type de redémarrage souhaitez-vous pour redémarrer votre instance maintenant ?',
       buttons: [
@@ -124,7 +125,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       ]
     });
 
-    this.nav.present(rebootAlert);
+    rebootAlert.present();
   }
 
   createSnapshot(id: string): void {
@@ -132,14 +133,14 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.createSnapshot(this.serviceName, id, data.snapshotName)
         .then(
           () => {
-            this.nav.present(this.toastService.success('Snapshot en cours de création...'));
+            this.toastService.success('Snapshot en cours de création...').present();
             this.getInfos();
           },
-          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
-    let deleteAlert = Alert.create({
+    let deleteAlert = this.alertCtrl.create({
       title: 'Création snapshot',
       message: 'Voulez-vous créer un snapshot de cet instance ?',
       inputs: [
@@ -160,7 +161,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
     });
 
 
-    this.nav.present(deleteAlert);
+    deleteAlert.present();
   }
 
   deleteSnapshot(id: string): void {
@@ -168,14 +169,14 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.deleteSnapshot(this.serviceName, id)
         .then(
           () => {
-            this.nav.present(this.toastService.success('Suppression effectuée avec succès'));
+            this.toastService.success('Suppression effectuée avec succès').present();
             this.getInfos();
           },
-          (err) => this.nav.present(this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`))
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
-    let deleteAlert = Alert.create({
+    let deleteAlert = this.alertCtrl.create({
       title: 'Suppression snapshot',
       message: 'Voulez-vous supprimer ce snapshot ?',
       buttons: [
@@ -190,6 +191,6 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
     });
 
 
-    this.nav.present(deleteAlert);
+    deleteAlert.present();
   }
 }

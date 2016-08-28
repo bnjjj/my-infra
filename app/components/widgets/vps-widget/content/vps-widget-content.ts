@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from 'angular2/core';
-import {IONIC_DIRECTIVES, Modal, NavController, Alert} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {VpsWidgetService} from '../vps-widget.service';
 import {TaskDetailsVpsComponent} from '../task-details/task-details';
@@ -19,6 +19,8 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   @Input() collapsed: boolean;
   @Input() showWorks: boolean = false;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
+  @ViewChild(Nav) nav: Nav;
+
   viewMode: string = 'general';
   loading: boolean;
   tasksLoaded: boolean = false;
@@ -27,11 +29,11 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
-    private nav: NavController, private toast: ToastService, private ipService: IpService) {
+    private toast: ToastService, private ipService: IpService, private modalCtrl: ModalController) {
 
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.getInfos();
   }
 
@@ -49,7 +51,7 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
       .catch(err => {
         console.log('error : ', err);
         this.error = err;
-        this.nav.present(this.toast.error(err.message));
+        this.toast.error(err.message).present();
         this.loading = false;
       });
   }
@@ -83,8 +85,8 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = Modal.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
-    this.nav.present(profileModal);
+    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
+    profileModal.present();
   }
 
   updateCollapse(): void {
@@ -97,7 +99,7 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
     this.vpsWidgetService.putInfos(this.serviceName, { slaMonitoring: this.vps.slaMonitoring })
       .subscribe(null, (err) => {
         this.vps.slaMonitoring = !this.vps.slaMonitoring;
-        this.nav.present(this.toast.error(err.message));
+        this.toast.error(err.message).present();
       });
   }
 }

@@ -1,14 +1,3 @@
 {
-  "quotemark": "single",
-  "semicolon": "always",
-  "typedef-whitespace": "onespace",
-  "check-separator": true,
-  "check-operator": true,
-  "check-decl": true,
-  "triple-equals": "allow-null-check",
-  "radix": true,
-  "no-var-keyword": true,
-  "no-unused-variable": true,
-  "no-conditional-assignment": true,
-  "indent": "spaces"
+  "extends": "tslint-ionic-rules"
 }

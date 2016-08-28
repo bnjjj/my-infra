@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {OvhRequestService} from '../../services/ovh-request/ovh-request.service';
 import 'rxjs/add/operator/toPromise';
 

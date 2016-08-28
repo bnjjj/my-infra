@@ -128,6 +128,10 @@ body {
 .toolbar-background {
   background-color: $ovh-toolbar;
 }
+ion-tabbar {
+  background-color: $ovh-toolbar;
+  border-top: none;
+}
 ion-title {
   color: $ovh-font;
   .toolbar-title {
@@ -188,6 +192,8 @@ ion-list {
     background-color: transparent;
   }
 }
+
+
 
 .center {
   margin: auto;
@@ -270,6 +276,14 @@ ion-input {
 
 ion-list .item-inner {
   border-bottom: 0;
+}
+
+ion-list {
+  .item {
+    .item-inner {
+      border-bottom: 0;
+    }
+  }
 }
 
 .item {

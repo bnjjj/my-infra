@@ -1,15 +1,17 @@
-import {Page, ViewController, NavParams, NavController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {ViewController, NavParams, Nav} from 'ionic-angular';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {ProductsService} from '../../services/products/common.service';
 import {SupportService} from '../../pages/support/support.service';
 import {ToastService} from '../../services/toast/toast.service';
 import {categoryEnum, ticketCategoryEnum} from '../../config/constants';
 
-@Page({
+@Component({
   templateUrl: 'build/modals/ticket-create/ticket-create.html',
   providers: [SupportService]
 })
 export class TicketCreateModal {
+  @ViewChild(Nav) nav: Nav;
   categoryKeys: Array<string> = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
   CategoryEnum: any = categoryEnum;
   TicketCategoryEnum: any = ticketCategoryEnum;
@@ -27,7 +29,7 @@ export class TicketCreateModal {
 
   constructor(private viewCtrl: ViewController, private productService: ProductsService,
     private params: NavParams, private analytics: AnalyticsService, private supportService: SupportService,
-      private toast: ToastService, private nav: NavController) {
+      private toast: ToastService) {
     this.fetchProducts(this.ticket.product.url);
     this.analytics.trackView('Ticket-create');
   }
@@ -49,7 +51,7 @@ export class TicketCreateModal {
         this.loading = false;
       })
       .catch(() => {
-        this.nav.present(this.toast.error('La création du ticket a échouée'));
+        this.toast.error('La création du ticket a échouée').present();
         this.viewCtrl.dismiss();
         this.loading = false;
       });

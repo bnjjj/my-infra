@@ -1,9 +1,9 @@
-import {Injectable} from 'angular2/core';
-import {Toast} from 'ionic-angular';
+import {Injectable} from '@angular/core';
+import {ToastController} from 'ionic-angular';
 
 @Injectable()
 export class ToastService {
-  constructor() {
+  constructor(private toastCtrl: ToastController) {
 
   }
 
@@ -15,7 +15,7 @@ export class ToastService {
       cssClass: 'toast-alert'
     }, options);
 
-    return Toast.create(opts);
+    return this.toastCtrl.create(opts);
   }
 
   error(message: string, options?: any) {
@@ -26,7 +26,7 @@ export class ToastService {
       cssClass: 'toast-error'
     }, options);
 
-    return Toast.create(opts);
+    return this.toastCtrl.create(opts);
   }
 
   success(message: string, options?: any) {
@@ -37,7 +37,7 @@ export class ToastService {
       cssClass: 'toast-success'
     }, options);
 
-    return Toast.create(opts);
+    return this.toastCtrl.create(opts);
   }
 }
 
