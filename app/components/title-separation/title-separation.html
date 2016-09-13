@@ -1,0 +1,18 @@
+<ion-item-divider>
+  <ion-row>
+    <ion-col width-33>
+      <ng-content></ng-content>
+    </ion-col>
+    <ion-col width-50 *ngIf="buttonVisible">
+      <hr class="long">
+    </ion-col>
+    <ion-col class="center" width-10 *ngIf="buttonVisible">
+      <button (click)="actionRequested()" item-right>
+        <ion-icon class="icon-size" ios="ios-add-circle-outline" md="ios-add-circle-outline"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col width-67 *ngIf="!buttonVisible">
+      <hr>
+    </ion-col>
+  </ion-row>
+</ion-item-divider>

@@ -1,0 +1,35 @@
+title-separation {
+  ion-item-divider {
+    background-color: transparent;
+    color: $mercury;
+    font-size: 1.2em;
+    padding-left: 13px;
+    border-bottom: none;
+
+    hr {
+      margin-top: 10.5px;
+      background-color: $mercury;
+      &.long {
+        width: 113%;
+      }
+    }
+
+
+    .button {
+      margin-top: 0;
+      background-color: transparent;
+      &.activated {
+        background-color: transparent;
+        color: $oslo-gray;
+      }
+    }
+    .button-inner {
+      margin-top: 0;
+      background-color: transparent;
+    }
+
+
+
+
+  }
+}
