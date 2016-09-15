@@ -1,3 +1,9 @@
+# 1.2.4 (2016-09-15)
+
+### Bug Fixes
+
+* **All:** Upgrade to IOS10
+
 # 1.2.3 (2016-08-06)
 
 ### Bug Fixes

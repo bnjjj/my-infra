@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="myinfra.bnjjj.com" version="1.2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="myinfra.bnjjj.com" version="1.2.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>My infra</name>
   <description>A mobile application to manage some of the OVH products and services.</description>
   <author email="benjamin.coenen@hotmail.com" href="http://benjamincoenen.ovh/">Coenen Benjamin</author>
