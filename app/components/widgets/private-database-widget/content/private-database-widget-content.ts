@@ -1,14 +1,15 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {PrivateDatabaseWidgetService} from '../private-database-widget.service';
 import {WidgetsService} from '../../widgets.service';
 import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'private-database-widget-content',
   templateUrl: 'build/components/widgets/private-database-widget/content/private-database-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent, WidgetHeaderComponent],
   providers: [PrivateDatabaseWidgetService, WidgetsService]
 })
 export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit {
@@ -26,6 +27,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   emptyTasks: boolean;
   error: any;
   tasks: Array<any> = [];
+  constants: Object = categoryEnum.PRIVATE_DATABASE;
 
   constructor(private privateDatabaseWidgetService: PrivateDatabaseWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
@@ -75,13 +77,19 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
     }
   }
 
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'Base de données privées' });
-    profileModal.present();
-  }
-
   updateCollapse(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  getStatusClass() {
+    switch (this.bdd.state) {
+      case 'started':
+        return 'green-color';
+      case 'stopped':
+        return 'danger-color';
+      default:
+        return 'danger-color';
+    }
   }
 }

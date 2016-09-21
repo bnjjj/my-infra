@@ -1,14 +1,15 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {DedicatedWidgetService} from '../dedicated-widget.service';
 import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
 import {WidgetsService} from '../../widgets.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'dedicated-widget-content',
   templateUrl: 'build/components/widgets/dedicated-widget/content/dedicated-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent, WidgetHeaderComponent],
   providers: [DedicatedWidgetService, WidgetsService]
 })
 export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
@@ -25,6 +26,8 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   server: any = {};
   error: any;
   tasks: Array<any> = [];
+  constants = categoryEnum.DEDICATED_SERVER;
+
   constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
@@ -72,11 +75,6 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
         this.getTasks();
       }
     }
-  }
-
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
-    profileModal.present();
   }
 
   updateCollapse(): void {

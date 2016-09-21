@@ -1,14 +1,15 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {TaskDetailsDomainComponent} from '../task-details/task-details';
 import {DomainWidgetService} from './../domain-widget.service';
 import {WidgetsService} from '../../widgets.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'domain-widget-content',
   templateUrl: 'build/components/widgets/domain-widget/content/domain-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsDomainComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsDomainComponent, WidgetHeaderComponent],
   providers: [DomainWidgetService, WidgetsService]
 })
 export class DomainWidgetContentComponent implements OnChanges, OnInit {
@@ -25,6 +26,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   domain: any = {};
   error: any;
   tasks: Array<any> = [];
+  constants = categoryEnum.DOMAIN;
 
   constructor(private domainWidgetService: DomainWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
@@ -72,11 +74,6 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
         this.getTasks();
       }
     }
-  }
-
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '1', categoryName: 'domaine' });
-    profileModal.present();
   }
 
   updateCollapse(): void {

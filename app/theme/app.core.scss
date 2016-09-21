@@ -43,6 +43,14 @@
   color: $danger-color;
 }
 
+.green-color {
+  color: map-get($colors, favorite);
+}
+
+.secondary-color {
+  color: map-get($colors, secondary);
+}
+
 .has-refresher > scroll-content {
   border-top: none;
 }
@@ -210,8 +218,15 @@ ion-list {
 }
 
 .widget-header {
-  background-color: $shark3;
+  background-color: $shark2;
   color: $primary-font-color;
+  h2 {
+    font-weight: 500;
+    font-size: 1.8rem;
+  }
+  p {
+    color: $primary-font-color;
+  }
 }
 
 .widget-content {
