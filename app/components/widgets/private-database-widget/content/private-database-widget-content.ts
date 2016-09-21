@@ -1,10 +1,10 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController} from 'ionic-angular';
-import {WidgetsService} from '../../widgets.service';
-import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
-import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
 import {PrivateDatabaseService} from '../../../../pages/products/private-database/private-database.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {WidgetsService} from '../../widgets.service';
+import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
 
 @Component({
   selector: 'private-database-widget-content',

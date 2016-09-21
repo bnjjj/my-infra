@@ -1,10 +1,10 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
-import {WidgetsService} from '../../widgets.service';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
 import {DedicatedServerService} from '../../../../pages/products/dedicated-server/dedicated-server.service';
+import {WidgetsService} from '../../widgets.service';
+import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
 
 @Component({
   selector: 'dedicated-widget-content',

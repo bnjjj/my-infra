@@ -122,7 +122,7 @@ export const categoryEnum: any = {
     icon: 'fa fa-commenting-o',
     workId: '16',
     page: SmsPage
-  },
+  }
 };
 
 export const ticketCategoryEnum: any = {
