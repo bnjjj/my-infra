@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      {{serviceName}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content">
+  <div *ngIf="!loading">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Offre
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="domain.offer"></span>
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label [ngClass]="{'danger-color animated pulse': domain.warning}">
+            <i class="fa fa-warning" *ngIf="domain.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{'danger-color animated pulse': domain.warning}"
+            [innerText]="domain.expirationText">
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation>
+          Sécurité
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Support service OwO
+          </ion-label>
+          <ion-note item-right>
+            <i [hidden]="!domain.owoSupported" class="fa fa-check fa-2x" secondary></i>
+            <i [hidden]="domain.owoSupported" class="fa fa-times fa-2x" danger></i>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Protection contre le transfert
+          </ion-label>
+          <ion-toggle item-right secondary *ngIf="domain.transferLockStatus === 'locked' || domain.transferLockStatus === 'unlocked'"
+            [checked]="domain.transferLockStatus === 'locked'"
+            (click)="changeTransferLockStatus()">
+          </ion-toggle>
+          <ion-note item-right *ngIf="domain.transferLockStatus !== 'locked' && domain.transferLockStatus !== 'unlocked'">
+            <ion-spinner name="bubbles">
+            </ion-spinner>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Déléguation sécurisée (DNSSEC)
+          </ion-label>
+          <ion-note item-right>
+            <i [hidden]="!domain.dnssecSupported" class="fa fa-check fa-2x" secondary></i>
+            <i [hidden]="domain.dnssecSupported" class="fa fa-times fa-2x" danger></i>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation>
+          Hébergement
+        </title-separation>
+
+      </ion-item-group>
+    </ion-list>
+
+
+
+    <ion-list>
+      <task-details-domain *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
+      </task-details-domain>
+      <ion-item *ngIf="emptyTasks && !loading" text-center>
+        <em>Vous n'avez pas de tâches</em>
+      </ion-item>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full>
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading" text-center>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>
+

@@ -3,7 +3,14 @@ import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({
   selector: 'title-separation',
-  templateUrl: 'build/components/title-separation/title-separation.html',
+  template: `
+    <ion-item-divider>
+        <ng-content></ng-content>
+        <button (click)="actionRequested()" *ngIf="buttonVisible" item-right>
+            <ion-icon class="icon-size" ios="ios-add-circle-outline" md="ios-add-circle-outline"></ion-icon>
+        </button>
+    </ion-item-divider>
+  `,
   directives: [IONIC_DIRECTIVES]
 })
 export class TitleSeparationComponent {

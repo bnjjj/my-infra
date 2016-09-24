@@ -16,6 +16,7 @@
 @import "../pages/messages/messages";
 @import "../pages/support/support";
 @import "../pages/dashboard/dashboard";
+@import "../pages/products/products";
 @import "../components/loader/loader";
 @import "../components/ticket/ticket";
 @import "../components/widgets/web-widget/web-widget";
@@ -79,6 +80,14 @@
   }
 }
 
+// .title-icon {
+//   margin-left: 7%;
+// }
+
+// .title-back {
+//   margin-left: 33%;
+// }
+
 .refresher-pulling-icon {
   color: $primary-font-color;
 }
@@ -140,7 +149,7 @@ body {
   border-color: transparent;
 }
 ion-tabbar {
-  background-color: transparent;
+  background-color: $bastille;
   border-top: none;
 }
 ion-title {
@@ -257,6 +266,13 @@ ion-list {
     color: black;
     text-align: center;
     background-color: $ovh-widget-background;
+  }
+}
+
+button {
+  &.button-ovh {
+    background-color: $ovh-button;
+    color: $primary-font-color;
   }
 }
 

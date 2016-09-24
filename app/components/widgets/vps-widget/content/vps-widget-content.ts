@@ -87,13 +87,12 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   }
 
   getState() {
+    console.log(this.vps.state);
     switch (this.vps.state) {
       case 'running':
-        return 'green-color';
-      case 'maintenance':
-        return 'secondary-color';
+        return 'enabled';
       default:
-        return 'danger-color';
+        return this.vps.state;
     }
   }
 

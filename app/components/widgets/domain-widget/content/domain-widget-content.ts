@@ -1,16 +1,17 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
 import {TaskDetailsDomainComponent} from '../task-details/task-details';
-import {DomainWidgetService} from './../domain-widget.service';
+import {DomainService} from '../../../../pages/products/domain/domain.service';
 import {WidgetsService} from '../../widgets.service';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'domain-widget-content',
   templateUrl: 'build/components/widgets/domain-widget/content/domain-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsDomainComponent, WidgetHeaderComponent],
-  providers: [DomainWidgetService, WidgetsService]
+  providers: [DomainService, WidgetsService]
 })
 export class DomainWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -28,7 +29,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   tasks: Array<any> = [];
   constants = categoryEnum.DOMAIN;
 
-  constructor(private domainWidgetService: DomainWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
+  constructor(private domainService: DomainService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -38,8 +39,8 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.domainWidgetService.getInfos(this.serviceName),
-         this.domainWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.domainService.getInfos(this.serviceName).toPromise(),
+         this.domainService.getServiceInfos(this.serviceName)])
       .then(resp => {
         this.domain = Object.assign({}, resp[0], resp[1]);
         this.loading = false;
@@ -53,7 +54,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.domainWidgetService.getTasks(this.serviceName)
+      this.domainService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;
@@ -83,7 +84,7 @@ export class DomainWidgetContentComponent implements OnChanges, OnInit {
 
   changeTransferLockStatus(): void {
     this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
-    this.domainWidgetService.putInfos(this.serviceName, { transferLockStatus: this.domain.transferLockStatus })
+    this.domainService.putInfos(this.serviceName, { transferLockStatus: this.domain.transferLockStatus })
       .subscribe(null, () => {
         this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
       });

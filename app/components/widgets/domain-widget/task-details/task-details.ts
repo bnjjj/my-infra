@@ -1,8 +1,9 @@
 declare var require;
 import {Component, Input} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {DomainWidgetService} from '../domain-widget.service';
+import {DomainService} from '../../../../pages/products/domain/domain.service';
 let moment = require('moment');
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'task-details-domain',
@@ -15,7 +16,7 @@ export class TaskDetailsDomainComponent {
   loading: boolean = true;
   error: any;
   task: Object;
-  constructor(private domainWidgetService: DomainWidgetService) {
+  constructor(private domainService: DomainService) {
 
   }
 
@@ -25,7 +26,7 @@ export class TaskDetailsDomainComponent {
 
   getTask() {
     this.loading = true;
-    return this.domainWidgetService.getTask(this.serviceName, this.id)
+    return this.domainService.getTask(this.serviceName, this.id).toPromise()
       .then(task => {
         task.startDateText = moment(new Date(task.startDate)).format('DD/MM/YYYY à HH:mm');
         task.doneDateText = task.doneDate ? moment(new Date(task.doneDate)).format('DD/MM/YYYY à HH:mm') : null;

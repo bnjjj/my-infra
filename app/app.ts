@@ -68,6 +68,8 @@ export class MyApp {
 }
 
 ionicBootstrap(MyApp, providers, {
+  backButtonText: '',
+  backButtonIcon: 'md-arrow-back',
   swipeBackEnabled: false,
   prodMode: true
 });

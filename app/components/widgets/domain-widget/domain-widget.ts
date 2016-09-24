@@ -1,10 +1,11 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
+import {IONIC_DIRECTIVES, ModalController, Nav, NavController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
 import {WidgetsService} from '../widgets.service';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {DomainWidgetContentComponent} from './content/domain-widget-content';
 import {categoryEnum} from '../../../config/constants';
+import {DomainPage} from '../../../pages/products/domain/domain';
 
 @Component({
   selector: 'domain-widget',
@@ -20,7 +21,8 @@ export class DomainWidgetComponent {
   viewMode: string = 'general';
   loading: boolean;
 
-  constructor(private widgetsService: WidgetsService, private analytics: AnalyticsService, private modalCtrl: ModalController) {
+  constructor(private widgetsService: WidgetsService, private analytics: AnalyticsService,
+      private modalCtrl: ModalController, private navController: NavController) {
     this.analytics.trackView('Domain-widget');
   }
 
@@ -34,5 +36,9 @@ export class DomainWidgetComponent {
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     alert.present();
+  }
+
+  moreInfos(): void {
+    this.navController.push(DomainPage, {serviceName: this.serviceName});
   }
 }
