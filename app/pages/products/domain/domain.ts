@@ -12,7 +12,7 @@ import {categoryEnum} from '../../../config/constants';
 })
 export class DomainPage extends ProductCore implements OnDestroy {
   subscription: any;
-  domain: Object;
+  domain: any;
   serviceName: string;
   loading: boolean = true;
   category = categoryEnum.DOMAIN;
@@ -30,5 +30,13 @@ export class DomainPage extends ProductCore implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  changeTransferLockStatus(): void {
+    this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
+    this.domainService.putInfos(this.serviceName, { transferLockStatus: this.domain.transferLockStatus })
+      .subscribe(() => this.domain.transferLockStatus = 'loading', () => {
+        this.domain.transferLockStatus = this.domain.transferLockStatus === 'locked' ? 'unlocked' : 'locked';
+      });
   }
 }

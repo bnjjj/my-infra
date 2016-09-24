@@ -22,6 +22,7 @@
 @import "../components/widgets/web-widget/web-widget";
 @import "../components/widgets/vps-widget/vps-widget";
 @import "../components/widgets/cloud-widget/cloud-widget";
+@import "../components/widget-header/widget-header";
 @import "../components/title-separation/title-separation";
 
 .tspace5 {
@@ -41,15 +42,15 @@
 }
 
 .danger-color {
-  color: $danger-color;
+  color: $danger-color !important;
 }
 
 .green-color {
-  color: map-get($colors, favorite);
+  color: map-get($colors, favorite) !important;
 }
 
 .secondary-color {
-  color: map-get($colors, secondary);
+  color: map-get($colors, secondary) !important;
 }
 
 .has-refresher > scroll-content {
@@ -226,18 +227,6 @@ ion-list {
   text-transform: capitalize;
 }
 
-.widget-header {
-  background-color: $shark2;
-  color: $primary-font-color;
-  h2 {
-    font-weight: 500;
-    font-size: 1.8rem;
-  }
-  p {
-    color: $primary-font-color;
-  }
-}
-
 .widget-content {
   background-color: $ovh-widget-background;
   color: $primary-font-color;
@@ -273,6 +262,10 @@ button {
   &.button-ovh {
     background-color: $ovh-button;
     color: $primary-font-color;
+    height: 35px;
+    &.activated {
+      background-color: $ovh-button-active;
+    }
   }
 }
 

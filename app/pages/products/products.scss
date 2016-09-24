@@ -4,6 +4,12 @@
     color: $primary-font-color;
   }
 
+  ion-item {
+    ion-label {
+      color: $manatee;
+    }
+  }
+
   // Outer container
   .progress {
     overflow: hidden;
@@ -21,5 +27,13 @@
     color: black;
     text-align: center;
     background-color: $ovh-widget-background;
+  }
+}
+
+.product-header {
+  ion-title {
+    .toolbar-title {
+      font-size: 1.2em;
+    }
   }
 }

@@ -31,6 +31,14 @@ export class DomainService {
       });
   }
 
+  getLinkedHosting(serviceName: string) {
+    let search = {
+      domain: serviceName
+    };
+
+    return this.ovhRequest.get('/hosting/web/attachedDomain', {search});
+  }
+
   getTasks(serviceName: string) {
     return this.ovhRequest.get(['/domain', serviceName, 'task'].join('/'));
   }
@@ -40,7 +48,7 @@ export class DomainService {
   }
 
   getAll(serviceName: string) {
-    return Observable.forkJoin(this.getInfos(serviceName), this.getServiceInfos(serviceName))
-      .map((resp) => Object.assign({}, resp[0], resp[1]));
+    return Observable.forkJoin(this.getInfos(serviceName), this.getServiceInfos(serviceName), this.getLinkedHosting(serviceName))
+      .map((resp) => Object.assign({}, resp[0], resp[1], {hostingLinked: resp[2].length ? resp[2][0] : null}));
   }
 }

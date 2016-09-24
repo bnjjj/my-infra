@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="product-header">
   <ion-navbar [hideBackButton]="false">
     <ion-title>
       {{serviceName}}
@@ -70,7 +70,14 @@
         <title-separation>
           Hébergement
         </title-separation>
-
+        <ion-item>
+          <ion-label>
+            Hébergement lié
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="domain.hostingLinked"></span>
+          </ion-note>
+        </ion-item>
       </ion-item-group>
     </ion-list>
 
