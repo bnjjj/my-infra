@@ -4,23 +4,9 @@
     [serviceName]="serviceName"
     [(collapsed)]="collapsed">
   </domain-widget-content>
-  <ion-row no-padding class="widget-content">
-    <ion-col text-center width-33>
-      <button full class="button-ovh" (click)="openNetworkStateModal()">
-        Tâches
-      </button>
-    </ion-col>
-    <ion-col text-center width-33>
-      <button full class="button-ovh" (click)="moreInfos()">
-        <!-- <ion-icon [name]="collapsed ? 'arrow-up' : 'arrow-down'"></ion-icon> -->
-        Plus d'infos
-      </button>
-    </ion-col>
-    <ion-col text-center width-33>
-      <button class="button-ovh danger-color" full (click)="removeMe()">
-        <!-- <ion-icon name='trash'></ion-icon> -->
-        Supprimer
-      </button>
-    </ion-col>
-  </ion-row>
+  <widget-footer
+    (openTasks)="openTasks()"
+    (openInfos)="moreInfos()"
+    (remove)="removeMe()">
+  </widget-footer>
 </ion-card>
