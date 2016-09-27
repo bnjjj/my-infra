@@ -30,13 +30,17 @@ export class DashboardPage {
     this.analytics.trackView('Dashboard');
   }
 
-  addWidgetModal(): void {
-    let addModal = this.modalCtrl.create(WidgetAddModal, {widgets: this.widgets});
+  addWidgetModal(type: string): void {
+    let addModal = this.modalCtrl.create(WidgetAddModal, {widgets: this.widgets, type});
     addModal.onDidDismiss(data => {
        this.addWidget(data);
     });
 
     addModal.present();
+  }
+
+  addProjectModal(): void {
+    this.addWidgetModal('PROJECT');
   }
 
   doRefresh(refresher): void {
