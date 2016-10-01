@@ -16,11 +16,14 @@
 @import "../pages/messages/messages";
 @import "../pages/support/support";
 @import "../pages/dashboard/dashboard";
+@import "../pages/products/products";
 @import "../components/loader/loader";
 @import "../components/ticket/ticket";
 @import "../components/widgets/web-widget/web-widget";
 @import "../components/widgets/vps-widget/vps-widget";
 @import "../components/widgets/cloud-widget/cloud-widget";
+@import "../components/widget-header/widget-header";
+@import "../components/title-separation/title-separation";
 
 .tspace5 {
   margin-top: 5px;
@@ -39,7 +42,15 @@
 }
 
 .danger-color {
-  color: $danger-color;
+  color: $danger-color !important;
+}
+
+.green-color {
+  color: map-get($colors, favorite) !important;
+}
+
+.secondary-color {
+  color: map-get($colors, secondary) !important;
 }
 
 .has-refresher > scroll-content {
@@ -69,6 +80,14 @@
     border-radius: 10;
   }
 }
+
+// .title-icon {
+//   margin-left: 7%;
+// }
+
+// .title-back {
+//   margin-left: 33%;
+// }
 
 .refresher-pulling-icon {
   color: $primary-font-color;
@@ -123,19 +142,23 @@ ion-card p {
 //------------------------------------------------------------------
 
 body {
-  background-image: linear-gradient(to bottom, $ovh-background-top 0%, $ovh-background-bottom 100%);
+  background-image: url("../img/bg-texture.png");
+  background-repeat: repeat;
 }
 .toolbar-background {
-  background-color: $ovh-toolbar;
+  background-color: transparent;
+  border-color: transparent;
 }
 ion-tabbar {
-  background-color: $ovh-toolbar;
+  background-color: $bastille;
   border-top: none;
 }
 ion-title {
   color: $ovh-font;
   .toolbar-title {
-    color: $ovh-font;
+    color: $mercury;
+    font-weight: 300;
+    font-size: 1.4em;
   }
 }
 
@@ -150,7 +173,8 @@ ion-navbar {
 }
 
 ion-content {
-  background-image: linear-gradient(to bottom, $ovh-background-top 0%, $ovh-background-bottom 100%);
+  background-image: url("../img/bg-texture.png");
+  background-repeat: repeat;
 }
 
 ion-card {
@@ -203,11 +227,6 @@ ion-list {
   text-transform: capitalize;
 }
 
-.widget-header {
-  background-color: $shark3;
-  color: $primary-font-color;
-}
-
 .widget-content {
   background-color: $ovh-widget-background;
   color: $primary-font-color;
@@ -236,6 +255,17 @@ ion-list {
     color: black;
     text-align: center;
     background-color: $ovh-widget-background;
+  }
+}
+
+button {
+  &.button-ovh {
+    background-color: $ovh-button;
+    color: $primary-font-color;
+    height: 35px;
+    &.activated {
+      background-color: $ovh-button-active;
+    }
   }
 }
 

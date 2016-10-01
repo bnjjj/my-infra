@@ -1,6 +1,7 @@
 import {ModalController, NavController} from 'ionic-angular';
 import {Component} from '@angular/core';
 import {WebWidgetComponent} from '../../components/widgets/web-widget/web-widget';
+import {TitleSeparationComponent} from '../../components/title-separation/title-separation';
 import {PrivateDatabaseWidgetComponent} from '../../components/widgets/private-database-widget/private-database-widget';
 import {DomainWidgetComponent} from '../../components/widgets/domain-widget/domain-widget';
 import {DedicatedWidgetComponent} from '../../components/widgets/dedicated-widget/dedicated-widget';
@@ -16,7 +17,7 @@ import {categoryEnum} from '../../config/constants';
   directives: [WebWidgetComponent, DomainWidgetComponent,
     DedicatedWidgetComponent, ProjectWidgetComponent,
     VpsWidgetComponent, PrivateDatabaseWidgetComponent,
-    CloudWidgetComponent
+    CloudWidgetComponent, TitleSeparationComponent
   ]
 })
 export class DashboardPage {

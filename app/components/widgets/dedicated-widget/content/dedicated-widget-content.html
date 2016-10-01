@@ -1,17 +1,11 @@
-<ion-item class="widget-header">
- <ion-avatar item-left (click)="updateCollapse()">
-   <i class="fa fa-server fa-2x"></i>
- </ion-avatar>
- <div (click)="updateCollapse()">
-   <h2 [innerText]="server.reverse || server.name || server.serviceName" *ngIf="!loading">
-   </h2>
-   <h2 [innerText]="serviceName" *ngIf="loading">
-   </h2>
- </div>
- <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()">
-   <i class="fa fa-heartbeat fa-1x"></i>
- </button>
-</ion-item>
+<widget-header
+  [serviceName]="loading ? serviceName : server.reverse || server.name || server.serviceName"
+  [category]="constants"
+  [state]="server.state === 'ok' ? 'enabled' : 'disabled'"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+</widget-header>
 <div padding *ngIf="collapsed" class="widget-content">
  <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
    <ion-segment-button value="general">

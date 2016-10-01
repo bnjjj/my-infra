@@ -6,4 +6,10 @@
   strong {
     color: $primary-font-color;
   }
+
+  ion-title {
+    .toolbar-title {
+      font-size: 1.2em;
+    }
+  }
 }

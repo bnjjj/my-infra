@@ -5,11 +5,13 @@ import {CloudWidgetService} from '../cloud-widget.service';
 import {WidgetsService} from '../../widgets.service';
 import {StatusDetailsComponent} from '../status-details/status-details';
 import {ToastService} from '../../../../services/toast/toast.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'cloud-widget-content',
   templateUrl: 'build/components/widgets/cloud-widget/content/cloud-widget-content.html',
-  directives: [IONIC_DIRECTIVES, StatusDetailsComponent],
+  directives: [IONIC_DIRECTIVES, StatusDetailsComponent, WidgetHeaderComponent],
   providers: [CloudWidgetService, WidgetsService]
 })
 export class CloudWidgetContentComponent implements OnChanges, OnInit {
@@ -27,6 +29,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   emptyTasks: boolean;
   error: any;
   ips: Array<any> = [];
+  constants = categoryEnum.CLOUD;
 
   constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService,
     private toastService: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {

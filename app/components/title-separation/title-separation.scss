@@ -1,0 +1,35 @@
+title-separation {
+  ion-item-divider {
+    background-color: transparent;
+    color: $mercury;
+    font-size: 1.2em;
+    border-bottom: none;
+
+    ion-label{
+      &:after{
+        content: " ";
+        display: inline-block;
+        background-color: #fff;
+        height: 1px;
+        width: 100%;
+        margin: 0px 10px;
+        vertical-align: middle;
+      }
+    }
+    .button {
+      background-color: transparent;
+      box-shadow: none;
+      height: 31px;
+      font-size: 29px;
+      line-height: 29px;
+      &.activated {
+        background-color: transparent;
+        color: $oslo-gray;
+      }
+    }
+    .button-inner {
+      margin-top: 0;
+      background-color: transparent;
+    }
+  }
+}

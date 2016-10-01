@@ -1,22 +1,22 @@
 declare var require;
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {DomainService} from '../../../../pages/products/domain/domain.service';
 let moment = require('moment');
 import 'rxjs/add/operator/toPromise';
 
 @Component({
-  selector: 'task-details-domain',
-  templateUrl: 'build/components/widgets/domain-widget/task-details/task-details.html',
+  selector: 'task-details',
+  templateUrl: 'build/components/task-details/task-details.html',
   directives: [IONIC_DIRECTIVES]
 })
-export class TaskDetailsDomainComponent {
+export class TaskDetailsComponent implements OnInit {
   @Input() serviceName: string;
   @Input() id: number;
+  @Input() service: any;
   loading: boolean = true;
   error: any;
   task: Object;
-  constructor(private domainService: DomainService) {
+  constructor() {
 
   }
 
@@ -26,9 +26,9 @@ export class TaskDetailsDomainComponent {
 
   getTask() {
     this.loading = true;
-    return this.domainService.getTask(this.serviceName, this.id).toPromise()
+    return this.service.getTask(this.serviceName, this.id).toPromise()
       .then(task => {
-        task.startDateText = moment(new Date(task.startDate)).format('DD/MM/YYYY à HH:mm');
+        task.startDateText = task.startDate ? moment(new Date(task.startDate)).format('DD/MM/YYYY à HH:mm') : null;
         task.doneDateText = task.doneDate ? moment(new Date(task.doneDate)).format('DD/MM/YYYY à HH:mm') : null;
         this.task = task;
         this.loading = false;

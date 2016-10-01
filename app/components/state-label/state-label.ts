@@ -3,7 +3,23 @@ import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({
   selector: 'state-label',
-  templateUrl: 'build/components/state-label/state-label.html',
+  template: `
+    <div>
+      <ion-badge *ngIf="displaySuccess"
+        class="capitalize"
+        [innerText]="status"
+        secondary>
+      </ion-badge>
+      <ion-badge *ngIf="displayError"
+        class="capitalize"
+        [innerText]="status"
+        danger>
+      </ion-badge>
+      <ion-badge *ngIf="!displayError && !displaySuccess"
+        [innerText]="status">
+      </ion-badge>
+    </div>
+  `,
   directives: [IONIC_DIRECTIVES]
 })
 export class StateLabelComponent implements OnInit {
