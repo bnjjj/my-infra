@@ -1,17 +1,12 @@
-<ion-item class="widget-header">
-  <ion-avatar item-left (click)="updateCollapse()">
-    <i class="fa fa-database fa-2x"></i>
-  </ion-avatar>
-  <div (click)="updateCollapse()">
-    <h2 [innerText]="serviceName" *ngIf="loading">
-    </h2>
-    <h2 [innerText]="bdd.displayName || bdd.serviceName" *ngIf="!loading && !error">
-    </h2>
-  </div>
-  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
-    <i class="fa fa-heartbeat fa-1x"></i>
-  </button>
-</ion-item>
+<widget-header
+  [serviceName]="loading ? serviceName : bdd.displayName || bdd.serviceName"
+  [category]="constants"
+  [state]="bdd.state === 'started' ? 'enabled' : 'disabled'"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+
+</widget-header>
 <div padding *ngIf="collapsed" class="widget-content">
   <ion-segment [(ngModel)]="viewMode">
     <ion-segment-button value="general" class="animated fadeIn">
@@ -140,7 +135,7 @@
         <task-details-private-database *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
         </task-details-private-database>
         <ion-item *ngIf="emptyTasks && !loading" text-center>
-          <em>Vous n'avez pas de tâches</em>
+          <em>Vous n’avez pas de tâches</em>
         </ion-item>
       </ion-list>
     </div>

@@ -5,11 +5,13 @@ import {CloudWidgetService} from '../cloud-widget.service';
 import {WidgetsService} from '../../widgets.service';
 import {StatusDetailsComponent} from '../status-details/status-details';
 import {ToastService} from '../../../../services/toast/toast.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'cloud-widget-content',
   templateUrl: 'build/components/widgets/cloud-widget/content/cloud-widget-content.html',
-  directives: [IONIC_DIRECTIVES, StatusDetailsComponent],
+  directives: [IONIC_DIRECTIVES, StatusDetailsComponent, WidgetHeaderComponent],
   providers: [CloudWidgetService, WidgetsService]
 })
 export class CloudWidgetContentComponent implements OnChanges, OnInit {
@@ -27,6 +29,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   emptyTasks: boolean;
   error: any;
   ips: Array<any> = [];
+  constants = categoryEnum.CLOUD;
 
   constructor(private cloudWidgetService: CloudWidgetService, private widgetsService: WidgetsService,
     private toastService: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
@@ -39,10 +42,12 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.cloudWidgetService.getInfos(this.serviceName), this.cloudWidgetService.getServiceInfos(this.serviceName),
-        this.cloudWidgetService.getInstances(this.serviceName), this.cloudWidgetService.getSnapshots(this.serviceName)
-      ])
-      .then(resp => {
+    Promise.all([
+      this.cloudWidgetService.getInfos(this.serviceName),
+      this.cloudWidgetService.getServiceInfos(this.serviceName),
+      this.cloudWidgetService.getInstances(this.serviceName),
+      this.cloudWidgetService.getSnapshots(this.serviceName)
+    ]).then(resp => {
         this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);
         this.loading = false;
       })
@@ -55,10 +60,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   getIps(): void {
     this.loading = true;
     this.cloudWidgetService.getIps(this.serviceName)
-      .then((ips) => {
+      .then(ips => {
         this.ips = ips;
         this.loading = false;
-      }, (err) => {
+      }, err => {
         this.error = err;
         this.loading = false;
       });
@@ -89,10 +94,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.toastService.success('Redémarrage en cours...').present();
+            this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -100,10 +105,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.toastService.success('Redémarrage en cours...').present();
+            this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -133,16 +138,16 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.createSnapshot(this.serviceName, id, data.snapshotName)
         .then(
           () => {
-            this.toastService.success('Snapshot en cours de création...').present();
+            this.toastService.success('Snapshot en cours de création…').present();
             this.getInfos();
           },
-          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
     let deleteAlert = this.alertCtrl.create({
       title: 'Création snapshot',
-      message: 'Voulez-vous créer un snapshot de cet instance ?',
+      message: 'Voulez-vous créer un snapshot de cette instance ?',
       inputs: [
         {
           name: 'snapshotName',
@@ -172,7 +177,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
             this.toastService.success('Suppression effectuée avec succès').present();
             this.getInfos();
           },
-          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -189,7 +194,6 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
         }
       ]
     });
-
 
     deleteAlert.present();
   }

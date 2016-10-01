@@ -1,31 +1,39 @@
 <ion-header>
   <ion-navbar class="dashboard-page">
     <ion-title>
-      Dashboard
+      Tableau de bord
     </ion-title>
-    <ion-buttons end>
-      <button (click)="addWidgetModal()">
-        <!-- <ion-icon name="add"></ion-icon> -->
-        <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="dashboard-page">
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="refresh"
-      pullingText="Tirer pour rafraichir"
-      refreshingSpinner="bubbles"
-      refreshingText="Chargement...">
-    </ion-refresher-content>
-  </ion-refresher>
   <ion-card *ngIf="widgets && !widgets.length" class="transparent">
     <ion-card-content>
-      Vous n'avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
+      Vous n’avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
     </ion-card-content>
   </ion-card>
+  <ion-item-group>
+    <title-separation>
+      Mes alertes
+    </title-separation>
+  </ion-item-group>
+  <ion-item-group>
+    <title-separation [buttonVisible]="true" (action)="addWidgetModal()">
+      Mes projets
+    </title-separation>
+    <div *ngFor="let widget of widgets">
+      <project-widget *ngIf="widget.category.url === CategoryEnum.PROJECT.url"
+        [reload]="reload"
+        [project]="widget"
+        (remove)="removeWidget($event)">
+      </project-widget>
+    </div>
+  </ion-item-group>
+  <ion-item-group>
+    <title-separation [buttonVisible]="true" (action)="addWidgetModal()">
+      Mes widgets
+    </title-separation>
+  </ion-item-group>
   <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget.category.url" class="animated bounceInUp">
       <domain-widget *ngSwitchCase="CategoryEnum.DOMAIN.url"
@@ -63,12 +71,6 @@
         [serviceName]="widget.serviceName"
         (remove)="removeWidget($event)">
       </vps-widget>
-
-      <project-widget *ngSwitchCase="CategoryEnum.PROJECT.url"
-        [reload]="reload"
-        [project]="widget"
-        (remove)="removeWidget($event)">
-      </project-widget>
     </div>
   </div>
 </ion-content>

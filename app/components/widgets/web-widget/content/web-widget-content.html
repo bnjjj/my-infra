@@ -1,17 +1,11 @@
-<ion-item class="widget-header">
-  <ion-avatar item-left (click)="updateCollapse()">
-    <i class="fa fa-globe fa-2x"></i>
-  </ion-avatar>
-  <div (click)="updateCollapse()">
-    <h2 [innerText]="serviceName" *ngIf="loading">
-    </h2>
-    <h2 [innerText]="server.displayName || server.serviceName" *ngIf="!loading && !error">
-    </h2>
-  </div>
-  <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()" *ngIf="showWorks">
-    <i class="fa fa-heartbeat fa-1x"></i>
-  </button>
-</ion-item>
+<widget-header
+  [serviceName]="loading ? serviceName : server.displayName || server.serviceName"
+  [category]="constants"
+  [state]="server.state === 'active' ? 'enabled' : 'disabled'"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+</widget-header>
 <div padding *ngIf="collapsed" class="widget-content">
   <ion-segment [(ngModel)]="viewMode">
     <ion-segment-button value="general" class="animated fadeIn">
@@ -84,14 +78,14 @@
       </ion-row>
       <ion-row>
         <ion-col width-40>
-          IPV4
+          IPv4
         </ion-col>
         <ion-col width-60 [innerText]="server.hostingIp">
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-40>
-          IPV6
+          IPv6
         </ion-col>
         <ion-col width-60 [innerText]="server.hostingIpv6">
         </ion-col>
@@ -132,7 +126,7 @@
         <task-details-web *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
         </task-details-web>
         <ion-item *ngIf="emptyTasks && !loading" text-center>
-          <em>Vous n'avez pas de tâches</em>
+          <em>Vous n’avez pas de tâches</em>
         </ion-item>
       </ion-list>
     </div>

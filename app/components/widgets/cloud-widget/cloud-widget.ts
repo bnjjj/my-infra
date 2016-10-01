@@ -28,7 +28,7 @@ export class CloudWidgetComponent {
   }
 
   removeMe(): void {
-    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.CLOUD.url});
+    let handler = () => this.remove.emit({ serviceName: this.serviceName, url: categoryEnum.CLOUD.url });
     let alert = this.widgetsService.getDeleteAlert(this.serviceName, handler);
 
     alert.present();

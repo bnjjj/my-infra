@@ -1,15 +1,16 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {WebWidgetService} from '../web-widget.service';
 import {WidgetsService} from '../../widgets.service';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {TaskDetailsWebComponent} from '../task-details/task-details';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'web-widget-content',
   templateUrl: 'build/components/widgets/web-widget/content/web-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent, WidgetHeaderComponent],
   providers: [WebWidgetService, WidgetsService]
 })
 export class WebWidgetContentComponent implements OnChanges, OnInit {
@@ -28,6 +29,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
+  constants = categoryEnum.WEB;
 
   constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService,
     private toast: ToastService, private modalCtrl: ModalController) {
@@ -107,11 +109,6 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
         this.getTasks();
       }
     }
-  }
-
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'hébergement web' });
-    profileModal.present();
   }
 
   updateCollapse(): void {
