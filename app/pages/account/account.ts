@@ -105,7 +105,7 @@ export class AccountPage implements OnInit {
     };
 
     let alert = this.alertCtrl.create({
-      title: 'Déconnection',
+      title: 'Déconnexion',
       message: 'Voulez-vous vraiment vous déconnecter ?',
       buttons: [
         {

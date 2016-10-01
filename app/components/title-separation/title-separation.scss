@@ -6,7 +6,7 @@ title-separation {
     border-bottom: none;
 
     ion-label{
-      &:after{
+      &::after{
         content: " ";
         display: inline-block;
         background-color: #fff;

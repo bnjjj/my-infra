@@ -60,6 +60,7 @@ export class OvhRequestService {
       this.timeObservable = Observable.fromPromise(new Promise(resolve => resolve(Math.round(Date.now() / 1000) + this.timestampLag)))
         .map(resp => resp);
     }
+
     return this.timeObservable
       .map(timestamp => {
         let reqBody = null;
@@ -98,7 +99,7 @@ export class OvhRequestService {
     let body = Object.assign({}, opts.search);
 
     if (opts.search) {
-      Object.keys(opts.search).forEach((key) => {
+      Object.keys(opts.search).forEach(key => {
         if (opts.search[key]) {
           params.set(key, opts.search[key]);
         }

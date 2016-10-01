@@ -13,9 +13,9 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="refresh"
-      pullingText="Tirer pour rafraichir"
+      pullingText="Tirer pour rafraîchir"
       refreshingSpinner="bubbles"
-      refreshingText="Chargement...">
+      refreshingText="Chargement…">
     </ion-refresher-content>
   </ion-refresher>
   <div *ngIf="error && !loading">
@@ -33,16 +33,15 @@
 
   <ion-row padding *ngIf="!loading && !ticketIdsFiltered.length">
     <ion-col width-100 text-center>
-      Vous n'avez pas de tickets
+      Vous n’avez pas de tickets
     </ion-col>
   </ion-row>
 
   <ion-infinite-scroll (ionInfinite)="loadMore($event)" *ngIf="!loading && ticketIdsFiltered.length">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
-      loadingText="Chargement des tickets...">
+      loadingText="Chargement des tickets…">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 </ion-content>
-

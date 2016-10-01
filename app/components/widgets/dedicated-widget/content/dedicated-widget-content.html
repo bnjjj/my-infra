@@ -53,7 +53,7 @@
      <div *ngSwitchCase="'general'">
        <ion-row>
          <ion-col width-40>
-           IPV4
+           IPv4
          </ion-col>
          <ion-col width-60 [innerText]="server.ip">
          </ion-col>
@@ -88,7 +88,7 @@
          <task-details-dedicated *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
          </task-details-dedicated>
          <ion-item *ngIf="emptyTasks && !loading" text-center>
-           <em>Vous n'avez pas de tâches</em>
+           <em>Vous n’avez pas de tâches</em>
          </ion-item>
        </ion-list>
      </div>
