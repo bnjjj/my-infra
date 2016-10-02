@@ -12,6 +12,6 @@ export class TabsPage {
   // should be each tab's root Component
   facturationTab: any = LoginPage;
   dashboardTab: any = DashboardPage;
-  compteTab: any = AccountPage;
+  accountTab: any = AccountPage;
   supportTab: any = SupportPage;
 }

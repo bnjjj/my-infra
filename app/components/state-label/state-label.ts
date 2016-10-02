@@ -38,7 +38,4 @@ export class StateLabelComponent implements OnInit {
     this.displaySuccess = this.success.indexOf(this.status) !== -1;
     this.displayError = this.error.indexOf(this.status) !== -1;
   }
-
-
 }
-

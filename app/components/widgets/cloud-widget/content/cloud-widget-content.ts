@@ -42,10 +42,12 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.cloudWidgetService.getInfos(this.serviceName), this.cloudWidgetService.getServiceInfos(this.serviceName),
-        this.cloudWidgetService.getInstances(this.serviceName), this.cloudWidgetService.getSnapshots(this.serviceName)
-      ])
-      .then(resp => {
+    Promise.all([
+      this.cloudWidgetService.getInfos(this.serviceName),
+      this.cloudWidgetService.getServiceInfos(this.serviceName),
+      this.cloudWidgetService.getInstances(this.serviceName),
+      this.cloudWidgetService.getSnapshots(this.serviceName)
+    ]).then((resp) => {
         this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);
         this.loading = false;
       })
@@ -92,7 +94,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.toastService.success('Redémarrage en cours...').present();
+            this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
           (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
@@ -103,7 +105,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.rebootInstance(this.serviceName, id, 'soft')
         .then(
           () => {
-            this.toastService.success('Redémarrage en cours...').present();
+            this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
           (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
@@ -136,7 +138,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.createSnapshot(this.serviceName, id, data.snapshotName)
         .then(
           () => {
-            this.toastService.success('Snapshot en cours de création...').present();
+            this.toastService.success('Snapshot en cours de création…').present();
             this.getInfos();
           },
           (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
@@ -145,7 +147,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
 
     let deleteAlert = this.alertCtrl.create({
       title: 'Création snapshot',
-      message: 'Voulez-vous créer un snapshot de cet instance ?',
+      message: 'Voulez-vous créer un snapshot de cette instance ?',
       inputs: [
         {
           name: 'snapshotName',
@@ -192,7 +194,6 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
         }
       ]
     });
-
 
     deleteAlert.present();
   }

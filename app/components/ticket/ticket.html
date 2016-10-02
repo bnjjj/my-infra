@@ -10,10 +10,10 @@
     <h2 [innerText]="ticket.subject"></h2>
     <h3 *ngIf="ticket.category"><strong>Catégorie : </strong><em [innerText]="TicketCategoryEnum[ticket.category.toUpperCase()].text"></em></h3>
     <h3 *ngIf="ticket.serviceName"><strong>Service concerné : </strong><em [innerText]="ticket.serviceName"></em></h3>
-    <p><strong>Dernier message </strong><span *ngIf="ticket.lastMessageFrom === 'customer'">de vous</span>
+    <p>
+      <strong>Dernier message </strong><span *ngIf="ticket.lastMessageFrom === 'customer'">de vous</span>
       <span *ngIf="ticket.lastMessageFrom !== 'customer'">du support OVH</span><br/>
       <strong>Le </strong><span [innerText]="ticket.updateDateText"></span>
     </p>
   </ion-item>
 </div>
-

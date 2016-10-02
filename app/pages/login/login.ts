@@ -80,7 +80,7 @@ export class LoginPage {
 
     this.loginService.doubleAuthSmsValidation(this.smsCode, this.credentialToken, this.sessionId)
       .then(
-        (connected) => {
+        connected => {
           if (connected) {
             this.redirectSuccess();
           } else {
@@ -89,7 +89,7 @@ export class LoginPage {
           }
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Success', 'good');
         },
-        (err) => {
+        err => {
           this.redirectError(err);
           this.error = err.message ? err.message : JSON.stringify(err);
           this.analytics.trackEvent('Login', 'doubleAuthSmsConfirm', 'Error', 'error : ' + this.error);
@@ -127,7 +127,7 @@ export class LoginPage {
     this.error = err.message ? err.message : JSON.stringify(err);
     this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
     this.keyboard.close();
-    this.toast.error('Erreur lors de la connection').present();
+    this.toast.error('Erreur lors de la connexion').present();
     this.loading = false;
   }
 }

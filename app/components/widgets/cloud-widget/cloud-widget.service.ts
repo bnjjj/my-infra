@@ -31,9 +31,9 @@ export class CloudWidgetService {
       .then((snapshots) => {
         if (Array.isArray(snapshots)) {
           return { snapshots: this.sortInstances(snapshots, true) };
-          }
+        }
 
-          return { snapshots: this.sortInstances([]) };
+        return { snapshots: this.sortInstances([]) };
       });
   }
 

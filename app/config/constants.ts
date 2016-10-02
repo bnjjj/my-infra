@@ -22,4 +22,3 @@ export let loginConfiguration: any = {
      appSecret: 'QfEkT7FoWqtYxgNQBPaiB56q0y3CEHHp'
   }
 };
-

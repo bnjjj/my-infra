@@ -57,7 +57,7 @@
         </ion-item>
         <ion-item>
           <ion-label>
-            Déléguation sécurisée (DNSSEC)
+            Délégation sécurisée (DNSSEC)
           </ion-label>
           <ion-note item-right>
             <i [hidden]="!domain.dnssecSupported" class="fa fa-check fa-2x" secondary></i>
@@ -87,7 +87,7 @@
       <task-details-domain *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
       </task-details-domain>
       <ion-item *ngIf="emptyTasks && !loading" text-center>
-        <em>Vous n'avez pas de tâches</em>
+        <em>Vous n’avez pas de tâches</em>
       </ion-item>
     </ion-list>
     <ion-row>
@@ -107,4 +107,3 @@
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
 </ion-content>
-

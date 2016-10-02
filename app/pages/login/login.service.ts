@@ -76,10 +76,7 @@ export class LoginService {
           return resolve({ sms: false, credentialToken, sessionId: null });
         })
         .catch((err) => reject(err));
-
     });
-
-
   }
 
   askAuthentication(login: string, password: string, credentialToken: string) {
