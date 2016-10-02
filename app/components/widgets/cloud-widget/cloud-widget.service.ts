@@ -18,7 +18,7 @@ export class CloudWidgetService {
 
   getServiceInfos(serviceName: string) {
     return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'serviceInfos'].join('/')).toPromise()
-      .then(resp => {
+      .then((resp) => {
         resp.expirationText = moment(new Date(resp.expiration)).format('DD/MM/YYYY');
         resp.warning = !moment(new Date()).add(7, 'days').isBefore(new Date(resp.expiration));
 
@@ -28,7 +28,7 @@ export class CloudWidgetService {
 
   getSnapshots(serviceName: string) {
     return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'snapshot'].join('/')).toPromise()
-      .then(snapshots => {
+      .then((snapshots) => {
         if (Array.isArray(snapshots)) {
           return { snapshots: this.sortInstances(snapshots, true) };
         }

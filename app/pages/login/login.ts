@@ -31,8 +31,8 @@ export class LoginPage {
     this.analytics.trackView('Login');
     AppVersion.getVersionNumber()
       .then(
-        version => this.version = version,
-        err => console.log(err)
+        (version) => this.version = version,
+        (err) => console.log(err)
       );
   }
 
@@ -49,7 +49,7 @@ export class LoginPage {
     }
     this.loginService.login(this.login, this.password)
       .then(
-        authTypeInfos => {
+        (authTypeInfos) => {
           if (authTypeInfos.sms) {
             this.doubleAuthSmsEnabled = true;
             this.loading = false;
@@ -61,7 +61,7 @@ export class LoginPage {
             this.redirectSuccess();
           }
         },
-        err => {
+        (err) => {
           this.error = err.message ? err.message : JSON.stringify(err);
           this.analytics.trackEvent('Login', 'logme', 'Error', 'error : ' + this.error);
           this.keyboard.close();
@@ -108,7 +108,7 @@ export class LoginPage {
           this.toast.success('Un nouveau code vous a été envoyé').present();
           this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Success', 'good');
         },
-        err => {
+        (err) => {
           this.loadingCode = false;
           this.toast.error('Une ereur est survenue lors de votre demande').present();
           this.analytics.trackEvent('Login', 'doubleAuthResendCode', 'Error', JSON.stringify(err));

@@ -99,7 +99,7 @@ export class OvhRequestService {
     let body = Object.assign({}, opts.search);
 
     if (opts.search) {
-      Object.keys(opts.search).forEach(key => {
+      Object.keys(opts.search).forEach((key) => {
         if (opts.search[key]) {
           params.set(key, opts.search[key]);
         }

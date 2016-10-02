@@ -47,7 +47,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
       this.cloudWidgetService.getServiceInfos(this.serviceName),
       this.cloudWidgetService.getInstances(this.serviceName),
       this.cloudWidgetService.getSnapshots(this.serviceName)
-    ]).then(resp => {
+    ]).then((resp) => {
         this.cloud = Object.assign(resp[0], resp[1], resp[2], resp[3]);
         this.loading = false;
       })
@@ -60,10 +60,10 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
   getIps(): void {
     this.loading = true;
     this.cloudWidgetService.getIps(this.serviceName)
-      .then(ips => {
+      .then((ips) => {
         this.ips = ips;
         this.loading = false;
-      }, err => {
+      }, (err) => {
         this.error = err;
         this.loading = false;
       });
@@ -97,7 +97,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
             this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -108,7 +108,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
             this.toastService.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -141,7 +141,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
             this.toastService.success('Snapshot en cours de création…').present();
             this.getInfos();
           },
-          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -177,7 +177,7 @@ export class CloudWidgetContentComponent implements OnChanges, OnInit {
             this.toastService.success('Suppression effectuée avec succès').present();
             this.getInfos();
           },
-          err => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toastService.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 

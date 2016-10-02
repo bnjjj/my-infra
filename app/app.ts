@@ -18,7 +18,7 @@ import {loginConfiguration} from './config/constants';
 let providers = [
   HTTP_PROVIDERS,
   provide(OvhRequestService, {
-    useFactory: http => {
+    useFactory: (http) => {
       let myService = new OvhRequestService(http);
       let appKey = loginConfiguration['ovh-eu'].appKey;
       let appSecret = loginConfiguration['ovh-eu'].appSecret;
@@ -57,7 +57,7 @@ export class MyApp {
 
     this.rootPage = credentials ? TabsPage : LoginPage;
     platform.ready().then(() => {
-      document.addEventListener('backbutton', event => {
+      document.addEventListener('backbutton', (event) => {
         event.preventDefault();
         event.stopPropagation();
       }, false);

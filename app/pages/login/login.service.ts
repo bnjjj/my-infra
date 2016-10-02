@@ -29,7 +29,7 @@ export class LoginService {
     return new Promise((resolve, reject) => {
       this.http.post(this.rootUrl + '/1.0/auth/credential', accessRules,
         {headers: new Headers({'Content-Type': 'application/json', 'X-Ovh-Application': appKey})}).toPromise()
-        .then(resp => {
+        .then((resp) => {
           validationInfo = resp.json();
           this.validationUrl = validationInfo.validationUrl;
 
@@ -40,7 +40,7 @@ export class LoginService {
 
           return this.http.get(validationInfo.validationUrl).toPromise();
         })
-        .then(resp => {
+        .then((resp) => {
           let inputArray;
           let tempDiv = document.createElement('div');
           credentialToken = validationInfo.validationUrl.split('credentialToken=')[1];
@@ -56,13 +56,13 @@ export class LoginService {
 
           return this.askAuthentication(login, password, credentialToken);
         })
-        .then(resp => {
+        .then((resp) => {
           let tmpDiv = document.createElement('div');
           tmpDiv.innerHTML = resp.text();
 
           let inputs = tmpDiv.getElementsByTagName('input');
-          let inputSms = _(inputs).find(elt => elt.id === 'codeSMS');
-          let inputSessionId = _(inputs).find(elt => elt.name === 'sessionId');
+          let inputSms = _(inputs).find((elt) => elt.id === 'codeSMS');
+          let inputSessionId = _(inputs).find((elt) => elt.name === 'sessionId');
 
           if (tmpDiv.getElementsByClassName('error').length !== 0) {
             return /*Promise.*/reject('Error during activation token');
@@ -75,7 +75,7 @@ export class LoginService {
 
           return resolve({ sms: false, credentialToken, sessionId: null });
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     });
   }
 
