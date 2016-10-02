@@ -8,6 +8,7 @@ import {DedicatedWidgetComponent} from '../../components/widgets/dedicated-widge
 import {VpsWidgetComponent} from '../../components/widgets/vps-widget/vps-widget';
 import {CloudWidgetComponent} from '../../components/widgets/cloud-widget/cloud-widget';
 import {ProjectWidgetComponent} from '../../components/widgets/project-widget/project-widget';
+import {OvhAlertComponent} from '../../components/ovh-alert/ovh-alert';
 import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {categoryEnum} from '../../config/constants';
@@ -17,7 +18,8 @@ import {categoryEnum} from '../../config/constants';
   directives: [WebWidgetComponent, DomainWidgetComponent,
     DedicatedWidgetComponent, ProjectWidgetComponent,
     VpsWidgetComponent, PrivateDatabaseWidgetComponent,
-    CloudWidgetComponent, TitleSeparationComponent
+    CloudWidgetComponent, TitleSeparationComponent,
+    OvhAlertComponent
   ]
 })
 export class DashboardPage {

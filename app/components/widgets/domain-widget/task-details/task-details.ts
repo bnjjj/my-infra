@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'task-details-domain',
-  templateUrl: 'build/components/widgets/domain-widget/task-details/task-details.html',
+  templateUrl: 'task-details.html',
   directives: [IONIC_DIRECTIVES]
 })
 export class TaskDetailsDomainComponent {
