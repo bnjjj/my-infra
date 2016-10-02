@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
 
 @Component({
@@ -8,7 +8,18 @@ import {IONIC_DIRECTIVES} from 'ionic-angular';
   providers: []
 })
 export class OvhAlertComponent {
+  @Input() alertName: string;
+  @Input() link: string;
+
   constructor() {
 
+  }
+
+  openLink() {
+    window.open(this.link, '_blank');
+  }
+
+  close(event) {
+    event.stopPropagation();
   }
 }

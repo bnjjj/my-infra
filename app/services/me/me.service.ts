@@ -28,8 +28,8 @@ export class MeService {
       .mergeMap((ids) => this.getOvhAccount(ids[0]));
   }
 
-  getDomainTasks(state: string) {
-    return this.ovhRequest.get('/me/task/domain', {search: {state}});
+  getDomainTasks(status: string) {
+    return this.ovhRequest.get('/me/task/domain', {search: {status}});
   }
 
   getContactChange(state: string) {

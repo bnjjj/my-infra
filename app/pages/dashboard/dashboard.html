@@ -16,10 +16,9 @@
     <title-separation>
       Mes alertes
     </title-separation>
-    <div>
-      <ovh-alert>
-      </ovh-alert>
-      <ovh-alert>
+    <div *ngFor="let alert of alerts">
+      <ovh-alert [alertName]="alert.name" [link]="alert.link">
+        <p [innerText]="alert.description"></p>
       </ovh-alert>
     </div>
   </ion-item-group>

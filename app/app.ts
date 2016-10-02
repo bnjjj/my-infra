@@ -7,6 +7,7 @@ import {Component, PLATFORM_DIRECTIVES} from '@angular/core';
 import {OvhRequestService} from './services/ovh-request/ovh-request.service';
 import {ToastService} from './services/toast/toast.service';
 import {AnalyticsService} from './services/analytics/analytics.service';
+import {MeService} from './services/me/me.service';
 import {ProductsService} from './services/products/common.service';
 import {LoaderComponent} from './components/loader/loader';
 import {AsyncBoxComponent} from './components/async-box/async-box';
@@ -42,7 +43,8 @@ let providers = [
   provide(PLATFORM_DIRECTIVES, { useValue: StateLabelComponent, multi: true }),
   ProductsService,
   ToastService,
-  AnalyticsService
+  AnalyticsService,
+  MeService
 ];
 
 @Component({

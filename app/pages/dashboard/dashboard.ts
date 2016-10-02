@@ -11,6 +11,7 @@ import {ProjectWidgetComponent} from '../../components/widgets/project-widget/pr
 import {OvhAlertComponent} from '../../components/ovh-alert/ovh-alert';
 import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
+import {MeService} from '../../services/me/me.service';
 import {categoryEnum} from '../../config/constants';
 
 @Component({
@@ -24,12 +25,14 @@ import {categoryEnum} from '../../config/constants';
 })
 export class DashboardPage {
   widgets: Array<any> = [];
+  alerts: Array<any> = [];
   reload: boolean = false;
   CategoryEnum: any = categoryEnum;
 
-  constructor(private analytics: AnalyticsService, private nav: NavController, private modalCtrl: ModalController) {
+  constructor(private analytics: AnalyticsService, private nav: NavController, private modalCtrl: ModalController, private meService: MeService) {
     this.widgets = JSON.parse(localStorage.getItem('widgets')) || [];
     this.analytics.trackView('Dashboard');
+    this.getAlerts();
   }
 
   addWidgetModal(type: string): void {
@@ -39,6 +42,43 @@ export class DashboardPage {
     });
 
     addModal.present();
+  }
+
+  getAlerts(): void {
+    this.alerts = [];
+
+    this.meService.getSlas()
+      .subscribe((slas) => {
+        if (Array.isArray(slas) && slas.length) {
+          this.alerts.push({
+            name: 'Réduction SLA',
+            description: `Vous avez droit à ${slas.length} réduction(s) SLA`,
+            link: 'https://www.ovh.com/manager/web/#/billing/sla'
+          });
+        }
+      });
+
+    this.meService.getContactChange('validatingByCustomers')
+      .subscribe((contactChanges) => {
+        if (Array.isArray(contactChanges) && contactChanges.length) {
+          this.alerts.push({
+            name: 'Changement de contact',
+            description: `Vous avez ${contactChanges.length} demande(s) de contact en attente de votre approbation`,
+            link: 'https://www.ovh.com/manager/web/#/useraccount/contacts?tab=REQUESTS'
+          });
+        }
+      });
+
+    this.meService.getDomainTasks('error')
+      .subscribe((domainTasks) => {
+        if (Array.isArray(domainTasks) && domainTasks.length) {
+          this.alerts.push({
+            name: 'Opérations domaines',
+            description: `Vous avez ${domainTasks.length} opération(s) en erreur sur des domaines`,
+            link: 'https://www.ovh.com/manager/web/index.html#/configuration/domains_operations'
+          });
+        }
+      });
   }
 
   addProjectModal(): void {

@@ -1,12 +1,11 @@
-<ion-card class="ovh-alert">
+<ion-card class="ovh-alert" (click)="openLink()">
   <ion-item>
     <ion-avatar item-left (click)="updateCollapse.emit()">
       <i class="fa fa-exclamation-triangle fa-2x warning-color" aria-hidden="true"></i>
     </ion-avatar>
-    <h2 [innerText]="'serviceName'"></h2>
-    <p [innerText]="'category.text'"></p>
-    <button clear item-right class="button-white outline-white" (click)="openNetworkStateModal()">
-      <!-- <i class="fa fa-close fa-2x"></i> -->
+    <h2 [innerText]="alertName"></h2>
+    <ng-content></ng-content>
+    <button clear item-right class="button-white outline-white" (click)="close($event)">
       <ion-icon ios="ios-close" md="ios-close"></ion-icon>
     </button>
   </ion-item>
