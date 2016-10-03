@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     gulpWatch = require('gulp-watch'),
     del = require('del'),
     runSequence = require('run-sequence'),
-    tslint = require("gulp-tslint"),
+    tsLint = require("gulp-tslint"),
+    sassLint = require("gulp-sass-lint"),
     argv = process.argv;
 
 
@@ -36,23 +37,23 @@ var copyScripts = require('ionic-gulp-scripts-copy');
 
 var isRelease = argv.indexOf('--release') > -1;
 
-gulp.task('watch', ['clean'], function(done){
+gulp.task('watch', ['clean'], function (done) {
   runSequence(
-    ['sass', 'html', 'fonts', 'scripts', 'img', 'tslint'],
-    function(){
-      gulpWatch('app/**/*.scss', function (){ gulp.start('sass'); });
-      gulpWatch('app/**/*.html', function (){ gulp.start('html'); });
-      gulpWatch('resources/img/**/*', function (){ gulp.start('img'); });
-      gulpWatch('app/**/*.ts', function (){ gulp.start('tslint'); });
+    ['sass', 'html', 'fonts', 'scripts', 'img', 'lint:ts'],
+    function () {
+      gulpWatch('app/**/*.scss', function () { gulp.start('sass'); });
+      gulpWatch('app/**/*.html', function () { gulp.start('html'); });
+      gulpWatch('resources/img/**/*', function () { gulp.start('img'); });
+      gulpWatch('app/**/*.ts', function () { gulp.start('lint:ts'); });
       buildBrowserify({ watch: true }).on('end', done);
     }
   );
 });
 
-gulp.task('build', ['clean'], function(done){
+gulp.task('build', ['clean'], function (done) {
   runSequence(
     ['sass', 'html', 'fonts', 'scripts', 'img'],
-    function(){
+    function () {
       buildBrowserify({
         minify: isRelease,
         browserifyOptions: {
@@ -71,10 +72,21 @@ gulp.task('img', function () {
       .pipe(gulp.dest('www/build/img'));
 });
 
-gulp.task("tslint", function () {
+gulp.task('lint', function () {
+  runSequence(['lint:sass', 'lint:ts']);
+});
+
+gulp.task("lint:ts", function () {
     return gulp.src('app/**/*.ts')
-        .pipe(tslint({configuration: 'tslint.json'}))
-        .pipe(tslint.report('verbose'));
+        .pipe(tsLint({configuration: 'tslint.json'}))
+        .pipe(tsLint.report('verbose'));
+});
+
+gulp.task('lint:sass', function () {
+  return gulp.src('app/**/*.s+(a|c)ss')
+    .pipe(sassLint())
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError())
 });
 
 gulp.task('sass', function () {
@@ -95,6 +107,6 @@ gulp.task('fonts', function () {
   });
 });
 gulp.task('scripts', copyScripts);
-gulp.task('clean', function(){
+gulp.task('clean', function () {
   return del('www/build');
 });

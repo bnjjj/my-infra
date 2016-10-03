@@ -1,19 +1,23 @@
 .ovh-alert {
   .item {
     background-color: $shark2;
+
     .item-button {
       color: $manatee;
       font-size: 2.3rem;
     }
   }
+
   ion-card {
-    p {
-      color: $manatee;
-    }
     color: $primary-font-color;
+
     h2 {
       font-weight: 500;
       font-size: 1.8rem;
+    }
+
+    p {
+      color: $manatee;
     }
   }
 

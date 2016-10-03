@@ -1,0 +1,22 @@
+files:
+  include: 'app/**/*.s+(a|c)ss'
+rules:
+  # Disallows
+  no-color-keywords: 0
+  no-color-literals: 0
+  no-empty-rulesets: 0
+  no-important: 0
+  no-vendor-prefixes: 0
+
+  # Nesting
+  force-element-nesting: 0
+  force-pseudo-nesting: 0
+
+  # Name Formats
+  class-name-format: 0
+  variable-name-format: 0
+
+  # Style Guide
+  leading-zero: 0
+  nesting-depth: 0
+  property-sort-order: 0
