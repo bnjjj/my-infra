@@ -31,10 +31,22 @@
 // --------------------------------------------------
 // CSS that should only apply to the iOS app
 
-// ion-title {
-//   padding-left: 15px;
-// }
+ion-title {
+  padding: 0 20px;
 
-// .toolbar-title {
-//   text-align: left;
-// }
+  &.title-icon {
+    padding-left: 40px;
+  }
+}
+
+.toolbar-title {
+  text-align: left;
+}
+
+.back-button {
+  &.show-back-button + .toolbar-content {
+    > ion-title {
+      padding-left: 40px;
+    }
+  }
+}
