@@ -6,8 +6,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="messagesPage" *ngIf="!loading && !error && messages.length">
-  <ion-list>
+<ion-content class="messagesPage">
+  <ion-list *ngIf="!loading && !error && messages.length">
     <div class="messageContainer" *ngFor="let message of messages" item-right>
       <div class="talk-bubble tri-right round"
         [ngClass]="{'support left-top': message.from === 'support', 'customer right right-top': message.from === 'customer'}">
@@ -20,10 +20,10 @@
       [innerText]="message.creationDateText"></em>
     </div>
   </ion-list>
-</ion-content>
 
-<ion-content text-center padding *ngIf="loading">
-  <ion-spinner name="bubbles"></ion-spinner>
+  <ion-list text-center padding *ngIf="loading">
+    <ion-spinner name="bubbles"></ion-spinner>
+  </ion-list>
 </ion-content>
 
 <ion-footer>
