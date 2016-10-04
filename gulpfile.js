@@ -39,9 +39,9 @@ var isRelease = argv.indexOf('--release') > -1;
 
 gulp.task('watch', ['clean'], function (done) {
   runSequence(
-    ['sass', 'html', 'fonts', 'scripts', 'img', 'lint:ts'],
+    ['sass', 'html', 'fonts', 'scripts', 'img', 'lint:ts', 'lint:sass'],
     function () {
-      gulpWatch('app/**/*.scss', function () { gulp.start('sass'); });
+      gulpWatch('app/**/*.scss', function () { gulp.start('sass', 'lint:sass'); });
       gulpWatch('app/**/*.html', function () { gulp.start('html'); });
       gulpWatch('resources/img/**/*', function () { gulp.start('img'); });
       gulpWatch('app/**/*.ts', function () { gulp.start('lint:ts'); });
