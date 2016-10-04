@@ -81,15 +81,6 @@
       </ion-item-group>
     </ion-list>
 
-
-
-    <ion-list>
-      <task-details-domain *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
-      </task-details-domain>
-      <ion-item *ngIf="emptyTasks && !loading" text-center>
-        <em>Vous n’avez pas de tâches</em>
-      </ion-item>
-    </ion-list>
     <ion-row>
       <ion-col width-50>
         <button class="button-ovh" full (click)="openTasks(serviceName, domainService)">
