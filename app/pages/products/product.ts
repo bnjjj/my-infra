@@ -1,10 +1,18 @@
+import {OnDestroy} from '@angular/core';
 import {ModalController} from 'ionic-angular';
 import {NetworkStateModal} from '../../modals/network-state/network-state';
 import {TasksModal} from '../../modals/tasks/tasks';
+import {Subscription} from 'rxjs/Subscription';
 
-export class ProductCore {
+export class ProductCore implements OnDestroy {
+  subscription: Subscription;
+
   constructor(private modalCtrl: ModalController) {
 
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   openNetworkStateModal(category: any): void {

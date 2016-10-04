@@ -16,6 +16,11 @@
     <task-details *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName" [service]="service">
     </task-details>
   </ion-list>
+  <ion-row center *ngIf="!loading && !tasks.length">
+    <ion-col center class="center center-flex" width-100>
+      Vous n'avez pas de tâches récentes.
+    </ion-col>
+  </ion-row>
   <ion-row center *ngIf="loading">
     <ion-col center class="center center-flex" width-100>
       <ion-spinner name="bubbles" center></ion-spinner>

@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {IONIC_DIRECTIVES, AlertController} from 'ionic-angular';
 import {alertConfiguration} from '../../config/constants';
 import {AlertsService} from '../../services/alerts/alerts.service';
+import {AnalyticsService} from '../../services/analytics/analytics.service';
 
 @Component({
   selector: 'ovh-alert',
@@ -15,8 +16,9 @@ export class OvhAlertComponent {
   @Input() link: string;
   @Output() deleted: EventEmitter<any> = new EventEmitter();
 
-  constructor(public alertCtrl: AlertController, public alertsService: AlertsService) {
-
+  constructor(public alertCtrl: AlertController, public alertsService: AlertsService, public analytics: AnalyticsService) {
+    this.analytics.trackView('Ovh-alert');
+    this.analytics.trackView(`Ovh-alert:${this.alertType}`);
   }
 
   openLink() {

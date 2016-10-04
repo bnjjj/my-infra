@@ -1,6 +1,7 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import { NavParams, IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
 import {DomainService} from './domain.service';
+import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {TitleSeparationComponent} from '../../../components/title-separation/title-separation';
 import {ProductCore} from '../product';
 import {categoryEnum} from '../../../config/constants';
@@ -10,15 +11,15 @@ import {categoryEnum} from '../../../config/constants';
   directives: [IONIC_DIRECTIVES, TitleSeparationComponent],
   providers: [DomainService]
 })
-export class DomainPage extends ProductCore implements OnDestroy {
-  subscription: any;
+export class DomainPage extends ProductCore {
   domain: any;
   serviceName: string;
   loading: boolean = true;
   category = categoryEnum.DOMAIN;
 
-  constructor(private domainService: DomainService, private navParams: NavParams, modalCtrl: ModalController) {
+  constructor(private domainService: DomainService, private navParams: NavParams, modalCtrl: ModalController, public analytics: AnalyticsService) {
     super(modalCtrl);
+    this.analytics.trackView('product:domain');
     this.serviceName = navParams.get('serviceName');
 
     this.subscription = this.domainService.getAll(this.serviceName)
@@ -26,10 +27,6 @@ export class DomainPage extends ProductCore implements OnDestroy {
         this.domain = domain;
         this.loading = false;
       });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   changeTransferLockStatus(): void {
