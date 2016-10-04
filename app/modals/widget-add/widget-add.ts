@@ -1,8 +1,10 @@
+declare var require;
 import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {ProductsService} from '../../services/products/common.service';
 import {categoryEnum} from '../../config/constants';
+const _ = require('lazy.js');
 
 @Component({
   templateUrl: 'build/modals/widget-add/widget-add.html'
@@ -14,15 +16,20 @@ export class WidgetAddModal {
   category: any = this.CategoryEnum.DOMAIN;
   subCategory: any = this.CategoryEnum.DOMAIN;
   loading: boolean = true;
+  terminate: boolean = false;
   projectName: string;
   errors: any;
   products: Array<any> = [];
   project: Array<any> = [];
+  projectByCategories: any = {};
+  categories: Array<string> = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
 
   constructor(private viewCtrl: ViewController, private productService: ProductsService, private params: NavParams, private analytics: AnalyticsService) {
     this.fetchProducts(this.category.url);
     this.category = this.CategoryEnum[this.params.get('type') ? this.params.get('type') : 'DOMAIN'];
     this.analytics.trackView('Widget-add');
+    this.projectByCategories = Object.keys(categoryEnum)
+      .reduce((globalObj, key) => Object.assign({}, globalObj, { [key]: [] }), {});
   }
 
   close(): void {
@@ -33,27 +40,14 @@ export class WidgetAddModal {
     this.viewCtrl.dismiss({category: this.category, serviceName});
   }
 
-
   addSubProduct(serviceName: string, category: any): void {
-    this.filterCategories(category);
     this.fetchProducts(this.subCategory.url);
     this.project = this.project.concat([{ serviceName, category }]);
+    this.projectByCategories[category.name].push({ serviceName, category });
   }
 
   addProject(serviceName: string): void {
-    if (this.project.length === 2) {
-      this.viewCtrl.dismiss({ category: this.category, project: this.project, serviceName });
-    }
-  }
-
-  filterCategories(category: any): void {
-    if (!category.hardware) {
-      this.subCategoryKeys = this.subCategoryKeys.filter((cat) => this.CategoryEnum[cat].hardware);
-      this.subCategory = this.CategoryEnum.WEB;
-    } else {
-      this.subCategoryKeys = this.subCategoryKeys.filter((cat) => !this.CategoryEnum[cat].hardware);
-      this.subCategory = this.CategoryEnum.DOMAIN;
-    }
+    this.viewCtrl.dismiss({ category: this.category, project: this.project, serviceName });
   }
 
   selectCategory(category: any): void {
@@ -62,7 +56,7 @@ export class WidgetAddModal {
       this.project = [];
       this.projectName = null;
       this.fetchProducts(category.url);
-      this.subCategoryKeys = Object.keys(categoryEnum).filter((cat) => cat !== 'PROJECT');
+      this.subCategoryKeys = this.categories;
     }
   }
 
@@ -76,11 +70,15 @@ export class WidgetAddModal {
     this.productService.getAll(category)
       .then(products => {
         if (this.category !== this.CategoryEnum.PROJECT) {
-          this.products = products.filter(product => {
+          this.products = products.filter((product) => {
             return !(this.params.get('widgets').find(widget => widget.serviceName === product && this.category.name === widget.category.name));
           });
         } else {
-          this.products = products;
+          this.products = products.filter((product) => {
+            let productFound = _(this.project).findWhere({serviceName: product});
+
+            return !this.project.length || !(productFound && this.category !== productFound.category.name);
+          });
         }
 
         this.loading = false;
