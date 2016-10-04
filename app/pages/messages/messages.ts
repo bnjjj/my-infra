@@ -25,10 +25,10 @@ export class MessagesPage {
   getMessages(): void {
     this.loading = true;
     this.messagesService.getMessages(this.ticket.ticketId)
-      .then(messages => {
+      .then((messages) => {
         this.messages = messages;
         this.loading = false;
-      }, err => {
+      }, (err) => {
         this.error = err;
         this.toast.error('Erreur de chargement: ' + (err.message ? err.message : err)).present();
         this.loading = false;
@@ -43,7 +43,7 @@ export class MessagesPage {
         this.response = '';
         this.analytics.trackEvent('Messages', 'Reply', 'Success', 'Replying is a success');
       })
-      .catch(err => {
+      .catch((err) => {
         this.error = err.message ? err.message : JSON.stringify(err);
         this.toast.error('Une erreur est survenue lors de l\'envoi de votre message: ' + this.error).present();
         this.loading = false;

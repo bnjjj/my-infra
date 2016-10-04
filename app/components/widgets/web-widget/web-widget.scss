@@ -1,6 +1,7 @@
 .web-widget {
   .progressbar {
     border-color: black;
+
     ion-col {
       background-color: map-get($colors, primary);
       width: 65%;

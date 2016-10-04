@@ -7,24 +7,24 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
-@import "../modals/widget-add/widget-add";
-@import "../modals/ticket-create/ticket-create";
-@import "../modals/network-state/network-state";
-@import "../modals/about/about";
-@import "../pages/login/login";
-@import "../pages/account/account";
-@import "../pages/messages/messages";
-@import "../pages/support/support";
-@import "../pages/dashboard/dashboard";
-@import "../pages/products/products";
-@import "../components/loader/loader";
-@import "../components/ticket/ticket";
-@import "../components/widgets/web-widget/web-widget";
-@import "../components/widgets/vps-widget/vps-widget";
-@import "../components/widgets/cloud-widget/cloud-widget";
-@import "../components/widget-header/widget-header";
-@import "../components/title-separation/title-separation";
-@import "../components/ovh-alert/ovh-alert";
+@import '../modals/widget-add/widget-add';
+@import '../modals/ticket-create/ticket-create';
+@import '../modals/network-state/network-state';
+@import '../modals/about/about';
+@import '../pages/login/login';
+@import '../pages/account/account';
+@import '../pages/messages/messages';
+@import '../pages/support/support';
+@import '../pages/dashboard/dashboard';
+@import '../pages/products/products';
+@import '../components/loader/loader';
+@import '../components/ticket/ticket';
+@import '../components/widgets/web-widget/web-widget';
+@import '../components/widgets/vps-widget/vps-widget';
+@import '../components/widgets/cloud-widget/cloud-widget';
+@import '../components/widget-header/widget-header';
+@import '../components/title-separation/title-separation';
+@import '../components/ovh-alert/ovh-alert';
 
 .tspace5 {
   margin-top: 5px;
@@ -59,20 +59,12 @@
 }
 
 .has-refresher > scroll-content {
-  border-top: none;
+  border-top: 0;
 }
 
 .toast-alert {
   .toast-wrapper {
-    opacity: 0.90;
-    background-color: map-get($colors, primary);
-    border-radius: 10;
-  }
-}
-
-.toast-alert {
-  .toast-wrapper {
-    opacity: 0.90;
+    opacity: .9;
     background-color: map-get($colors, danger);
     border-radius: 10;
   }
@@ -80,7 +72,7 @@
 
 .toast-success {
   .toast-wrapper {
-    opacity: 0.90;
+    opacity: .9;
     background-color: map-get($colors, secondary);
     border-radius: 10;
   }
@@ -116,8 +108,8 @@ ion-card p {
 
 .center-flex {
   display: flex;
-  justify-content: center; /* align horizontal */
-  align-items: center; /* align vertical */
+  justify-content: center; // align horizontal
+  align-items: center; // align vertical
 }
 
 .toast-wrapper {
@@ -134,32 +126,32 @@ ion-card p {
 .nostyle-item-list {
   ion-list {
     & > .item:first-child {
-      border-top: none;
-    }
-    & > .item:first-child {
-      border-bottom: none;
+      border-top: 0;
+      border-bottom: 0;
     }
   }
 }
 
-
-
 //------------------------------------------------------------------
 
 body {
-  background-image: url("../img/bg-texture.png");
+  background-image: url('../img/bg-texture.png');
   background-repeat: repeat;
 }
+
 .toolbar-background {
   background-color: transparent;
   border-color: transparent;
 }
+
 ion-tabbar {
   background-color: $bastille;
-  border-top: none;
+  border-top: 0;
 }
+
 ion-title {
   color: $ovh-font;
+
   .toolbar-title {
     color: $mercury;
     font-weight: 300;
@@ -178,16 +170,18 @@ ion-navbar {
 }
 
 ion-content {
-  background-image: url("../img/bg-texture.png");
+  background-image: url('../img/bg-texture.png');
   background-repeat: repeat;
 }
 
 ion-card {
+  box-shadow: 0 0 0 transparent;
+  border-radius: 0;
+
   h2 {
     color: $primary-font-color;
   }
-  box-shadow: 0px 0px 0px transparent;
-  border-radius: 0px;
+
   &.transparent {
     background-color: transparent;
   }
@@ -206,23 +200,30 @@ ion-tabbar-section {
 
   .tab-button {
     border-right: 2px black;
-  }
 
-  .tab-button[aria-selected=true] {
-    color: $steel-blue;
+    &[aria-selected='true'] {
+      color: $steel-blue;
+    }
   }
 }
 
 ion-list {
   background-color: transparent;
   color: $primary-font-color;
+
   .item {
     color: $primary-font-color;
     background-color: transparent;
+
+    .item-inner {
+      border-bottom: 0;
+    }
+  }
+
+  .item-inner {
+    border-bottom: 0;
   }
 }
-
-
 
 .center {
   margin: auto;
@@ -235,6 +236,7 @@ ion-list {
 .widget-content {
   background-color: $ovh-widget-background;
   color: $primary-font-color;
+
   .button-white {
     color: $primary-font-color;
   }
@@ -247,7 +249,7 @@ ion-list {
   .progress {
     overflow: hidden;
     height: 25px;
-    background-image: linear-gradient(90deg, rgb(99,173,60) 0%, rgb(99,173,75) 50%, rgb(201,160,48) 75%, rgb(206,66,66) 100%);
+    background-image: linear-gradient(90deg, rgb(99, 173, 60) 0%, rgb(99, 173, 75) 50%, rgb(201, 160, 48) 75%, rgb(206, 66, 66) 100%);
     border-radius: 15px;
     border: 1px solid $primary-font-color;
   }
@@ -268,6 +270,7 @@ button {
     background-color: $ovh-button;
     color: $primary-font-color;
     height: 35px;
+
     &.activated {
       background-color: $ovh-button-active;
     }
@@ -275,11 +278,8 @@ button {
 }
 
 .segment-button {
-  border-color: $segment-active-background;
-}
-
-.segment-button {
   color: $primary-font-color;
+  border-color: $segment-active-background;
 
   &.segment-activated {
     color: black;
@@ -309,28 +309,16 @@ ion-input {
   color: $primary-font-color;
 }
 
-ion-list .item-inner {
-  border-bottom: 0;
-}
-
-ion-list {
-  .item {
-    .item-inner {
-      border-bottom: 0;
-    }
-  }
-}
-
 .item {
   border-bottom: 1px solid #636673;
 }
 
 .select-icon {
   width: 25px;
+
   .select-icon-inner {
     border-top: 8px solid;
     border-right: 8px solid transparent;
     border-left: 8px solid transparent;
   }
 }
-

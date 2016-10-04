@@ -29,11 +29,11 @@ export class SupportPage {
   getTickets() {
     this.loading = true;
     return this.supportService.getTickets()
-      .then(ticketsId => {
+      .then((ticketsId) => {
         this.ticketIds = ticketsId;
         this.refreshTicketsList();
         this.loading = false;
-      }, err => {
+      }, (err) => {
         this.error = err;
         this.toast.error('Erreur de chargement: ' + (err.message ? err.message : JSON.stringify(err))).present();
         this.loading = false;
