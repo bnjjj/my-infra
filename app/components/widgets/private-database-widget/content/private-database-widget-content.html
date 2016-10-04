@@ -57,6 +57,22 @@
     <div *ngSwitchCase="'general'">
       <ion-row>
         <ion-col width-40>
+          Datacentre
+        </ion-col>
+        <ion-col width-60>
+          <strong [innerText]="bdd.datacenter"></strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
+          Host
+        </ion-col>
+        <ion-col width-60>
+          <strong [innerText]="bdd.server"></strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-40>
           Version
         </ion-col>
         <ion-col width-60>
