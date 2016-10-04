@@ -135,6 +135,7 @@ export class LoginService {
     localStorage.removeItem('widgets');
     localStorage.removeItem('credentials');
     localStorage.removeItem('connected');
+    localStorage.removeItem('alerts');
     this.ovhRequest.setConfiguration({});
     location.reload();
   }
