@@ -7,6 +7,7 @@ import {Component, PLATFORM_DIRECTIVES} from '@angular/core';
 import {OvhRequestService} from './services/ovh-request/ovh-request.service';
 import {ToastService} from './services/toast/toast.service';
 import {AnalyticsService} from './services/analytics/analytics.service';
+import {AlertsService} from './services/alerts/alerts.service';
 import {MeService} from './services/me/me.service';
 import {ProductsService} from './services/products/common.service';
 import {LoaderComponent} from './components/loader/loader';
@@ -44,7 +45,8 @@ let providers = [
   ProductsService,
   ToastService,
   AnalyticsService,
-  MeService
+  MeService,
+  AlertsService
 ];
 
 @Component({

@@ -7,19 +7,19 @@
 </ion-header>
 
 <ion-content class="dashboard-page">
-  <ion-card *ngIf="widgets && !widgets.length" class="transparent">
-    <ion-card-content>
-      Vous n’avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
-    </ion-card-content>
-  </ion-card>
   <ion-item-group>
     <title-separation>
       Mes alertes
     </title-separation>
     <div *ngFor="let alert of alerts">
-      <ovh-alert [alertName]="alert.name" [link]="alert.link">
-        <p [innerText]="alert.description"></p>
-      </ovh-alert>
+      <div class="animated bounceInDown">
+        <ovh-alert [alertName]="alert.name" [link]="alert.link" [alertType]="alert.type" (deleted)="filterAlert($event)">
+          <p [innerText]="alert.description"></p>
+        </ovh-alert>
+      </div>
+    </div>
+    <div class="center center-flex" *ngIf="loading.alerts">
+      <ion-spinner name="bubbles"></ion-spinner>
     </div>
   </ion-item-group>
   <ion-item-group>
@@ -78,4 +78,9 @@
       </vps-widget>
     </div>
   </div>
+  <ion-card *ngIf="widgets && !widgets.length" class="transparent">
+    <ion-card-content>
+      Vous n’avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
+    </ion-card-content>
+  </ion-card>
 </ion-content>

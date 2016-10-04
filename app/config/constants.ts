@@ -1,4 +1,4 @@
-export let categoryEnum: any = {
+export const categoryEnum: any = {
   WEB: { url: '/hosting/web', name: 'WEB', text: 'Hébergement web', supportRef: 'hosting', hardware: true, icon: 'fa fa-globe', workId: '4' },
   VPS: { url: '/vps', name: 'VPS', text: 'VPS', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o', workId: '22' },
   DEDICATED_SERVER: { url: '/dedicated/server', name: 'DEDICATED_SERVER', text: 'Serveur dédié', supportRef: 'dedicated', hardware: true, icon: 'fa fa-server', workId: '5' },
@@ -8,17 +8,32 @@ export let categoryEnum: any = {
   PROJECT: { url: 'project', name: 'PROJECT', text: 'Projet personnalisé', icon: '' }
 };
 
-export let ticketCategoryEnum: any = {
+export const ticketCategoryEnum: any = {
   ASSISTANCE: { ref: 'assistance', text: 'Conseil technique et commercial' },
   BILLING: { ref: 'billing', text: 'Question concernant une commande' },
   INCIDENT: { ref: 'incident', text: 'Déclarer un incident' }
 };
 
-export let loginConfiguration: any = {
+export const loginConfiguration: any = {
   'ovh-eu': {
      endpoint: 'ovh-eu',
      rootUrl: 'https://eu.api.ovh.com',
      appKey: 'pChewtm5q6eHxBeq',
      appSecret: 'QfEkT7FoWqtYxgNQBPaiB56q0y3CEHHp'
   }
+};
+
+export const alertConfiguration: any = {
+  durations: [
+    {
+      label: '1 jour',
+      value: 'DAYS'
+    }, {
+      label: '1 semaine',
+      value: 'WEEKS'
+    }, {
+      label: '1 mois',
+      value: 'MONTHS'
+    }
+  ]
 };

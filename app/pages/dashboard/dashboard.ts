@@ -11,6 +11,7 @@ import {ProjectWidgetComponent} from '../../components/widgets/project-widget/pr
 import {OvhAlertComponent} from '../../components/ovh-alert/ovh-alert';
 import {WidgetAddModal} from '../../modals/widget-add/widget-add';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
+import {AlertsService, OvhAlert} from '../../services/alerts/alerts.service';
 import {MeService} from '../../services/me/me.service';
 import {categoryEnum} from '../../config/constants';
 
@@ -25,11 +26,15 @@ import {categoryEnum} from '../../config/constants';
 })
 export class DashboardPage {
   widgets: Array<any> = [];
-  alerts: Array<any> = [];
+  alerts: Array<OvhAlert> = [];
   reload: boolean = false;
+  loading: any = {
+    alerts: false
+  };
   CategoryEnum: any = categoryEnum;
 
-  constructor(private analytics: AnalyticsService, private nav: NavController, private modalCtrl: ModalController, private meService: MeService) {
+  constructor(private analytics: AnalyticsService, private nav: NavController, private modalCtrl: ModalController,
+      private meService: MeService, public alertsService: AlertsService) {
     this.widgets = JSON.parse(localStorage.getItem('widgets')) || [];
     this.analytics.trackView('Dashboard');
     this.getAlerts();
@@ -46,38 +51,38 @@ export class DashboardPage {
 
   getAlerts(): void {
     this.alerts = [];
+    this.loading.alerts = true;
 
     this.meService.getSlas()
       .subscribe((slas) => {
         if (Array.isArray(slas) && slas.length) {
-          this.alerts.push({
-            name: 'Réduction SLA',
-            description: `Vous avez droit à ${slas.length} réduction(s) SLA`,
-            link: 'https://www.ovh.com/manager/web/#/billing/sla'
-          });
+          this.alerts.push(this.alertsService.getSLA(slas));
         }
+        this.loading.alerts = false;
       });
 
     this.meService.getContactChange('validatingByCustomers')
       .subscribe((contactChanges) => {
         if (Array.isArray(contactChanges) && contactChanges.length) {
-          this.alerts.push({
-            name: 'Changement de contact',
-            description: `Vous avez ${contactChanges.length} demande(s) de contact en attente de votre approbation`,
-            link: 'https://www.ovh.com/manager/web/#/useraccount/contacts?tab=REQUESTS'
-          });
+          this.alerts.push(this.alertsService.getContact(contactChanges));
         }
+        this.loading.alerts = false;
       });
 
     this.meService.getDomainTasks('error')
       .subscribe((domainTasks) => {
         if (Array.isArray(domainTasks) && domainTasks.length) {
-          this.alerts.push({
-            name: 'Opérations domaines',
-            description: `Vous avez ${domainTasks.length} opération(s) en erreur sur des domaines`,
-            link: 'https://www.ovh.com/manager/web/index.html#/configuration/domains_operations'
-          });
+          this.alerts.push(this.alertsService.getDomainTasks(domainTasks));
         }
+        this.loading.alerts = false;
+      });
+
+    this.meService.getAmount()
+      .subscribe((debt) => {
+        if (debt.value < 0) {
+          this.alerts.push(this.alertsService.getDebt(debt));
+        }
+        this.loading.alerts = false;
       });
   }
 
@@ -103,5 +108,9 @@ export class DashboardPage {
   removeWidget(widgetInfos: any): void {
     this.widgets = this.widgets.filter(widget => widget.serviceName !== widgetInfos.serviceName || widget.category.url !== widgetInfos.url);
     localStorage.setItem('widgets', JSON.stringify(this.widgets));
+  }
+
+  filterAlert(alertType: any) {
+    this.alerts = this.alerts.filter((alert) => alert.type !== alertType);
   }
 }
