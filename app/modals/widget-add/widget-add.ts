@@ -21,7 +21,7 @@ export class WidgetAddModal {
 
   constructor(private viewCtrl: ViewController, private productService: ProductsService, private params: NavParams, private analytics: AnalyticsService) {
     this.fetchProducts(this.category.url);
-    this.category = this.CategoryEnum[this.params.get('type')];
+    this.category = this.CategoryEnum[this.params.get('type') ? this.params.get('type') : 'DOMAIN'];
     this.analytics.trackView('Widget-add');
   }
 
