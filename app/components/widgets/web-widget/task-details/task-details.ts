@@ -1,7 +1,7 @@
 declare var require;
 import {Component, Input} from '@angular/core';
 import {IONIC_DIRECTIVES} from 'ionic-angular';
-import {WebWidgetService} from '../web-widget.service';
+import {HostingWebService} from '../../../../pages/products/hosting-web/hosting-web.service';
 let moment = require('moment');
 
 @Component({
@@ -15,7 +15,7 @@ export class TaskDetailsWebComponent {
   loading: boolean = true;
   error: any;
   task: Object;
-  constructor(private webWidgetService: WebWidgetService) {
+  constructor(private hostingWebService: HostingWebService) {
 
   }
 
@@ -25,7 +25,7 @@ export class TaskDetailsWebComponent {
 
   getTask() {
     this.loading = true;
-    return this.webWidgetService.getTask(this.serviceName, this.id)
+    return this.hostingWebService.getTask(this.serviceName, this.id).toPromise()
       .then(task => {
         task.startDateText = moment(new Date(task.startDate)).format('DD/MM/YYYY à HH:mm');
         task.doneDateText = task.doneDate ? moment(new Date(task.doneDate)).format('DD/MM/YYYY à HH:mm') : null;

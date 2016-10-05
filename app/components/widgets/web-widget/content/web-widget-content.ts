@@ -1,17 +1,17 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {WebWidgetService} from '../web-widget.service';
-import {WidgetsService} from '../../widgets.service';
+import {HostingWebService} from '../../../../pages/products/hosting-web/hosting-web.service';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {TaskDetailsWebComponent} from '../task-details/task-details';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
+import {WidgetsService} from '../../widgets.service';
 
 @Component({
   selector: 'web-widget-content',
   templateUrl: 'build/components/widgets/web-widget/content/web-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent, WidgetHeaderComponent],
-  providers: [WebWidgetService, WidgetsService]
+  providers: [WidgetsService, HostingWebService]
 })
 export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -31,7 +31,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
   constants = categoryEnum.WEB;
 
-  constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService,
+  constructor(private widgetService: WidgetsService, private hostingWebService: HostingWebService,
     private toast: ToastService, private modalCtrl: ModalController) {
 
   }
@@ -42,9 +42,9 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.webWidgetService.getInfos(this.serviceName),
-        this.webWidgetService.getServiceInfos(this.serviceName),
-        this.webWidgetService.getSsl(this.serviceName)
+    Promise.all([this.hostingWebService.getInfos(this.serviceName).toPromise(),
+        this.hostingWebService.getServiceInfos(this.serviceName).toPromise(),
+        this.hostingWebService.getSsl(this.serviceName)
       ])
       .then(resp => {
         this.server = Object.assign(resp[0], resp[1], { ssl: resp[2] });
@@ -59,7 +59,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   changeSslStatus(): void {
     if (this.server.ssl && this.server.ssl.status === 'none') {
       this.server.ssl = {status: 'creating'};
-      this.webWidgetService.createSsl(this.serviceName)
+      this.hostingWebService.createSsl(this.serviceName).toPromise()
         .then(
           () => this.toast.success('La création de votre certificat SSL est en cours...').present(),
           (err) => {
@@ -69,7 +69,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
         );
     } else {
       this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
-      this.webWidgetService.deleteSsl(this.serviceName)
+      this.hostingWebService.deleteSsl(this.serviceName).toPromise()
         .then(
           () => this.toast.success('La suppression de votre certificat SSL est en cours...').present(),
           (err) => {
@@ -88,7 +88,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.webWidgetService.getTasks(this.serviceName)
+      this.hostingWebService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;
