@@ -28,30 +28,6 @@
        [innerText]="vps.expirationText">
      </ion-col>
    </ion-row>
-   <ion-row>
-     <ion-col width-40>
-       Etat du service
-     </ion-col>
-     <ion-col width-60 text-right>
-       <div [ngSwitch]="vps.state">
-         <ion-badge *ngSwitchCase="'running'"
-            class="capitalize"
-           [innerText]="vps.state"
-           secondary>
-         </ion-badge>
-         <ion-badge *ngSwitchCase="'maintenance'"
-            class="capitalize"
-           [innerText]="vps.state"
-           primary>
-         </ion-badge>
-         <ion-badge *ngSwitchDefault
-            class="capitalize"
-           [innerText]="vps.state"
-           danger>
-         </ion-badge>
-       </div>
-     </ion-col>
-   </ion-row>
  </div>
   <div [ngSwitch]="viewMode" *ngIf="collapsed && !error" class="animated fadeIn">
      <div *ngSwitchCase="'general'">
