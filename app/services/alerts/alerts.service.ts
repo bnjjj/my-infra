@@ -36,7 +36,7 @@ export class AlertsService {
   getDomainTasks(domainTasks: any): OvhAlert {
     return {
       type: 'DOMAIN_TASKS',
-      name: 'Opérations domaines',
+      name: 'Opération domaine',
       description: `Vous avez ${domainTasks.length} opération(s) en erreur sur des domaines`,
       link: 'https://www.ovh.com/manager/web/index.html#/configuration/domains_operations'
     };

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavParams, IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
+import { NavParams, IONIC_DIRECTIVES, ModalController, AlertController } from 'ionic-angular';
 import {VpsService} from './vps.service';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {ToastService} from '../../../services/toast/toast.service';
@@ -23,7 +23,7 @@ export class VpsPage extends ProductCore {
   category = categoryEnum.VPS;
 
   constructor(private vpsService: VpsService, private navParams: NavParams, modalCtrl: ModalController,
-      public analytics: AnalyticsService, public toast: ToastService) {
+      public analytics: AnalyticsService, public toast: ToastService, public alertCtrl: AlertController) {
     super(modalCtrl);
     this.analytics.trackView('product:vps');
     this.serviceName = navParams.get('serviceName');
@@ -72,5 +72,29 @@ export class VpsPage extends ProductCore {
           this.toast.error(`Une erreur est survenue (${JSON.parse(err._body).message})`).present();
         }
       );
+  }
+
+  reboot(): void {
+    let alert = this.alertCtrl.create({
+      title: 'Redémarrage',
+      message: 'Voulez-vous redémarrer le vps ' + this.serviceName,
+      buttons: [
+        {
+          text: 'Non'
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.vpsService.reboot(this.serviceName).toPromise()
+              .then(
+                () => this.toast.success('Redémarrage en cours ...').present(),
+                (err) => this.toast.error('Une erreur est survenue : ' + err.message).present()
+              );
+          }
+        }
+      ]
+    });
+
+    alert.present();
   }
 }
