@@ -77,7 +77,7 @@ export class VpsPage extends ProductCore {
   reboot(): void {
     let alert = this.alertCtrl.create({
       title: 'Redémarrage',
-      message: 'Voulez-vous redémarrer le vps ' + this.serviceName,
+      message: `Voulez-vous redémarrer le vps ${this.serviceName}`,
       buttons: [
         {
           text: 'Non'
@@ -87,8 +87,8 @@ export class VpsPage extends ProductCore {
           handler: () => {
             this.vpsService.reboot(this.serviceName).toPromise()
               .then(
-                () => this.toast.success('Redémarrage en cours ...').present(),
-                (err) => this.toast.error('Une erreur est survenue : ' + err.message).present()
+                () => this.toast.success('Redémarrage en cours…').present(),
+                (err) => this.toast.error(`Une erreur est survenue : ${err.message}`).present()
               );
           }
         }

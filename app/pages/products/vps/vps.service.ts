@@ -11,7 +11,7 @@ export class VpsService {
   }
 
   getInfos(serviceName: string) {
-    return this.ovhRequest.get(['/vps', serviceName].join('/'));
+    return this.ovhRequest.get(`/vps/${serviceName}`);
   }
 
   getDatacenter(serviceName: string) {
@@ -27,11 +27,11 @@ export class VpsService {
   }
 
   putInfos(serviceName: string, data: any) {
-    return this.ovhRequest.put(['/vps', serviceName].join('/'), JSON.stringify(data));
+    return this.ovhRequest.put(`/vps/${serviceName}`, JSON.stringify(data));
   }
 
   getServiceInfos(serviceName: string) {
-    return this.ovhRequest.get(['/vps', serviceName, 'serviceInfos'].join('/'))
+    return this.ovhRequest.get(`/vps/${serviceName}/serviceInfos`)
       .map((resp) => {
         resp.expirationText = moment(new Date(resp.expiration)).format('DD/MM/YYYY');
         resp.warning = !moment(new Date()).add(7, 'days').isBefore(new Date(resp.expiration));
@@ -41,19 +41,19 @@ export class VpsService {
   }
 
   getDistributionInfos(serviceName: string) {
-    return this.ovhRequest.get(['/vps', serviceName, 'distribution'].join('/'));
+    return this.ovhRequest.get(`/vps/${serviceName}/distribution`);
   }
 
   getTasks(serviceName: string) {
-    return this.ovhRequest.get(['/vps', serviceName, 'tasks'].join('/'));
+    return this.ovhRequest.get(`/vps/${serviceName}/tasks`);
   }
 
   getTask(serviceName: string, id: number) {
-    return this.ovhRequest.get(['/vps', serviceName, 'tasks', id].join('/'));
+    return this.ovhRequest.get(`/vps/${serviceName}/tasks/${id}`);
   }
 
   reboot(serviceName: string) {
-    return this.ovhRequest.post(['/vps', serviceName, 'reboot'].join('/'), JSON.stringify({}));
+    return this.ovhRequest.post(`/vps/${serviceName}/reboot`, JSON.stringify({}));
   }
 
   getAll(serviceName: string) {
