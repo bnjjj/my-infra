@@ -12,6 +12,14 @@
 </ion-header>
 
 <ion-content class="tasksModal">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh"
+      pullingText="Tirer pour rafraîchir"
+      refreshingSpinner="bubbles"
+      refreshingText="Chargement…">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list *ngIf="!loading && !error && tasks.length">
     <task-details *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName" [service]="service">
     </task-details>

@@ -17,14 +17,29 @@ export class TasksModal {
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
     this.serviceName = this.navParams.get('serviceName');
     this.service = this.navParams.get('service');
+    this.getTasks();
+  }
+
+  getTasks() {
+    this.loading = true;
     this.service.getTasks(this.serviceName)
       .subscribe((ids) => {
         this.tasks = ids;
         this.loading = false;
-      });
+      },
+      null,
+      () => this.loading = false
+    );
   }
 
   close(): void {
     this.viewCtrl.dismiss({});
+  }
+
+  doRefresh(refresher): void {
+    this.getTasks();
+    setTimeout(() => {
+      refresher.complete();
+    }, 300);
   }
 }
