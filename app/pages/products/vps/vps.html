@@ -16,7 +16,7 @@
       <ion-item-group>
         <ion-item>
           <ion-label>
-            Etat du service
+            État du service
           </ion-label>
           <ion-note item-right>
             <div [ngSwitch]="vps.state">
@@ -130,7 +130,7 @@
 
       <ion-item-group>
         <title-separation>
-          Ip
+          IP
         </title-separation>
         <ion-item>
           <ion-label>
@@ -143,7 +143,7 @@
         </ion-item>
         <ion-item>
           <ion-label>
-            Ips associées
+            IPs associées
           </ion-label>
           <ion-note item-right>
             <span [innerText]="vps.ips.length"></span>
@@ -151,7 +151,7 @@
         </ion-item>
         <ion-item>
           <ion-label>
-            Ips disponibles
+            IPs disponibles
           </ion-label>
           <ion-note item-right>
             <span [innerText]="vps.model.maximumAdditionnalIp + 1"></span>
