@@ -5,8 +5,12 @@
     [serviceName]="serviceName"
     [(collapsed)]="collapsed">
   </dedicated-widget-content>
-
-  <ion-row no-padding>
+  <widget-footer
+    (openTasks)="openTasks()"
+    (openInfos)="moreInfos()"
+    (remove)="removeMe()">
+  </widget-footer>
+ <!--  <ion-row no-padding>
     <ion-col width-40>
       <button clear (click)="reboot()">
         <a class="button-white" [href]="">
@@ -26,5 +30,5 @@
         Remove
       </button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 </ion-card>

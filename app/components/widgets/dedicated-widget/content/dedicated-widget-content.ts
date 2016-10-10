@@ -1,16 +1,16 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {DedicatedWidgetService} from '../dedicated-widget.service';
 import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
 import {WidgetsService} from '../../widgets.service';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
+import {DedicatedServerService} from '../../../../pages/products/dedicated-server/dedicated-server.service';
 
 @Component({
   selector: 'dedicated-widget-content',
   templateUrl: 'build/components/widgets/dedicated-widget/content/dedicated-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent, WidgetHeaderComponent],
-  providers: [DedicatedWidgetService, WidgetsService]
+  providers: [DedicatedServerService, WidgetsService]
 })
 export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -28,7 +28,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   tasks: Array<any> = [];
   constants = categoryEnum.DEDICATED_SERVER;
 
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
+  constructor(private dedicatedServerService: DedicatedServerService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -38,7 +38,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.dedicatedWidgetService.getInfos(this.serviceName), this.dedicatedWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.dedicatedServerService.getInfos(this.serviceName).toPromise(), this.dedicatedServerService.getServiceInfos(this.serviceName).toPromise()])
       .then(resp => {
         this.server = Object.assign({}, resp[0], resp[1]);
         this.loading = false;
@@ -52,7 +52,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.dedicatedWidgetService.getTasks(this.serviceName)
+      this.dedicatedServerService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = tasks.length === 0;
           this.tasks = tasks;

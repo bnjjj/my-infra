@@ -1,0 +1,178 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span *ngIf="loading" [innerText]="serviceName"></span>
+      <span *ngIf="!loading" [innerText]="server.reverse || serviceName"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content">
+  <div *ngIf="!loading.init">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <p class="capitalize center-flex" [innerText]="server.hardware.description"></p>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Etat du service
+          </ion-label>
+          <ion-note item-right>
+            <div [ngSwitch]="server.state">
+              <ion-badge *ngSwitchCase="'ok'"
+                class="capitalize"
+                [innerText]="server.state"
+                secondary>
+              </ion-badge>
+              <ion-badge *ngSwitchDefault
+                class="capitalize"
+                [innerText]="server.state"
+                danger>
+              </ion-badge>
+            </div>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Nom
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.name"></span>
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label [ngClass]="{'danger-color animated pulse': server.warning}">
+            <i class="fa fa-warning" *ngIf="server.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{'danger-color animated pulse': server.warning}"
+            [innerText]="server.expirationText">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Datacentre
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="server.datacenter"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Système d'exploitation
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="server.os"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation>
+          Matériel
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Processeur
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.hardware.processorName"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Nb de processeur
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.hardware.numberOfProcessors"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Coeurs
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.hardware.coresPerProcessor"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Threads
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.hardware.threadsPerProcessor"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item *ngIf="server.hardware.diskGroups.length">
+          <ion-label>
+            Disques
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.hardware.diskGroups[0].numberOfDisks + ' x ' + server.hardware.diskGroups[0].diskSize.value + server.hardware.diskGroups[0].diskSize.unit"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation>
+          Monitoring
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Monitoring
+          </ion-label>
+          <ion-note item-right>
+            <i [hidden]="!server.monitoring" class="fa fa-check fa-2x" secondary></i>
+            <i [hidden]="server.monitoring" class="fa fa-times fa-2x" danger></i>
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Graphique
+          </ion-label>
+          <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
+            <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-segment (ionChange)="selectMonitoring(monitoring, monitoringPeriod)" [(ngModel)]="monitoringPeriod">
+            <ion-segment-button value="daily">
+              Jour
+            </ion-segment-button>
+            <ion-segment-button value="weekly">
+              Semaine
+            </ion-segment-button>
+            <ion-segment-button value="monthly">
+              Mois
+            </ion-segment-button>
+          </ion-segment>
+        </ion-item>
+        <ion-item *ngIf="loading.monitoring">
+          <div class="center center-flex">
+            <ion-spinner name="bubbles"></ion-spinner>
+          </div>
+        </ion-item>
+        <ion-item *ngIf="!loading.monitoring">
+
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, hostingWebService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading.init" padding text-center>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>
