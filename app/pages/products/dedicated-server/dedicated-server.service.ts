@@ -36,7 +36,7 @@ export class DedicatedServerService {
         period
       }
     }).map((stats) => {
-      let series = stats.values.map((point) => ([point.timestamp * 1000, point.value + Math.random() * 100]));
+      let series = stats.values.map((point) => ([point.timestamp * 1000, point.value]));
       return {
         chart: {
           type: 'line',
