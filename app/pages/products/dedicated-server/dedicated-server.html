@@ -4,6 +4,11 @@
       <span *ngIf="loading" [innerText]="serviceName"></span>
       <span *ngIf="!loading" [innerText]="server.reverse || serviceName"></span>
     </ion-title>
+    <ion-buttons end>
+      <button (click)="reboot()">
+        <ion-icon name="md-refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="product-content">
@@ -161,7 +166,7 @@
     </ion-list>
     <ion-row>
       <ion-col width-50>
-        <button class="button-ovh" full (click)="openTasks(serviceName, hostingWebService)">
+        <button class="button-ovh" full (click)="openTasks(serviceName, dedicatedServerService)">
           Tâches
         </button>
       </ion-col>

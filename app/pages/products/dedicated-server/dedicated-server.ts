@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavParams, IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
+import { NavParams, IONIC_DIRECTIVES, ModalController, AlertController } from 'ionic-angular';
 import {ToastService} from '../../../services/toast/toast.service';
 import {DedicatedServerService} from './dedicated-server.service';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
@@ -25,7 +25,7 @@ export class DedicatedServerPage extends ProductCore {
   category = categoryEnum.DEDICATED_SERVER;
 
   constructor(private dedicatedServerService: DedicatedServerService, private navParams: NavParams, modalCtrl: ModalController,
-    public analytics: AnalyticsService, public toast: ToastService) {
+    public analytics: AnalyticsService, public toast: ToastService, public alertCtrl: AlertController) {
     super(modalCtrl);
     this.analytics.trackView('product:dedicated-server');
     this.serviceName = navParams.get('serviceName');
@@ -50,6 +50,30 @@ export class DedicatedServerPage extends ProductCore {
 
   selectMonitoring(monitoringCat: string, monitoringPeriod: string) {
     this.getChart(monitoringCat, monitoringPeriod);
+  }
+
+  reboot(): void {
+    let alert = this.alertCtrl.create({
+      title: 'Redémarrage',
+      message: 'Voulez-vous redémarrer le serveur ' + this.serviceName,
+      buttons: [
+        {
+          text: 'Non'
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.dedicatedServerService.reboot(this.serviceName).toPromise()
+              .then(
+                () => this.toast.success('Redémarrage en cours...').present(),
+                (err) => this.toast.error('Une erreur est survenue : ' + err.message).present()
+              );
+          }
+        }
+      ]
+    });
+
+    alert.present();
   }
 
 }
