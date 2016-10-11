@@ -16,11 +16,7 @@ export class DedicatedServerService {
   }
 
   getHardware(serviceName: string) {
-    return this.ovhRequest.get(`/dedicated/server/${serviceName}/specifications/hardware`)
-      .map((hardware) => {
-        console.log(hardware);
-        return hardware;
-      });
+    return this.ovhRequest.get(`/dedicated/server/${serviceName}/specifications/hardware`);
   }
 
   getServiceInfos(serviceName: string) {
@@ -39,6 +35,45 @@ export class DedicatedServerService {
         type,
         period
       }
+    }).map((stats) => {
+      let series = stats.values.map((point) => ([point.timestamp * 1000, point.value + Math.random() * 100]));
+      return {
+        chart: {
+          type: 'line',
+          backgroundColor: 'transparent',
+          marginLeft: 42,
+          marginTop: 20,
+          spacingLeft: 0,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          series: {
+            enableMouseTracking: false
+          }
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
+          title: {
+            text: stats.unit
+          },
+          max: stats.unit === '%' ? 100 : null,
+          min: stats.unit === '%' ? 0 : null,
+          labels: {
+            format: `{value}${stats.unit}`
+          }
+        },
+        series: [{
+          data: series
+        }]
+      };
     });
   }
 

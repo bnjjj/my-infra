@@ -1,4 +1,5 @@
 import {Platform, ionicBootstrap} from 'ionic-angular';
+import { Ng2Highcharts } from 'ng2-highcharts';
 import {Keyboard} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
@@ -16,6 +17,8 @@ import {StateLabelComponent} from './components/state-label/state-label';
 import {Type} from '@angular/core';
 import {LoginPage} from './pages/login/login';
 import {loginConfiguration} from './config/constants';
+import * as HC from 'highcharts';
+window['Highcharts'] = HC;
 
 let providers = [
   HTTP_PROVIDERS,
@@ -42,6 +45,7 @@ let providers = [
   provide(PLATFORM_DIRECTIVES, { useValue: LoaderComponent, multi: true}),
   provide(PLATFORM_DIRECTIVES, { useValue: AsyncBoxComponent, multi: true}),
   provide(PLATFORM_DIRECTIVES, { useValue: StateLabelComponent, multi: true }),
+  provide(PLATFORM_DIRECTIVES, { useValue: Ng2Highcharts, multi: true }),
   ProductsService,
   ToastService,
   AnalyticsService,
