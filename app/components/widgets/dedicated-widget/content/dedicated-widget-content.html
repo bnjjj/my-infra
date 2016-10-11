@@ -28,25 +28,6 @@
          [innerText]="server.expirationText">
        </ion-col>
      </ion-row>
-     <ion-row>
-       <ion-col width-40>
-         Etat du service
-       </ion-col>
-       <ion-col width-60 text-right>
-         <div [ngSwitch]="server.state">
-           <ion-badge *ngSwitchCase="'ok'"
-              class="capitalize"
-             [innerText]="server.state"
-             secondary>
-           </ion-badge>
-           <ion-badge *ngSwitchDefault
-              class="capitalize"
-             [innerText]="server.state"
-             danger>
-           </ion-badge>
-         </div>
-       </ion-col>
-     </ion-row>
    </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
