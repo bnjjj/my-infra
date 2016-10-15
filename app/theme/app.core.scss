@@ -17,6 +17,7 @@
 @import '../pages/support/support';
 @import '../pages/dashboard/dashboard';
 @import '../pages/products/products';
+@import '../pages/products/product-list/product-list';
 @import '../components/loader/loader';
 @import '../components/ticket/ticket';
 @import '../components/widgets/web-widget/web-widget';
@@ -105,6 +106,14 @@
 ion-card p {
   color: $primary-font-color;
 }
+
+ion-searchbar {
+  background-color: transparent;
+  .searchbar-input {
+    background-color: $silver;
+  }
+}
+
 
 .center-flex {
   display: flex;

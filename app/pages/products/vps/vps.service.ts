@@ -10,6 +10,10 @@ export class VpsService {
 
   }
 
+  get() {
+    return this.ovhRequest.get('/vps');
+  }
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get(`/vps/${serviceName}`);
   }

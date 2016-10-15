@@ -13,6 +13,10 @@ export class DomainService {
 
   }
 
+  get() {
+    return this.ovhRequest.get('/domain');
+  }
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get(['/domain', serviceName].join('/'));
   }

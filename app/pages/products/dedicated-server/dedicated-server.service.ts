@@ -11,6 +11,10 @@ export class DedicatedServerService {
 
   }
 
+  get() {
+    return this.ovhRequest.get('/dedicated/server');
+  }
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get(['/dedicated/server', serviceName].join('/'));
   }

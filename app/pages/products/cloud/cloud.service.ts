@@ -13,6 +13,10 @@ export class CloudService {
 
   }
 
+  get() {
+    return this.ovhRequest.get(categoryEnum.CLOUD.url);
+  }
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName].join('/'));
   }

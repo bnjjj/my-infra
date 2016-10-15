@@ -12,6 +12,10 @@ export class HostingWebService {
 
   }
 
+  get() {
+    return this.ovhRequest.get('/hosting/web');
+  };
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get(['/hosting/web', serviceName].join('/'))
       .map((infos) => {

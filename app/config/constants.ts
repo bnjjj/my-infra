@@ -1,6 +1,13 @@
+import { DomainPage } from '../pages/products/domain/domain';
+import { PrivateDatabasePage } from '../pages/products/private-database/private-database';
+import { CloudPage } from '../pages/products/cloud/cloud';
+import { HostingWebPage } from '../pages/products/hosting-web/hosting-web';
+import { DedicatedServerPage } from '../pages/products/dedicated-server/dedicated-server';
+import { VpsPage } from '../pages/products/vps/vps';
+
 export const categoryEnum: any = {
-  WEB: { url: '/hosting/web', name: 'WEB', text: 'Hébergement web', supportRef: 'hosting', hardware: true, icon: 'fa fa-globe', workId: '4' },
-  VPS: { url: '/vps', name: 'VPS', text: 'VPS', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o', workId: '22' },
+  WEB: { url: '/hosting/web', name: 'WEB', text: 'Hébergement web', supportRef: 'hosting', hardware: true, icon: 'fa fa-globe', workId: '4', page: HostingWebPage },
+  VPS: { url: '/vps', name: 'VPS', text: 'VPS', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o', workId: '22', page: VpsPage },
   DEDICATED_SERVER: {
     url: '/dedicated/server',
     name: 'DEDICATED_SERVER',
@@ -18,11 +25,12 @@ export const categoryEnum: any = {
     }, {
       type: 'swap',
       text: 'Utilisation SWAP'
-    }]
+    }],
+    page: DedicatedServerPage
   },
-  PRIVATE_DATABASE: { url: '/hosting/privateDatabase', name: 'PRIVATE_DATABASE', text: 'Base de données privée', supportRef: 'hosting', hardware: true, icon: 'fa fa-database', workId: '4' },
-  CLOUD: { url: '/cloud/project', name: 'CLOUD', text: 'Cloud', supportRef: 'cloud', hardware: true, icon: 'fa fa-cloud', workId: '18' },
-  DOMAIN: { url: '/domain', name: 'DOMAIN', text: 'Nom de domaine', supportRef: 'domain', hardware: false, icon: 'fa fa-link', workId: '1' },
+  PRIVATE_DATABASE: { url: '/hosting/privateDatabase', name: 'PRIVATE_DATABASE', text: 'Base de données privée', supportRef: 'hosting', hardware: true, icon: 'fa fa-database', workId: '4', page: PrivateDatabasePage },
+  CLOUD: { url: '/cloud/project', name: 'CLOUD', text: 'Cloud', supportRef: 'cloud', hardware: true, icon: 'fa fa-cloud', workId: '18', page: CloudPage },
+  DOMAIN: { url: '/domain', name: 'DOMAIN', text: 'Nom de domaine', supportRef: 'domain', hardware: false, icon: 'fa fa-link', workId: '1', page: DomainPage },
   PROJECT: { url: 'project', name: 'PROJECT', text: 'Projet personnalisé', icon: '' }
 };
 

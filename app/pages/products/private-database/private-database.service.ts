@@ -13,9 +13,13 @@ export class PrivateDatabaseService {
 
   }
 
+  get() {
+    return this.ovhRequest.get(categoryEnum.PRIVATE_DATABASE.url)
+  }
+
   getInfos(serviceName: string) {
     return this.ovhRequest.get([categoryEnum.PRIVATE_DATABASE.url, serviceName].join('/'))
-      .map(infos => {
+      .map((infos) => {
         return Object.assign({}, infos, {quotaPercentage: this.getQuotaPercentage(infos.quotaSize, infos.quotaUsed)});
       });
   }
