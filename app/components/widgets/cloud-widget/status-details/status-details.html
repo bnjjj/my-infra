@@ -1,7 +1,7 @@
 <ion-row>
   <ion-col width-33 text-center>
     <button
-      (click)="display('SUCCESS')"
+      (click)="inSuccess.length && display('SUCCESS')"
       round
       secondary>
       <span [innerText]="inSuccess.length"></span>
@@ -14,7 +14,7 @@
   </ion-col>
   <ion-col width-33 text-center>
     <button
-      (click)="display('OTHER')"
+      (click)="inOther.length && display('OTHER')"
       round>
       <span [innerText]="inOther.length">
       </span>
@@ -27,7 +27,7 @@
   </ion-col>
   <ion-col width-33 text-center>
     <button
-      (click)="display('ERROR')"
+      (click)="inError.length && display('ERROR')"
       round
       danger>
       <span [innerText]="inError.length">

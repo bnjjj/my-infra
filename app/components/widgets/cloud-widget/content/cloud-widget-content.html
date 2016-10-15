@@ -28,19 +28,6 @@
         [innerText]="cloud.expirationText">
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col width-40>
-        Etat du projet
-      </ion-col>
-      <ion-col width-60 text-right>
-        <state-label
-          [status]="cloud.status"
-          [text]="cloud.status"
-          success="['ok']"
-          error="['deleted', 'suspended']">
-        </state-label>
-      </ion-col>
-    </ion-row>
   </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">

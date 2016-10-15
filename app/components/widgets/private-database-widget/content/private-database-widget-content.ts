@@ -39,7 +39,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   getInfos(): void {
     this.loading = true;
     Promise.all([this.privateDatabaseService.getInfos(this.serviceName).toPromise(), this.privateDatabaseService.getServiceInfos(this.serviceName).toPromise()])
-      .then(resp => {
+      .then((resp) => {
         this.bdd = Object.assign(resp[0], resp[1]);
         this.loading = false;
       })

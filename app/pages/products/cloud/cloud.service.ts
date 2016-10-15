@@ -1,24 +1,25 @@
 declare var require;
 import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
 import {Injectable} from '@angular/core';
-import {categoryEnum} from '../../../config/constants';
 import 'rxjs/add/operator/toPromise';
+import {Observable} from 'rxjs/Observable';
+import {categoryEnum} from '../../../config/constants';
 
 let moment = require('moment');
 
 @Injectable()
-export class CloudWidgetService {
+export class CloudService {
   constructor(private ovhRequest: OvhRequestService) {
 
   }
 
   getInfos(serviceName: string) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName].join('/')).toPromise();
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName].join('/'));
   }
 
   getServiceInfos(serviceName: string) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'serviceInfos'].join('/')).toPromise()
-      .then((resp) => {
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'serviceInfos'].join('/'))
+      .map((resp) => {
         resp.expirationText = moment(new Date(resp.expiration)).format('DD/MM/YYYY');
         resp.warning = !moment(new Date()).add(7, 'days').isBefore(new Date(resp.expiration));
 
@@ -27,8 +28,8 @@ export class CloudWidgetService {
   }
 
   getSnapshots(serviceName: string) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'snapshot'].join('/')).toPromise()
-      .then((snapshots) => {
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'snapshot'].join('/'))
+      .map((snapshots) => {
         if (Array.isArray(snapshots)) {
           return { snapshots: this.sortInstances(snapshots, true) };
         }
@@ -38,8 +39,8 @@ export class CloudWidgetService {
   }
 
   getInstances(serviceName: string) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'instance'].join('/')).toPromise()
-      .then((instances) => {
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'instance'].join('/'))
+      .map((instances) => {
         if (Array.isArray(instances)) {
           return this.sortInstances(instances);
         }
@@ -82,19 +83,27 @@ export class CloudWidgetService {
 
   rebootInstance(serviceName: string, id: string, type: string) {
     return this.ovhRequest.post([categoryEnum.CLOUD.url, serviceName, 'instance', id, 'reboot'].join('/'),
-      JSON.stringify({ type })).toPromise();
+      JSON.stringify({ type }));
   }
 
   deleteSnapshot(serviceName: string, id: string) {
-    return this.ovhRequest.delete([categoryEnum.CLOUD.url, serviceName, 'snapshot', id].join('/')).toPromise();
+    return this.ovhRequest.delete([categoryEnum.CLOUD.url, serviceName, 'snapshot', id].join('/'));
   }
 
   createSnapshot(serviceName: string, id: string, snapshotName: string) {
     return this.ovhRequest.post([categoryEnum.CLOUD.url, serviceName, 'instance', id, 'snapshot'].join('/'),
-      JSON.stringify({ snapshotName })).toPromise();
+      JSON.stringify({ snapshotName }));
   }
 
   getIps(serviceName) {
-    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'ip'].join('/')).toPromise();
+    return this.ovhRequest.get([categoryEnum.CLOUD.url, serviceName, 'ip'].join('/'));
+  }
+
+  getAll(serviceName: string) {
+    return Observable.forkJoin(this.getInfos(serviceName),
+      this.getServiceInfos(serviceName),
+      this.getInstances(serviceName),
+      this.getSnapshots(serviceName)
+    ).map((resp) => Object.assign({}, resp[0], resp[1], resp[2], resp[3]));
   }
 }
