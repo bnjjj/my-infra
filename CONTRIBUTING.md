@@ -9,7 +9,10 @@
 ```bash
 $ git clone https://github.com/bnjjj/my-infra.git
 $ cd my-infra
-$ npm install
+$ npm i
+$ typings install
+$ ionic state restore
+$ gulp build
 ```
 
 ## Run
