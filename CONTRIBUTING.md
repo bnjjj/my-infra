@@ -10,6 +10,7 @@ $ cd my-infra
 $ npm i
 $ typings install
 $ ionic state restore
+$ gulp build
 ```
 
 ### Run
