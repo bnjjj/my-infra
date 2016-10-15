@@ -4,7 +4,12 @@
     [serviceName]="serviceName"
     [(collapsed)]="collapsed">
   </private-database-widget-content>
-  <ion-row no-padding class="widget-content">
+  <widget-footer
+    (openTasks)="openTasks()"
+    (openInfos)="moreInfos()"
+    (remove)="removeMe()">
+  </widget-footer>
+  <!-- <ion-row no-padding class="widget-content">
     <ion-col width-40>
       <button clear (click)="openNetworkStateModal()">
         <a class="button-white" [href]="">
@@ -24,5 +29,5 @@
         Remove
       </button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 </ion-card>

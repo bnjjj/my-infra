@@ -1,0 +1,177 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span *ngIf="loading" [innerText]="serviceName"></span>
+      <span *ngIf="!loading" [innerText]="db.displayName || db.serviceName"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="private-database-product product-content">
+  <div *ngIf="!loading">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Etat du service
+          </ion-label>
+          <ion-note item-right>
+            <div [ngSwitch]="db.state">
+              <ion-badge *ngSwitchCase="'started'"
+                class="capitalize"
+                [innerText]="db.state"
+                secondary>
+              </ion-badge>
+              <ion-badge *ngSwitchCase="'stopped'"
+                class="capitalize"
+                [innerText]="db.state"
+                danger>
+              </ion-badge>
+              <ion-badge *ngSwitchDefault
+                [innerText]="db.state">
+              </ion-badge>
+            </div>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label [ngClass]="{'danger-color animated pulse': db.warning}">
+            <i class="fa fa-warning" *ngIf="db.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{'danger-color animated pulse': db.warning}"
+            [innerText]="db.expirationText">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Datacentre
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="db.datacenter"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Host
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.server"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Version
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="db.version"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            RAM
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.ram.value + ' ' + db.ram.unit"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Interface d'administration
+          </ion-label>
+          <ion-note item-right>
+            <a [href]="db.guiURL"
+              [innerText]="db.guiURL"
+              target="_blank">
+            </a>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation>
+          Connexion SQL
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Nom d'hôte
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.hostname"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Port
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.port"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation>
+          Connexion SFTP
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Nom d'utilisateur
+          </ion-label>
+          <ion-note item-right>
+            admin
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Nom d'hôte
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.hostnameFtp"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Port
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.portFtp"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation>
+          Espace utilisé
+        </title-separation>
+        <ion-item>
+          <ion-label>
+            Total
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="db.quotaUsed.value + db.quotaUsed.unit + ' / ' + db.quotaSize.value + db.quotaSize.unit"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width]="100 - db.quotaPercentage + '%'">
+            </div>
+          </div>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, privateDatabaseService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>

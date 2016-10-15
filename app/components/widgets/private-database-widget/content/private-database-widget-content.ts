@@ -1,16 +1,16 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {PrivateDatabaseWidgetService} from '../private-database-widget.service';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController} from 'ionic-angular';
 import {WidgetsService} from '../../widgets.service';
 import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
+import {PrivateDatabaseService} from '../../../../pages/products/private-database/private-database.service';
 
 @Component({
   selector: 'private-database-widget-content',
   templateUrl: 'build/components/widgets/private-database-widget/content/private-database-widget-content.html',
   directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent, WidgetHeaderComponent],
-  providers: [PrivateDatabaseWidgetService, WidgetsService]
+  providers: [PrivateDatabaseService, WidgetsService]
 })
 export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -18,7 +18,6 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   bdd: any = {};
   loading: boolean;
@@ -29,7 +28,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   tasks: Array<any> = [];
   constants: Object = categoryEnum.PRIVATE_DATABASE;
 
-  constructor(private privateDatabaseWidgetService: PrivateDatabaseWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
+  constructor(private privateDatabaseService: PrivateDatabaseService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -39,7 +38,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.privateDatabaseWidgetService.getInfos(this.serviceName), this.privateDatabaseWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.privateDatabaseService.getInfos(this.serviceName).toPromise(), this.privateDatabaseService.getServiceInfos(this.serviceName).toPromise()])
       .then(resp => {
         this.bdd = Object.assign(resp[0], resp[1]);
         this.loading = false;
@@ -54,7 +53,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.privateDatabaseWidgetService.getTasks(this.serviceName)
+      this.privateDatabaseService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;

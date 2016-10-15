@@ -29,28 +29,6 @@
         [innerText]="bdd.expirationText">
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col width-40>
-        Etat du service
-      </ion-col>
-      <ion-col width-60 text-right>
-        <div [ngSwitch]="bdd.state">
-          <ion-badge *ngSwitchCase="'started'"
-            class="capitalize"
-            [innerText]="bdd.state"
-            secondary>
-          </ion-badge>
-          <ion-badge *ngSwitchCase="'stopped'"
-            class="capitalize"
-            [innerText]="bdd.state"
-            danger>
-          </ion-badge>
-          <ion-badge *ngSwitchDefault
-            [innerText]="bdd.state">
-          </ion-badge>
-        </div>
-      </ion-col>
-    </ion-row>
   </div>
 
   <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
