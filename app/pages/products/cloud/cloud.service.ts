@@ -103,7 +103,8 @@ export class CloudService {
     return Observable.forkJoin(this.getInfos(serviceName),
       this.getServiceInfos(serviceName),
       this.getInstances(serviceName),
-      this.getSnapshots(serviceName)
-    ).map((resp) => Object.assign({}, resp[0], resp[1], resp[2], resp[3]));
+      this.getSnapshots(serviceName),
+      this.getIps(serviceName)
+    ).map((resp) => Object.assign({}, resp[0], resp[1], resp[2], resp[3], { ips: resp[4] }));
   }
 }

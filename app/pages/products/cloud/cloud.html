@@ -110,6 +110,25 @@
           </status-details>
         </ion-item>
       </ion-item-group>
+      <ion-item-group>
+        <title-separation>
+          IPs
+        </title-separation>
+        <ion-item *ngFor="let ip of cloud.ips">
+          <span [innerText]="ip.ip"></span>
+          <ion-badge
+            class="capitalize"
+            [innerText]="ip.type"
+            item-right>
+          </ion-badge>
+        </ion-item>
+        <ion-item *ngIf="!cloud.ips.length">
+          <ion-label class="center-flex">
+            <em>Vous n’avez pas d'IP</em>
+          </ion-label>
+        </ion-item>
+      </ion-item-group>
+
 
     </ion-list>
     <ion-row>
