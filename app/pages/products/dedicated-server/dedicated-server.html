@@ -2,7 +2,7 @@
   <ion-navbar [hideBackButton]="false">
     <ion-title>
       <span *ngIf="loading" [innerText]="serviceName"></span>
-      <span *ngIf="!loading" [innerText]="server.reverse || serviceName"></span>
+      <span *ngIf="!loading && !error" [innerText]="server.reverse || serviceName"></span>
     </ion-title>
     <ion-buttons end>
       <button (click)="reboot()">
@@ -12,7 +12,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="product-content">
-  <div *ngIf="!loading.init">
+  <div *ngIf="!loading.init && !error">
     <ion-list no-lines>
       <ion-item-group>
         <ion-item>

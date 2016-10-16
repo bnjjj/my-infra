@@ -1,14 +1,15 @@
-import {OnDestroy} from '@angular/core';
-import {ModalController} from 'ionic-angular';
-import {NetworkStateModal} from '../../modals/network-state/network-state';
-import {TasksModal} from '../../modals/tasks/tasks';
-import {Subscription} from 'rxjs/Subscription';
+import { OnDestroy } from '@angular/core';
+import { ModalController, NavParams } from 'ionic-angular';
+import { NetworkStateModal } from '../../modals/network-state/network-state';
+import { TasksModal } from '../../modals/tasks/tasks';
+import { Subscription } from 'rxjs/Subscription';
 
 export class ProductCore implements OnDestroy {
   subscription: Subscription;
+  serviceName: string;
 
-  constructor(private modalCtrl: ModalController) {
-
+  constructor(public modalCtrl: ModalController, public navParams: NavParams) {
+    this.serviceName = navParams.get('serviceName');
   }
 
   ngOnDestroy() {

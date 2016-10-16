@@ -1,9 +1,9 @@
 declare var require;
-import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from '@angular/core';
+import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {Observable} from 'rxjs/Observable';
-import {categoryEnum} from '../../../config/constants';
+import { Observable } from 'rxjs/Observable';
+import { categoryEnum } from '../../../config/constants';
 
 let moment = require('moment');
 

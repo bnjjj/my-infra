@@ -1,9 +1,9 @@
 declare var require;
-import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from '@angular/core';
+import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {Observable} from 'rxjs/Observable';
-import {categoryEnum} from '../../../config/constants';
+import { Observable } from 'rxjs/Observable';
+import { categoryEnum } from '../../../config/constants';
 
 let moment = require('moment');
 
@@ -14,7 +14,7 @@ export class PrivateDatabaseService {
   }
 
   get() {
-    return this.ovhRequest.get(categoryEnum.PRIVATE_DATABASE.url)
+    return this.ovhRequest.get(categoryEnum.PRIVATE_DATABASE.url);
   }
 
   getInfos(serviceName: string) {

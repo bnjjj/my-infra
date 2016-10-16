@@ -1,12 +1,12 @@
 <ion-header class="product-header">
   <ion-navbar [hideBackButton]="false">
     <ion-title>
-      {{serviceName}}
+      <span [innerText]="serviceName"></span>
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="product-content">
-  <div *ngIf="!loading">
+  <div *ngIf="!loading && !error">
     <ion-list no-lines>
       <ion-item-group>
         <ion-item>

@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavParams, IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
-import {ToastService} from '../../../services/toast/toast.service';
-import {HostingWebService} from './hosting-web.service';
-import {AnalyticsService} from '../../../services/analytics/analytics.service';
-import {TitleSeparationComponent} from '../../../components/title-separation/title-separation';
-import {ProductCore} from '../product';
-import {categoryEnum} from '../../../config/constants';
+import { ToastService } from '../../../services/toast/toast.service';
+import { HostingWebService } from './hosting-web.service';
+import { AnalyticsService } from '../../../services/analytics/analytics.service';
+import { TitleSeparationComponent } from '../../../components/title-separation/title-separation';
+import { ProductCore } from '../product';
+import { categoryEnum } from '../../../config/constants';
 
 @Component({
   templateUrl: 'build/pages/products/hosting-web/hosting-web.html',
@@ -14,22 +14,25 @@ import {categoryEnum} from '../../../config/constants';
 })
 export class HostingWebPage extends ProductCore {
   server: any;
-  serviceName: string;
+  error: boolean = false;
   loading: boolean = true;
   category = categoryEnum.WEB;
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
 
-  constructor(private hostingWebService: HostingWebService, private navParams: NavParams, modalCtrl: ModalController,
+  constructor(private hostingWebService: HostingWebService, public navParams: NavParams, modalCtrl: ModalController,
     public analytics: AnalyticsService, public toast: ToastService) {
-    super(modalCtrl);
+    super(modalCtrl, navParams);
     this.analytics.trackView('product:hosting-web');
-    this.serviceName = navParams.get('serviceName');
 
     this.subscription = this.hostingWebService.getAll(this.serviceName)
-      .subscribe((server) => {
-        this.server = server;
-        this.loading = false;
-      });
+      .finally(() => this.loading = false)
+      .subscribe(
+        (server) => this.server = server,
+        (err) => {
+          this.error = true;
+          this.toast.error('Une erreur est survenue lors du chargement : ' + JSON.parse(err._body).message).present();
+        }
+      );
   }
 
   changeSslStatus(): void {

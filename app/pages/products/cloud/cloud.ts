@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavParams, IONIC_DIRECTIVES, ModalController, AlertController } from 'ionic-angular';
-import {ToastService} from '../../../services/toast/toast.service';
-import {CloudService} from './cloud.service';
-import {AnalyticsService} from '../../../services/analytics/analytics.service';
-import {StatusDetailsComponent} from '../../../components/widgets/cloud-widget/status-details/status-details';
-import {TitleSeparationComponent} from '../../../components/title-separation/title-separation';
-import {ProductCore} from '../product';
-import {categoryEnum} from '../../../config/constants';
+import { ToastService } from '../../../services/toast/toast.service';
+import { CloudService } from './cloud.service';
+import { AnalyticsService } from '../../../services/analytics/analytics.service';
+import { StatusDetailsComponent } from '../../../components/widgets/cloud-widget/status-details/status-details';
+import { TitleSeparationComponent } from '../../../components/title-separation/title-separation';
+import { ProductCore } from '../product';
+import { categoryEnum } from '../../../config/constants';
 
 @Component({
   templateUrl: 'build/pages/products/cloud/cloud.html',
@@ -15,15 +15,14 @@ import {categoryEnum} from '../../../config/constants';
 })
 export class CloudPage extends ProductCore {
   cloud: any;
-  serviceName: string;
+  error: boolean = false;
   loading: boolean = true;
   category = categoryEnum.CLOUD;
 
-  constructor(private cloudService: CloudService, private navParams: NavParams, modalCtrl: ModalController,
+  constructor(private cloudService: CloudService, public navParams: NavParams, modalCtrl: ModalController,
       public analytics: AnalyticsService, public toast: ToastService, public alertCtrl: AlertController) {
-    super(modalCtrl);
+    super(modalCtrl, navParams);
     this.analytics.trackView('product:cloud');
-    this.serviceName = navParams.get('serviceName');
 
     this.getInfos();
   }
@@ -31,10 +30,14 @@ export class CloudPage extends ProductCore {
   getInfos() {
     this.loading = true;
     this.subscription = this.cloudService.getAll(this.serviceName)
-      .subscribe((cloud) => {
-        this.cloud = cloud;
-        this.loading = false;
-      });
+      .finally(() => this.loading = false)
+      .subscribe(
+        (cloud) => this.cloud = cloud,
+        (err) => {
+          this.error = true;
+          this.toast.error(`Une erreur est survenue lors du chargement (${JSON.stringify(err)})`).present();
+        }
+      );
   }
 
   rebootInstance(id: string): void {
@@ -45,7 +48,7 @@ export class CloudPage extends ProductCore {
             this.toast.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          (err) => this.toast.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toast.error(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -56,7 +59,7 @@ export class CloudPage extends ProductCore {
             this.toast.success('Redémarrage en cours…').present();
             this.getInfos();
           },
-          (err) => this.toast.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toast.error(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -89,7 +92,7 @@ export class CloudPage extends ProductCore {
             this.toast.success('Snapshot en cours de création…').present();
             this.getInfos();
           },
-          (err) => this.toast.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toast.error(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 
@@ -125,7 +128,7 @@ export class CloudPage extends ProductCore {
             this.toast.success('Suppression effectuée avec succès').present();
             this.getInfos();
           },
-          (err) => this.toast.success(`Une erreur est survenue (${JSON.stringify(err)})`).present()
+          (err) => this.toast.error(`Une erreur est survenue (${JSON.stringify(err)})`).present()
         );
     };
 

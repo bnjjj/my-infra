@@ -1,7 +1,7 @@
 declare var require;
-import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/zip';
 

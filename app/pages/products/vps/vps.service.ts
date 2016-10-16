@@ -1,7 +1,7 @@
 declare var require;
-import {OvhRequestService} from '../../../services/ovh-request/ovh-request.service';
-import {Observable} from 'rxjs/Observable';
-import {Injectable} from '@angular/core';
+import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
+import { Observable } from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 const moment = require('moment');
 
 @Injectable()

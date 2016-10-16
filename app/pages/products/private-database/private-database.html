@@ -2,12 +2,12 @@
   <ion-navbar [hideBackButton]="false">
     <ion-title>
       <span *ngIf="loading" [innerText]="serviceName"></span>
-      <span *ngIf="!loading" [innerText]="db.displayName || db.serviceName"></span>
+      <span *ngIf="!loading && !error" [innerText]="db.displayName || db.serviceName"></span>
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="private-database-product product-content">
-  <div *ngIf="!loading">
+  <div *ngIf="!loading && !error">
     <ion-list no-lines>
       <ion-item-group>
         <ion-item>

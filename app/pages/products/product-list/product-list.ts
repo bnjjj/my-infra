@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
 import { categoryEnum } from '../../../config/constants';
-import { DomainPage } from '../domain/domain';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   templateUrl: 'build/pages/products/product-list/product-list.html',
@@ -24,6 +23,9 @@ export class ProductListPage {
   }
 
   getProducts(category: any) {
+    if (this.subscribtion != null) {
+      this.subscribtion.unsubscribe();
+    }
     this.loading = true;
     this.search = '';
     this.subscribtion = this.ovhRequest.get(category.url)
