@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {NavParams, ViewController} from 'ionic-angular';
-import {TaskDetailsComponent} from '../../components/task-details/task-details';
+import { Component } from '@angular/core';
+import { NavParams, ViewController } from 'ionic-angular';
+import { TaskDetailsComponent } from '../../components/task-details/task-details';
+import { AnalyticsService } from '../../services/analytics/analytics.service';
 
 @Component({
   templateUrl: 'build/modals/tasks/tasks.html',
@@ -14,10 +15,11 @@ export class TasksModal {
   loading: boolean = true;
   error: any;
 
-  constructor(private navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(private navParams: NavParams, private viewCtrl: ViewController, public analytics: AnalyticsService) {
     this.serviceName = this.navParams.get('serviceName');
     this.service = this.navParams.get('service');
     this.getTasks();
+    this.analytics.trackView('tasks');
   }
 
   getTasks() {
