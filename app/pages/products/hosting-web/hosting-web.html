@@ -77,65 +77,69 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideNetwork = !$event">
           Accès
         </title-separation>
-        <ion-item>
-          <ion-label>
-            IPv4
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hostingIp"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item *ngIf="server.hostingIpv6">
-          <ion-label>
-            IPv6
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hostingIpv6"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Accès cluster
-          </ion-label>
-          <ion-note item-right>
-            <a [href]="'ftp://ftp.' + server.cluster + '.hosting.ovh.net'"
-            [innerText]="'ftp.' + server.cluster + '.hosting.ovh.net'"
-            target="_blank">
-            </a>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideNetwork">
+          <ion-item>
+            <ion-label>
+              IPv4
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hostingIp"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item *ngIf="server.hostingIpv6">
+            <ion-label>
+              IPv6
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hostingIpv6"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Accès cluster
+            </ion-label>
+            <ion-note item-right>
+              <a [href]="'ftp://ftp.' + server.cluster + '.hosting.ovh.net'"
+              [innerText]="'ftp.' + server.cluster + '.hosting.ovh.net'"
+              target="_blank">
+              </a>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideOptions = !$event">
           Options
         </title-separation>
-        <ion-item>
-          <ion-label>
-            CDN
-          </ion-label>
-          <ion-note item-right>
-            <i [hidden]="!server.hasCdn" class="fa fa-check fa-2x" secondary></i>
-            <i [hidden]="server.hasCdn" class="fa fa-times fa-2x" danger></i>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            SSL (Let's encrypt)
-          </ion-label>
-          <ion-toggle item-right secondary
-           *ngIf="server.ssl != null && !sslIsPending(server.ssl.status)"
-            [checked]="server.ssl != null && server.ssl.status === 'created'"
-            (click)="!sslIsPending(server.ssl.status) && changeSslStatus()">
-          </ion-toggle>
-          <ion-note item-right *ngIf="server.ssl != null && sslIsPending(server.ssl.status)">
-            <ion-spinner name="bubbles">
-            </ion-spinner>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideOptions">
+          <ion-item>
+            <ion-label>
+              CDN
+            </ion-label>
+            <ion-note item-right>
+              <i [hidden]="!server.hasCdn" class="fa fa-check fa-2x" secondary></i>
+              <i [hidden]="server.hasCdn" class="fa fa-times fa-2x" danger></i>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              SSL (Let's encrypt)
+            </ion-label>
+            <ion-toggle item-right secondary
+             *ngIf="server.ssl != null && !sslIsPending(server.ssl.status)"
+              [checked]="server.ssl != null && server.ssl.status === 'created'"
+              (click)="!sslIsPending(server.ssl.status) && changeSslStatus()">
+            </ion-toggle>
+            <ion-note item-right *ngIf="server.ssl != null && sslIsPending(server.ssl.status)">
+              <ion-spinner name="bubbles">
+              </ion-spinner>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
     </ion-list>
     <ion-row>

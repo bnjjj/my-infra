@@ -49,84 +49,90 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideSnapshots = !$event">
           Snapshots
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Nombre
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="cloud.snapshots.list.length"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item *ngIf="cloud.snapshots.inSuccess.length > 0">
-          <ion-label>
-            Dernier snapshot le
-          </ion-label>
-          <ion-note>
-            <span [innerText]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <status-details
-            [inError]="cloud.snapshots.inError"
-            [inSuccess]="cloud.snapshots.inSuccess"
-            [inOther]="cloud.snapshots.inOther"
-            type="snapshot"
-            (actionRequest)="deleteSnapshot($event)">
-          </status-details>
-          <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
-            <ion-list *ngIf="displayInSuccess">
-              <ion-item
-                *ngFor="let successInstance of cloud.inSuccess"
-                [innerText]="successInstance.name">
-              </ion-item>
-            </ion-list>
-          </ion-row>
-        </ion-item>
+        <div *ngIf="!hideSnapshots">
+          <ion-item>
+            <ion-label>
+              Nombre
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="cloud.snapshots.list.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item *ngIf="cloud.snapshots.inSuccess.length > 0">
+            <ion-label>
+              Dernier snapshot le
+            </ion-label>
+            <ion-note>
+              <span [innerText]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <status-details
+              [inError]="cloud.snapshots.inError"
+              [inSuccess]="cloud.snapshots.inSuccess"
+              [inOther]="cloud.snapshots.inOther"
+              type="snapshot"
+              (actionRequest)="deleteSnapshot($event)">
+            </status-details>
+            <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
+              <ion-list *ngIf="displayInSuccess">
+                <ion-item
+                  *ngFor="let successInstance of cloud.inSuccess"
+                  [innerText]="successInstance.name">
+                </ion-item>
+              </ion-list>
+            </ion-row>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideInstances = !$event">
           Instances
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Nombre
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="cloud.instances.length"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <status-details
-            [inError]="cloud.inError"
-            [inSuccess]="cloud.inSuccess"
-            [inOther]="cloud.inOther"
-            type="instance"
-            (actionRequest)="rebootInstance($event)"
-            (actionRequest2)="createSnapshot($event)">
-          </status-details>
-        </ion-item>
+        <div *ngIf="!hideInstances">
+          <ion-item>
+            <ion-label>
+              Nombre
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="cloud.instances.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <status-details
+              [inError]="cloud.inError"
+              [inSuccess]="cloud.inSuccess"
+              [inOther]="cloud.inOther"
+              type="instance"
+              (actionRequest)="rebootInstance($event)"
+              (actionRequest2)="createSnapshot($event)">
+            </status-details>
+          </ion-item>
+        </div>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideIps = !$event">
           IPs
         </title-separation>
-        <ion-item *ngFor="let ip of cloud.ips">
-          <span [innerText]="ip.ip"></span>
-          <ion-badge
-            class="capitalize"
-            [innerText]="ip.type"
-            item-right>
-          </ion-badge>
-        </ion-item>
-        <ion-item *ngIf="!cloud.ips.length">
-          <ion-label class="center-flex">
-            <em>Vous n’avez pas d'IP</em>
-          </ion-label>
-        </ion-item>
+        <div *ngIf="!hideIps">
+          <ion-item *ngFor="let ip of cloud.ips">
+            <span [innerText]="ip.ip"></span>
+            <ion-badge
+              class="capitalize"
+              [innerText]="ip.type"
+              item-right>
+            </ion-badge>
+          </ion-item>
+          <ion-item *ngIf="!cloud.ips.length">
+            <ion-label class="center-flex">
+              <em>Vous n’avez pas d'IP</em>
+            </ion-label>
+          </ion-item>
+        </div>
       </ion-item-group>
 
 

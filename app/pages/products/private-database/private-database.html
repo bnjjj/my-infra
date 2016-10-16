@@ -87,75 +87,81 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideSql = !$event">
           Connexion SQL
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Nom d'hôte
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="db.hostname"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Port
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="db.port"></span>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideSql">
+          <ion-item>
+            <ion-label>
+              Nom d'hôte
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="db.hostname"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Port
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="db.port"></span>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideSftp = !$event">
           Connexion SFTP
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Nom d'utilisateur
-          </ion-label>
-          <ion-note item-right>
-            admin
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Nom d'hôte
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="db.hostnameFtp"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Port
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="db.portFtp"></span>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideSftp">
+          <ion-item>
+            <ion-label>
+              Nom d'utilisateur
+            </ion-label>
+            <ion-note item-right>
+              admin
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Nom d'hôte
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="db.hostnameFtp"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Port
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="db.portFtp"></span>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideSpaces = !$event">
           Espace utilisé
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Total
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="db.quotaUsed.value + db.quotaUsed.unit + ' / ' + db.quotaSize.value + db.quotaSize.unit"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" [style.width]="100 - db.quotaPercentage + '%'">
+        <div *ngIf="!hideSpaces">
+          <ion-item>
+            <ion-label>
+              Total
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="db.quotaUsed.value + db.quotaUsed.unit + ' / ' + db.quotaSize.value + db.quotaSize.unit"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" [style.width]="100 - db.quotaPercentage + '%'">
+              </div>
             </div>
-          </div>
-        </ion-item>
+          </ion-item>
+        </div>
       </ion-item-group>
     </ion-list>
     <ion-row>

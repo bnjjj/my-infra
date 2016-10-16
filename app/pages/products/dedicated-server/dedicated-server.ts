@@ -30,7 +30,7 @@ export class DedicatedServerPage extends ProductCore {
     this.analytics.trackView('product:dedicated-server');
 
     this.subscription = this.dedicatedServerService.getAll(this.serviceName)
-      .finally(() => this.loading = false)
+      .finally(() => this.loading.init = false)
       .subscribe(
         (server) => this.server = server,
         (err) => {

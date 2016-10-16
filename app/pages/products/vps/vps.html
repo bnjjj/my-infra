@@ -90,46 +90,48 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideHardware = !$event">
           Matériel
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Mémoire
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="vps.memoryLimit"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            vCore
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="vps.vcore"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Nombre de disques
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="vps.model.disk"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Mode rescue
-          </ion-label>
-          <ion-toggle item-right secondary
-            [checked]="vps.netbootMode === 'rescue'"
-            (click)="changeNetbootMode()">
-          </ion-toggle>
-        </ion-item>
+        <div *ngIf="!hideHarware">
+          <ion-item>
+            <ion-label>
+              Mémoire
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.memoryLimit"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              vCore
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.vcore"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Nombre de disques
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.model.disk"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Mode rescue
+            </ion-label>
+            <ion-toggle item-right secondary
+              [checked]="vps.netbootMode === 'rescue'"
+              (click)="changeNetbootMode()">
+            </ion-toggle>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideSftp = !$event">
           IP
         </title-separation>
         <ion-item>
@@ -159,10 +161,10 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideMonitoring = !$event">
           Monitoring
         </title-separation>
-        <div *ngIf="!loading.monitoring">
+        <div *ngIf="!hideMonitoring && !loading.monitoring">
           <ion-item>
             <ion-row>
               <ion-col width-33 text-center>
@@ -226,7 +228,7 @@
             </ion-row>
           </ion-item>
         </div>
-        <div padding text-center *ngIf="loading.monitoring && !error">
+        <div padding text-center *ngIf="!hideMonitoring && loading.monitoring && !error">
           <ion-spinner name="bubbles"></ion-spinner>
         </div>
       </ion-item-group>

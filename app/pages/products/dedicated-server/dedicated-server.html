@@ -45,7 +45,6 @@
             <span [innerText]="server.name"></span>
           </ion-note>
         </ion-item>
-
         <ion-item>
           <ion-label [ngClass]="{'danger-color animated pulse': server.warning}">
             <i class="fa fa-warning" *ngIf="server.warning"></i>
@@ -74,94 +73,97 @@
         </ion-item>
       </ion-item-group>
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideHardware = !$event">
           Matériel
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Processeur
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hardware.processorName"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Nb de processeur
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hardware.numberOfProcessors"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Coeurs
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hardware.coresPerProcessor"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            Threads
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hardware.threadsPerProcessor"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item *ngIf="server.hardware.diskGroups.length">
-          <ion-label>
-            Disques
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="server.hardware.diskGroups[0].numberOfDisks + ' x ' + server.hardware.diskGroups[0].diskSize.value + server.hardware.diskGroups[0].diskSize.unit"></span>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideHardware">
+          <ion-item>
+            <ion-label>
+              Processeur
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hardware.processorName"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Nb de processeur
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hardware.numberOfProcessors"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Coeurs
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hardware.coresPerProcessor"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Threads
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hardware.threadsPerProcessor"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item *ngIf="server.hardware.diskGroups.length">
+            <ion-label>
+              Disques
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hardware.diskGroups[0].numberOfDisks + ' x ' + server.hardware.diskGroups[0].diskSize.value + server.hardware.diskGroups[0].diskSize.unit"></span>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
 
       <ion-item-group>
-        <title-separation>
+        <title-separation (collapse)="hideMonitoring = !$event">
           Monitoring
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Monitoring
-          </ion-label>
-          <ion-note item-right>
-            <i [hidden]="!server.monitoring" class="fa fa-check fa-2x" secondary></i>
-            <i [hidden]="server.monitoring" class="fa fa-times fa-2x" danger></i>
-          </ion-note>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>
-            Graphique
-          </ion-label>
-          <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
-            <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-segment (ionChange)="selectMonitoring(monitoring, monitoringPeriod)" [(ngModel)]="monitoringPeriod">
-            <ion-segment-button value="daily">
-              Jour
-            </ion-segment-button>
-            <ion-segment-button value="weekly">
-              Semaine
-            </ion-segment-button>
-            <ion-segment-button value="monthly">
-              Mois
-            </ion-segment-button>
-          </ion-segment>
-        </ion-item>
-        <ion-item *ngIf="loading.monitoring">
-          <div class="center center-flex">
-            <ion-spinner name="bubbles"></ion-spinner>
-          </div>
-        </ion-item>
-        <ion-item>
-          <div [ng2-highcharts]="stats" *ngIf="!loading.monitoring"></div>
-        </ion-item>
+        <div *ngIf="!hideMonitoring">
+          <ion-item>
+            <ion-label>
+              Monitoring
+            </ion-label>
+            <ion-note item-right>
+              <i [hidden]="!server.monitoring" class="fa fa-check fa-2x" secondary></i>
+              <i [hidden]="server.monitoring" class="fa fa-times fa-2x" danger></i>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Graphique
+            </ion-label>
+            <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
+              <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-segment (ionChange)="selectMonitoring(monitoring, monitoringPeriod)" [(ngModel)]="monitoringPeriod">
+              <ion-segment-button value="daily">
+                Jour
+              </ion-segment-button>
+              <ion-segment-button value="weekly">
+                Semaine
+              </ion-segment-button>
+              <ion-segment-button value="monthly">
+                Mois
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+          <ion-item *ngIf="loading.monitoring">
+            <div class="center center-flex">
+              <ion-spinner name="bubbles"></ion-spinner>
+            </div>
+          </ion-item>
+          <ion-item>
+            <div [ng2-highcharts]="stats" *ngIf="!loading.monitoring"></div>
+          </ion-item>
+        </div>
       </ion-item-group>
     </ion-list>
     <ion-row>
