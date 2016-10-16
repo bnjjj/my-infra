@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Keyboard } from 'ionic-angular';
 import { OvhRequestService } from '../../../services/ovh-request/ovh-request.service';
 import { categoryEnum } from '../../../config/constants';
 import { Subscription } from 'rxjs/Subscription';
+import { AnalyticsService } from '../../../services/analytics/analytics.service';
 
 @Component({
   templateUrl: 'build/pages/products/product-list/product-list.html',
@@ -18,8 +19,10 @@ export class ProductListPage {
   categoryEnum: any = categoryEnum;
   subscribtion: Subscription;
 
-  constructor(public ovhRequest: OvhRequestService, public navController: NavController) {
+  constructor(public ovhRequest: OvhRequestService, public navController: NavController, public keyboard: Keyboard,
+      public analytics: AnalyticsService) {
     this.getProducts(this.category);
+    this.analytics.trackView('product-list');
   }
 
   getProducts(category: any) {
@@ -43,11 +46,15 @@ export class ProductListPage {
     if (!this.search) {
       this.productsFiltered = this.products;
     } else {
-      this.productsFiltered = this.products.filter((product) => product.indexOf(this.search) !== -1);
+      this.productsFiltered = this.products.filter((product) => product.toLowerCase().indexOf(this.search.toLowerCase()) !== -1);
     }
   }
 
   moreInfos(serviceName: string) {
     this.navController.push(this.category.page, { serviceName });
+  }
+
+  closeKeyboard(): void {
+    this.keyboard.close();
   }
 }

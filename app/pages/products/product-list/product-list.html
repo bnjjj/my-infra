@@ -13,14 +13,14 @@
     [(ngModel)]="search"
     placeholder="Rechercher un produit">
   </ion-searchbar>
-  <ion-list no-lines center padding>
+  <ion-list no-lines center padding (click)="closeKeyboard()">
     <ion-item class="center width90">
       <ion-select class="center" [(ngModel)]="category" (ionChange)="getProducts(category)">
         <ion-option *ngFor="let categoryKey of categoryKeys" [value]="categoryEnum[categoryKey]" [innerText]="categoryEnum[categoryKey].text"></ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
-  <div *ngIf="!loading">
+  <div *ngIf="!loading" (click)="closeKeyboard()">
     <ion-list>
       <ion-item class="no-border" *ngFor="let product of productsFiltered" (click)="moreInfos(product)">
         <span [innerText]="product"></span>
