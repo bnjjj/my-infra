@@ -1,0 +1,11 @@
+ion-card {
+  widget-footer {
+    .button-ovh {
+      padding: 0;
+
+      @media (max-width: 320px) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
