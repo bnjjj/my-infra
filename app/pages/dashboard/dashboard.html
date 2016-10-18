@@ -28,7 +28,7 @@
     <title-separation [buttonVisible]="true" (action)="addProjectModal()" (collapse)="hideProjects = !$event">
       Mes projets
     </title-separation>
-    <div [hidden]="!hideProjects">
+    <div [hidden]="hideProjects">
       <div *ngFor="let widget of widgets">
         <project-widget *ngIf="widget.category.url === CategoryEnum.PROJECT.url"
           [reload]="reload"
