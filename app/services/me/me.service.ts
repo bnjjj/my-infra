@@ -22,6 +22,18 @@ export class MeService {
     return this.ovhRequest.get(['/me/sla', id].join('/'));
   }
 
+  getSlaCanBeApplied(id: number) {
+    return this.ovhRequest.get(`/me/sla/${id}/canBeApplied`);
+  }
+
+  getSlasAvailable() {
+    return this.getSlas()
+      .mergeMap((slas) => Observable.merge(slas.map((sla) => this.getSlaCanBeApplied(sla))))
+      .mergeMap((slaApplied) => slaApplied)
+      .reduce((count, slaApplied) => slaApplied ? count + 1 : count, 0);
+
+  }
+
   getOvhAccounts() {
     return this.ovhRequest.get('/me/ovhAccount');
   }

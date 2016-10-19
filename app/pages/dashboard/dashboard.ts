@@ -53,9 +53,9 @@ export class DashboardPage {
     this.alerts = [];
     this.loading.alerts = true;
 
-    this.meService.getSlas()
+    this.meService.getSlasAvailable()
       .subscribe((slas) => {
-        if (Array.isArray(slas) && slas.length) {
+        if (slas && slas > 0) {
           this.alerts.push(this.alertsService.getSLA(slas));
         }
         this.loading.alerts = false;
