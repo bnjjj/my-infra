@@ -22,7 +22,7 @@ export class OvhAlertComponent {
   }
 
   openLink() {
-    window.open(this.link, '_blank');
+    window.open(this.link, '_system', 'location=yes');
   }
 
   close(event) {
