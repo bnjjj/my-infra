@@ -1,13 +1,13 @@
 <ion-header class="product-header">
   <ion-navbar [hideBackButton]="false">
     <ion-title>
-      <span *ngIf="loading" [innerText]="serviceName"></span>
-      <span *ngIf="!loading && !error" [innerText]="server.displayName || server.serviceName"></span>
+      <span *ngIf="loading.init" [innerText]="serviceName"></span>
+      <span *ngIf="!loading.init && !error" [innerText]="server.displayName || server.serviceName"></span>
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="product-content">
-  <div *ngIf="!loading && !error">
+  <div *ngIf="!loading.init && !error">
     <ion-list no-lines>
       <ion-item-group>
         <ion-item>
@@ -75,6 +75,42 @@
             <span class="capitalize" [innerText]="server.operatingSystem"></span>
           </ion-note>
         </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideMonitoring = !$event">
+          Monitoring
+        </title-separation>
+        <div *ngIf="!hideMonitoring">
+          <ion-item>
+            <ion-label>
+              Graphique
+            </ion-label>
+            <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
+              <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-segment (ionChange)="selectMonitoring(monitoring, monitoringPeriod)" [(ngModel)]="monitoringPeriod">
+              <ion-segment-button value="daily">
+                Jour
+              </ion-segment-button>
+              <ion-segment-button value="weekly">
+                Semaine
+              </ion-segment-button>
+              <ion-segment-button value="monthly">
+                Mois
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+          <ion-item *ngIf="loading.monitoring">
+            <div class="center center-flex">
+              <ion-spinner name="bubbles"></ion-spinner>
+            </div>
+          </ion-item>
+          <ion-item>
+            <div [ng2-highcharts]="stats" *ngIf="!loading.monitoring"></div>
+          </ion-item>
+        </div>
       </ion-item-group>
       <ion-item-group>
         <title-separation (collapse)="hideNetwork = !$event">
@@ -155,7 +191,7 @@
       </ion-col>
     </ion-row>
   </div>
-  <div *ngIf="loading" text-center padding>
+  <div *ngIf="loading.init" text-center padding>
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
 </ion-content>

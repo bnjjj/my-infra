@@ -15,7 +15,13 @@ import { categoryEnum } from '../../../config/constants';
 export class HostingWebPage extends ProductCore {
   server: any;
   error: boolean = false;
-  loading: boolean = true;
+  stats: any;
+  monitoring: string = categoryEnum.WEB.monitoring[0].type;
+  monitoringPeriod: string = 'daily';
+  loading: any = {
+    init: true,
+    monitoring: true
+  };
   category = categoryEnum.WEB;
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
 
@@ -25,7 +31,7 @@ export class HostingWebPage extends ProductCore {
     this.analytics.trackView('product:hosting-web');
 
     this.subscription = this.hostingWebService.getAll(this.serviceName)
-      .finally(() => this.loading = false)
+      .finally(() => this.loading.init = false)
       .subscribe(
         (server) => this.server = server,
         (err) => {
@@ -33,6 +39,22 @@ export class HostingWebPage extends ProductCore {
           this.toast.error('Une erreur est survenue lors du chargement : ' + JSON.parse(err._body).message).present();
         }
       );
+
+    this.getChart(this.monitoring, this.monitoringPeriod);
+  }
+
+  getChart(type: string, period: string) {
+    this.loading.monitoring = true;
+    this.hostingWebService.getChart(this.serviceName, type, period)
+      .subscribe(
+        (stats) => this.stats = stats,
+        (err) => this.toast.error('Une erreur est survenue lors du chargement des statistiques : ' + JSON.parse(err._body).message).present(),
+        () => this.loading.monitoring = false
+      );
+  }
+
+  selectMonitoring(monitoringCat: string, monitoringPeriod: string) {
+    this.getChart(monitoringCat, monitoringPeriod);
   }
 
   changeSslStatus(): void {

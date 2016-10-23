@@ -6,7 +6,35 @@ import { DedicatedServerPage } from '../pages/products/dedicated-server/dedicate
 import { VpsPage } from '../pages/products/vps/vps';
 
 export const categoryEnum: any = {
-  WEB: { url: '/hosting/web', name: 'WEB', text: 'Hébergement web', supportRef: 'hosting', hardware: true, icon: 'fa fa-globe', workId: '4', page: HostingWebPage },
+  WEB: {
+    url: '/hosting/web',
+    name: 'WEB',
+    text: 'Hébergement web',
+    supportRef: 'hosting',
+    hardware: true,
+    icon: 'fa fa-globe',
+    workId: '4',
+    monitoring: [{
+      type: 'in.httpHits',
+      text: 'Requêtes HTTP'
+    }, {
+      type: 'in.httpMeanResponseTime',
+      text: 'Temps de réponse'
+    }, {
+      type: 'in.ftpCommands',
+      text: 'Requêtes FTP'
+    }, {
+      type: 'out.tcpConn',
+      text: 'Connexions externes'
+    }, {
+      type: 'sys.cpuUsage',
+      text: 'Utilisation CPU'
+    }, {
+      type: 'sys.workerSpawnOverload',
+      text: 'Dépassements de ressources'
+    }],
+    page: HostingWebPage
+  },
   VPS: { url: '/vps', name: 'VPS', text: 'VPS', supportRef: 'hosting', hardware: true, icon: 'fa fa-hdd-o', workId: '22', page: VpsPage },
   DEDICATED_SERVER: {
     url: '/dedicated/server',
