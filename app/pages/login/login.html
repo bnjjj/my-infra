@@ -21,7 +21,9 @@
     </ion-list>
     <ion-row center>
       <ion-col class="center center-flex" width-90>
-        <button (click)="logme()" block><strong>Se connecter</strong></button>
+        <button (click)="logme()" block class="mi-c-button mi-c-button--tall">
+          Se connecter
+        </button>
       </ion-col>
     </ion-row>
   </div>
@@ -46,7 +48,7 @@
       <ion-list inset>
         <ion-item>
           <ion-label floating>Code SMS</ion-label>
-          <ion-input type="text" [(ngModel)]="smsCode"></ion-input>
+          <ion-input type="number" [(ngModel)]="smsCode"></ion-input>
         </ion-item>
         <ion-item></ion-item>
       </ion-list>
@@ -54,12 +56,16 @@
 
     <ion-row center>
       <ion-col class="center center-flex" width-90>
-        <button (click)="doubleAuthSmsConfirm()" block><strong>Confirmer</strong></button>
+        <button (click)="doubleAuthSmsConfirm()" block class="mi-c-button">
+          Confirmer
+        </button>
       </ion-col>
     </ion-row>
     <ion-row center>
       <ion-col class="center center-flex" width-90>
-        <button (click)="sendCode()" block><strong>Renvoyer un code</strong></button>
+        <button (click)="sendCode()" block class="mi-c-button">
+          Renvoyer un code
+        </button>
       </ion-col>
     </ion-row>
   </div>
