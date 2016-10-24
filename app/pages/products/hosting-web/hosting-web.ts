@@ -46,10 +46,10 @@ export class HostingWebPage extends ProductCore {
   getChart(type: string, period: string) {
     this.loading.monitoring = true;
     this.hostingWebService.getChart(this.serviceName, type, period)
+      .finally(() => this.loading.monitoring = false )
       .subscribe(
         (stats) => this.stats = stats,
         (err) => this.toast.error('Une erreur est survenue lors du chargement des statistiques : ' + JSON.parse(err._body).message).present(),
-        () => this.loading.monitoring = false
       );
   }
 

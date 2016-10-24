@@ -40,7 +40,7 @@ export class HostingWebService {
         period
       }
     }).map((stats) => {
-      let charts = stats.map( (serie) => {
+      let charts = stats.map((serie) => {
         return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])) };
       });
       return {
