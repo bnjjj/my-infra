@@ -1,0 +1,43 @@
+.mi-c-button {
+  margin: 0;
+  padding: 0;
+  min-height: 30px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: $silver;
+  background-color: transparent;
+  border: 1px solid $silver;
+  border-radius: 20px;
+  text-transform: none;
+  transition: color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+
+  &.activated {
+    color: #fff;
+    background-color: inherit;
+    border-color: #fff;
+  }
+
+  &--tall {
+    height: 40px;
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+
+  &--submit {
+    border-color: #2f7d4b;
+
+    &.activated {
+      background-color: #44b164;
+      border-color: #2f7d4b;
+    }
+  }
+
+  &--cancel {
+    border-color: #7d2f2f;
+
+    &.activated {
+      background-color: #b14444;
+      border-color: #7d2f2f;
+    }
+  }
+}

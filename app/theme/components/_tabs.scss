@@ -1,0 +1,8 @@
+.tab-button {
+  color: #919191;
+
+  &:hover:not(.disable-hover),
+  &[aria-selected=true] {
+    color: $silver;
+  }
+}

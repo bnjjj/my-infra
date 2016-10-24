@@ -126,8 +126,8 @@
       </ion-list>
     </form>
     <div padding>
-      <button block secondary (click)="save()">Valider</button>
-      <button danger block class="tspace15" (click)="cancel()">Annuler</button>
+      <button block class="mi-c-button mi-c-button--submit" (click)="save()">Valider</button>
+      <button block class="mi-c-button mi-c-button--cancel tspace15" (click)="cancel()">Annuler</button>
     </div>
   </div>
   <div text-center padding *ngIf="loading">
