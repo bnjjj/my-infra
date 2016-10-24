@@ -2,7 +2,7 @@
   <ion-navbar [hideBackButton]="false">
     <ion-title>
       <span *ngIf="loading" [innerText]="serviceName"></span>
-      <span *ngIf="!loading && !error" [innerText]="server.reverse || serviceName"></span>
+      <span *ngIf="!loading && !error.infos" [innerText]="server.reverse || serviceName"></span>
     </ion-title>
     <ion-buttons end>
       <button (click)="reboot()">
@@ -12,7 +12,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="product-content">
-  <div *ngIf="!loading.init && !error">
+  <div *ngIf="!loading.init && !error.infos">
     <ion-list no-lines>
       <ion-item-group>
         <ion-item>
@@ -93,7 +93,7 @@
               <span [innerText]="server.hardware.numberOfProcessors"></span>
             </ion-note>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="server.hardware.coresPerProcessor">
             <ion-label>
               Coeurs
             </ion-label>
@@ -101,7 +101,7 @@
               <span [innerText]="server.hardware.coresPerProcessor"></span>
             </ion-note>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="server.hardware.threadsPerProcessor">
             <ion-label>
               Threads
             </ion-label>
@@ -120,7 +120,7 @@
         </div>
       </ion-item-group>
 
-      <ion-item-group>
+      <ion-item-group *ngIf="!error.monitoring">
         <title-separation (collapse)="hideMonitoring = !$event">
           Monitoring
         </title-separation>

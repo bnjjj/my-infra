@@ -14,7 +14,10 @@ import { categoryEnum } from '../../../config/constants';
 })
 export class DedicatedServerPage extends ProductCore {
   server: any;
-  error: boolean = false;
+  error: any = {
+    infos: false,
+    monitoring: false
+  };
   stats: any;
   monitoring: string = categoryEnum.DEDICATED_SERVER.monitoring[0].type;
   monitoringPeriod: string = 'daily';
@@ -34,7 +37,7 @@ export class DedicatedServerPage extends ProductCore {
       .subscribe(
         (server) => this.server = server,
         (err) => {
-          this.error = true;
+          this.error.infos = true;
           this.toast.error('Une erreur est survenue lors du chargement : ' + JSON.parse(err._body).message).present();
         }
       );
@@ -43,10 +46,11 @@ export class DedicatedServerPage extends ProductCore {
 
   getChart(type: string, period: string) {
     this.loading.monitoring = true;
+    this.error.monitoring = false;
     this.dedicatedServerService.getChart(this.serviceName, type, period)
       .subscribe(
         (stats) => this.stats = stats,
-        (err) => this.toast.error('Une erreur est survenue lors du chargement des statistiques : ' + JSON.parse(err._body).message).present(),
+        (err) => this.error.monitoring = true,
         () => this.loading.monitoring = false
       );
   }
