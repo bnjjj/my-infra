@@ -33,6 +33,54 @@ export class HostingWebService {
       });
   }
 
+  getChart(serviceName: string, type: string, period: string) {
+    return this.ovhRequest.get(`/hosting/web/${serviceName}/statistics`, {
+      search: {
+        type,
+        period
+      }
+    }).map((stats) => {
+      let charts = stats.map((serie) => {
+        return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])) };
+      });
+      return {
+        chart: {
+          type: 'line',
+          backgroundColor: 'transparent',
+          marginLeft: 42,
+          marginTop: 20,
+          spacingLeft: 0,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          series: {
+            enableMouseTracking: false
+          }
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
+          title: {
+            text: stats[0].unit
+          },
+          max: stats[0].unit === '%' ? 100 : null,
+          min: stats[0].unit === '%' ? 0 : null,
+          labels: {
+            format: `{value}${stats[0].unit}`
+          }
+        },
+        series: charts
+      };
+    });
+  }
+
   getQuotaPercentage(quotaSize: any, quotaUsed: any) {
     switch (quotaUsed.unit) {
       case 'MB':
