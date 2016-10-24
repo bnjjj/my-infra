@@ -14,7 +14,10 @@ import { categoryEnum } from '../../../config/constants';
 })
 export class HostingWebPage extends ProductCore {
   server: any;
-  error: boolean = false;
+  error: any = {
+    infos: false,
+    monitoring: false
+  };
   stats: any;
   monitoring: string = categoryEnum.WEB.monitoring[0].type;
   monitoringPeriod: string = 'daily';
@@ -35,7 +38,7 @@ export class HostingWebPage extends ProductCore {
       .subscribe(
         (server) => this.server = server,
         (err) => {
-          this.error = true;
+          this.error.infos = true;
           this.toast.error('Une erreur est survenue lors du chargement : ' + JSON.parse(err._body).message).present();
         }
       );
@@ -46,10 +49,10 @@ export class HostingWebPage extends ProductCore {
   getChart(type: string, period: string) {
     this.loading.monitoring = true;
     this.hostingWebService.getChart(this.serviceName, type, period)
-      .finally(() => this.loading.monitoring = false )
+      .finally(() => this.loading.monitoring = false)
       .subscribe(
         (stats) => this.stats = stats,
-        (err) => this.toast.error('Une erreur est survenue lors du chargement des statistiques : ' + JSON.parse(err._body).message).present(),
+        (err) => this.error.monitoring = true
       );
   }
 
