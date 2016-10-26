@@ -72,6 +72,7 @@ export class HostingWebPage extends ProductCore {
           }
         );
     } else {
+      this.server.ssl.status = 'none'
       let success = () => {
         this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
         this.hostingWebService.deleteSsl(this.serviceName)
