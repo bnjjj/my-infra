@@ -17,6 +17,7 @@
 @import '../pages/support/support';
 @import '../pages/dashboard/dashboard';
 @import '../pages/products/products';
+@import '../pages/products/hosting-web/hosting-web';
 @import '../pages/products/product-list/product-list';
 @import '../components/loader/loader';
 @import '../components/ticket/ticket';
@@ -113,6 +114,7 @@ ion-card p {
 
 ion-searchbar {
   background-color: transparent;
+
   .searchbar-input {
     background-color: $silver;
   }

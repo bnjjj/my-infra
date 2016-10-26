@@ -6,7 +6,7 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content class="product-content">
+<ion-content class="product-content hosting-web-product">
   <div *ngIf="!loading.init && !error.infos">
     <ion-list no-lines>
       <ion-item-group>
@@ -134,7 +134,7 @@
         </div>
       </ion-item-group>
 
-      <ion-item-group *ngIf="!error.monitoring">
+      <ion-item-group>
         <title-separation (collapse)="hideMonitoring = !$event">
           Monitoring
         </title-separation>
@@ -165,8 +165,11 @@
               <ion-spinner name="bubbles"></ion-spinner>
             </div>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="!error.monitoring">
             <div [ng2-highcharts]="stats" *ngIf="!loading.monitoring"></div>
+          </ion-item>
+          <ion-item *ngIf="error.monitoring && !loading.monitoring" text-center>
+            Pas de données disponible
           </ion-item>
         </div>
       </ion-item-group>

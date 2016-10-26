@@ -41,22 +41,27 @@ export class HostingWebService {
       }
     }).map((stats) => {
       let charts = stats.map((serie) => {
-        return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])) };
+        return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])), name: serie.serieName };
       });
       return {
         chart: {
           type: 'line',
           backgroundColor: 'transparent',
-          marginLeft: 42,
+          marginLeft: 80,
           marginTop: 20,
           spacingLeft: 0,
           height: 250
         },
+        colors: ['#7cb5ec', '#90ed7d', '#f7a35c', '#8085e9',
+             '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
         title: {
           text: null
         },
         legend: {
-          enabled: false
+          enabled: true,
+          itemStyle: {
+            color: '#666666'
+          }
         },
         plotOptions: {
           series: {

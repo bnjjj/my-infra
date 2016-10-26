@@ -2,7 +2,7 @@
   color: #919191;
 
   &:hover:not(.disable-hover),
-  &[aria-selected=true] {
+  &[aria-selected='true'] {
     color: $silver;
   }
 }
