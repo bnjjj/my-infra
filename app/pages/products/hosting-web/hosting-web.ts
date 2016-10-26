@@ -72,7 +72,7 @@ export class HostingWebPage extends ProductCore {
           }
         );
     } else {
-      this.server.ssl.status = 'none'
+      this.server.ssl.status = 'none';
       let success = () => {
         this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
         this.hostingWebService.deleteSsl(this.serviceName)
@@ -100,7 +100,7 @@ export class HostingWebPage extends ProductCore {
   getDeleteSslAlert(serviceName: string, success: Function, error: Function) {
     return this.alertCtrl.create({
       title: 'Supprimer le certificat SSL/TLS',
-      message: 'Êtes vous sur de supprimer le certificat SSL/TLS de ' + serviceName + ' et de couper l\'accés de votre site en HTTPS ?',
+      message: 'Êtes vous sur de supprimer le certificat SSL/TLS de ' + serviceName + ' et de couper l\'accès de votre site en HTTPS ?',
       buttons: [
         {
           text: 'Non',
