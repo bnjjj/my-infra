@@ -1,3 +1,9 @@
+# 1.2.5 (2016-10-26)
+
+### Bug Fixes
+
+* **Hosting web:** Add alert when you want to disable/delete SSL
+
 # 1.2.5 (2016-09-15)
 
 ### Bug Fixes
