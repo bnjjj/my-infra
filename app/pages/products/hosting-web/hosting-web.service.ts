@@ -41,7 +41,7 @@ export class HostingWebService {
       }
     }).map((stats) => {
       let charts = stats.map((serie) => {
-        return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])), name: serie.serieName };
+        return { data: serie.values.map((point) => ([point.timestamp * 1000, point.value])), name: serie.serieName, connectNulls: true };
       });
       return {
         chart: {

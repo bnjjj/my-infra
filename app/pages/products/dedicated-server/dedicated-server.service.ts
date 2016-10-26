@@ -75,7 +75,8 @@ export class DedicatedServerService {
           }
         },
         series: [{
-          data: series
+          data: series,
+          connectNulls: true
         }]
       };
     });
