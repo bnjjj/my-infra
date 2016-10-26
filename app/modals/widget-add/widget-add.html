@@ -95,7 +95,7 @@
 </ion-content>
 <ion-footer>
   <ion-buttons>
-    <button *ngIf="category === CategoryEnum.PROJECT && project.length >= 2 && !projectName"
+    <button *ngIf="category === CategoryEnum.PROJECT && project.length >= 2 && !terminate"
       (click)="terminate = true"
       block secondary>
       Terminer mon projet
