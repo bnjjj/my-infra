@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, AlertController} from 'ionic-angular';
 import {HostingWebService} from '../../../../pages/products/hosting-web/hosting-web.service';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {TaskDetailsWebComponent} from '../task-details/task-details';
@@ -19,7 +19,6 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   server: any = {};
   loading: boolean;
@@ -79,13 +78,13 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
               this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message).present();
             }
           );
-        };
-        let error = () => {
-          this.server.ssl.status = 'created';
-        };
+      };
+      let error = () => {
+        this.server.ssl.status = 'created';
+      };
 
-        let alert = this.getDeleteSslAlert(this.serviceName, success, error);
-        alert.present();
+      let alert = this.getDeleteSslAlert(this.serviceName, success, error);
+      alert.present();
     }
   }
 
