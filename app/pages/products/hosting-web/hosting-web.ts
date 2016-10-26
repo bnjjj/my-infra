@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
+import { NavParams, IONIC_DIRECTIVES, ModalController, AlertController } from 'ionic-angular';
 import { ToastService } from '../../../services/toast/toast.service';
 import { HostingWebService } from './hosting-web.service';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
@@ -28,7 +28,7 @@ export class HostingWebPage extends ProductCore {
   category = categoryEnum.WEB;
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
 
-  constructor(private hostingWebService: HostingWebService, public navParams: NavParams, modalCtrl: ModalController,
+  constructor(private hostingWebService: HostingWebService, private alertCtrl: AlertController, public navParams: NavParams, modalCtrl: ModalController,
     public analytics: AnalyticsService, public toast: ToastService) {
     super(modalCtrl, navParams);
     this.analytics.trackView('product:hosting-web');
@@ -72,19 +72,45 @@ export class HostingWebPage extends ProductCore {
           }
         );
     } else {
-      this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
-      this.hostingWebService.deleteSsl(this.serviceName)
-        .subscribe(
-          () => this.toast.success('La suppression de votre certificat SSL est en cours...').present(),
-          (err) => {
-            this.server.ssl = Object.assign({}, this.server.ssl, {status: 'created'});
-            this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message).present();
-          }
-        );
+      this.server.ssl.status = 'none'
+      let success = () => {
+        this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
+        this.hostingWebService.deleteSsl(this.serviceName)
+          .subscribe(
+            () => this.toast.success('La suppression de votre certificat SSL est en cours...').present(),
+            (err) => {
+              this.server.ssl = Object.assign({}, this.server.ssl, {status: 'created'});
+              this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message).present();
+            }
+          );
+        };
+        let error = () => {
+          this.server.ssl.status = 'created';
+        };
+
+        let alert = this.getDeleteSslAlert(this.serviceName, success, error);
+        alert.present();
     }
   }
 
   sslIsPending(status: string): boolean {
     return this.sslPendingStatus.indexOf(status) !== -1;
+  }
+
+  getDeleteSslAlert(serviceName: string, success: Function, error: Function) {
+    return this.alertCtrl.create({
+      title: 'Supprimer le certificat SSL/TLS',
+      message: 'Êtes vous sur de supprimer le certificat SSL/TLS de ' + serviceName + ' et de couper l\'accés de votre site en HTTPS ?',
+      buttons: [
+        {
+          text: 'Non',
+          handler: error
+        },
+        {
+          text: 'Oui',
+          handler: success
+        }
+      ]
+    });
   }
 }
