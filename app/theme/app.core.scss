@@ -150,8 +150,19 @@ ion-searchbar {
 //------------------------------------------------------------------
 
 body {
-  background-image: url('../img/bg-texture.png');
+  background-color: #1E2226;
+  background-image: linear-gradient(-42deg, rgba(103, 65, 113, .30) 0%, rgba(30, 34, 38, .50) 100%);
+}
+
+ion-content {
+  background-color: #1E2226;
+  background-image: linear-gradient(-42deg, rgba(103, 65, 113, .30) 0%, rgba(30, 34, 38, .50) 100%);
+}
+
+scroll-content {
+  background-image: url('../img/pattern.png');
   background-repeat: repeat;
+  background-size: 5px;
 }
 
 .toolbar-background {
@@ -182,11 +193,6 @@ ion-navbar {
   .button-inner {
     color: $ovh-font;
   }
-}
-
-ion-content {
-  background-image: url('../img/bg-texture.png');
-  background-repeat: repeat;
 }
 
 ion-card {
