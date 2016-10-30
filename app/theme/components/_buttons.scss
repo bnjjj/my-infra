@@ -40,4 +40,8 @@
       border-color: #7d2f2f;
     }
   }
+
+  & + & {
+    margin-top: 15px;
+  }
 }
