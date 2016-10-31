@@ -18,6 +18,11 @@
     color: $primary-font-color;
   }
 
+  .item {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
   .nostyle {
     ion-list {
       & > .item:first-child {
@@ -36,6 +41,7 @@
 
     .item-inner {
       border-top: 0;
+      padding-right: 0;
     }
   }
 }
