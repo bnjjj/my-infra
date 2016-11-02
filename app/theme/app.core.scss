@@ -150,13 +150,13 @@ ion-searchbar {
 //------------------------------------------------------------------
 
 body {
-  background-color: #1E2226;
-  background-image: linear-gradient(-42deg, rgba(103, 65, 113, .30) 0%, rgba(30, 34, 38, .50) 100%);
+  background-color: $background-gradient-base;
+  background-image: linear-gradient(-42deg, $background-gradient-bottom 0%, $background-gradient-top 100%);
 }
 
 ion-content {
-  background-color: #1E2226;
-  background-image: linear-gradient(-42deg, rgba(103, 65, 113, .30) 0%, rgba(30, 34, 38, .50) 100%);
+  background-color: $background-gradient-base;
+  background-image: linear-gradient(-42deg, $background-gradient-bottom 0%, $background-gradient-top 100%);
 }
 
 scroll-content {
