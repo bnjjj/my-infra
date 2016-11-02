@@ -47,12 +47,12 @@
           </ion-note>
         </ion-item>
         <ion-item>
-          <ion-label [ngClass]="{'danger-color animated pulse': vps.warning}">
+          <ion-label [ngClass]="{ 'danger-color animated pulse': vps.warning }">
             <i class="fa fa-warning" *ngIf="vps.warning"></i>
             Expiration
           </ion-label>
           <ion-note item-right
-            [ngClass]="{'danger-color animated pulse': vps.warning}"
+            [ngClass]="{ 'danger-color animated pulse': vps.warning }"
             [innerText]="vps.expirationText">
           </ion-note>
         </ion-item>
@@ -93,7 +93,7 @@
         <title-separation (collapse)="hideHardware = !$event">
           Matériel
         </title-separation>
-        <div *ngIf="!hideHarware">
+        <div *ngIf="!hideHardware">
           <ion-item>
             <ion-label>
               Mémoire
@@ -121,36 +121,37 @@
           </ion-item>
         </div>
       </ion-item-group>
-
       <ion-item-group>
         <title-separation (collapse)="hideSftp = !$event">
           IP
         </title-separation>
-        <ion-item>
-          <ion-label>
-            Monitoring SLA
-          </ion-label>
-          <ion-toggle item-right secondary
-            [checked]="vps.slaMonitoring"
-            (click)="changeSlaMonitoring()">
-          </ion-toggle>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            IPs associées
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="vps.ips.length"></span>
-          </ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            IPs disponibles
-          </ion-label>
-          <ion-note item-right>
-            <span [innerText]="vps.model.maximumAdditionnalIp + 1"></span>
-          </ion-note>
-        </ion-item>
+        <div *ngIf="!hideSftp">
+          <ion-item>
+            <ion-label>
+              Monitoring SLA
+            </ion-label>
+            <ion-toggle item-right secondary
+              [checked]="vps.slaMonitoring"
+              (click)="changeSlaMonitoring()">
+            </ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              IPs associées
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.ips.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              IPs disponibles
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.model.maximumAdditionnalIp + 1"></span>
+            </ion-note>
+          </ion-item>
+        </div>
       </ion-item-group>
       <ion-item-group>
         <title-separation (collapse)="hideMonitoring = !$event">
@@ -238,8 +239,6 @@
       </ion-col>
     </ion-row>
   </div>
-
-
   <div *ngIf="loading.init" padding text-center>
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
