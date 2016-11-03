@@ -1,0 +1,51 @@
+<widget-header
+  [serviceName]="serviceName"
+  [category]="constants"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+</widget-header>
+<div padding *ngIf="collapsed" class="widget-content">
+  <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
+    <ion-segment-button value="general">
+      Général
+    </ion-segment-button>
+    <ion-segment-button value="tasks" (click)="getTasks()">
+      Tâches
+    </ion-segment-button>
+  </ion-segment>
+</div>
+<ion-card-content class="widget-content" *ngIf="!loading && sms && !error">
+  <ion-row *ngIf="viewMode === 'general' || !collapsed">
+    <ion-col width-50>
+      Crédits
+    </ion-col>
+    <ion-col width-50 text-right [innerText]="sms.creditsLeft | number:'1.0-0'">
+    </ion-col>
+  </ion-row>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+    <div *ngSwitchCase="'general'">
+      <ion-row>
+        <ion-col width-80>
+          Recharge automatique
+        </ion-col>
+        <ion-col width-20 class="center center-flex">
+          <i [hidden]="!sms.automaticRecreditAmount" class="fa fa-check fa-2x" secondary></i>
+          <i [hidden]="sms.automaticRecreditAmount" class="fa fa-times fa-2x" danger></i>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngSwitchCase="'tasks'">
+      <ion-list>
+        <task-details-sms *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-sms>
+        <ion-item *ngIf="emptyTasks && !loading" text-center>
+          <em>Vous n’avez pas de tâches</em>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-card-content>
+<ion-card-content class="widget-content" *ngIf="loading" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

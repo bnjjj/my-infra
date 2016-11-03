@@ -1,0 +1,85 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span [innerText]="serviceName"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content">
+  <div *ngIf="!loading && !error">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Crédits
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="sms.creditsLeft | number:'1.0-0'"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Recharge automatique
+          </ion-label>
+          <ion-note item-right>
+            <i [hidden]="!sms.automaticRecreditAmount" class="fa fa-check fa-2x" secondary></i>
+            <i [hidden]="sms.automaticRecreditAmount" class="fa fa-times fa-2x" danger></i>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideConsumption = !$event">
+          Suivi consomation
+        </title-separation>
+        <div *ngIf="!hideConsumption">
+          <ion-item>
+            <ion-row>
+              <em>Mois en cours</em>
+            </ion-row>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              SMS envoyés
+            </ion-label>
+            <ion-note item-right>
+              <span class="capitalize" [innerText]="sms.consumption.outgoings"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              SMS reçus
+            </ion-label>
+            <ion-note item-right>
+              <span class="capitalize" [innerText]="sms.consumption.incomings"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              SMS planifiés
+            </ion-label>
+            <ion-note item-right>
+              <span class="capitalize" [innerText]="sms.consumption.jobs"></span>
+            </ion-note>
+          </ion-item>
+        </div>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, smsService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>
