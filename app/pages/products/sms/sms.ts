@@ -32,13 +32,7 @@ export class SmsPage extends ProductCore {
     this.subscription = this.smsService.getAll(this.serviceName)
       .finally(() => this.loading = false)
       .subscribe(
-        (sms) => {
-          // if (sms.creditsLeft < 0) {
-          //   sms.creditsLeft = 0
-          // };
-          this.sms = sms;
-          console.log('salut');
-        },
+        (sms) => this.sms = sms,
         (err) => {
           this.error = true;
           this.toast.error(`Une erreur est survenue lors du chargement : ${JSON.parse(err._body).message}`).present();
