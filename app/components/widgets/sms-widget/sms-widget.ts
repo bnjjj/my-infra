@@ -32,8 +32,7 @@ export class SmsWidgetComponent {
     private navController: NavController,
     private smsService: SmsService
   ) {
-    // @TODO: enable tracking by uncommenting the next line of code.
-    // this.analytics.trackView('Sms-widget');
+    this.analytics.trackView('Sms-widget');
   }
 
   openNetworkStateModal(): void {

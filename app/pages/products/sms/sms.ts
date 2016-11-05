@@ -26,8 +26,7 @@ export class SmsPage extends ProductCore {
     public toast: ToastService
   ) {
     super(modalCtrl, navParams);
-    // @TODO: enable tracking by uncommenting the next line of code.
-    // this.analytics.trackView('product:sms');
+    this.analytics.trackView('product:sms');
 
     this.subscription = this.smsService.getAll(this.serviceName)
       .finally(() => this.loading = false)
