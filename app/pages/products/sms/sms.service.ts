@@ -38,7 +38,12 @@ export class SmsService {
   }
 
   getIncomings(serviceName: string) {
-    return this.ovhRequest.get(`/sms/${serviceName}/incoming`).toPromise()
+    return this.ovhRequest.get(`/sms/${serviceName}/incoming`, {
+      search: {
+        'creationDatetime.from': moment().startOf('month').format('YYYY-MM-DD'),
+        'creationDatetime.to': moment().endOf('month').format('YYYY-MM-DD')
+      }
+    }).toPromise()
       .then((incomings) => incomings.count = incomings.length);
   }
 
