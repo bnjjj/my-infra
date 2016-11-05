@@ -37,7 +37,8 @@ export class SmsWidgetComponent {
 
   openNetworkStateModal(): void {
     let networkModal = this.modalCtrl.create(NetworkStateModal, {
-      category: '21', categoryName: 'Sms'
+      category: '21',
+      categoryName: 'Sms'
     });
     networkModal.present();
   }
