@@ -120,7 +120,7 @@ export const categoryEnum: any = {
     supportRef: 'sms',
     hardware: false,
     icon: 'fa fa-commenting-o',
-    workId: '21',
+    workId: '16',
     page: SmsPage
   },
 };
