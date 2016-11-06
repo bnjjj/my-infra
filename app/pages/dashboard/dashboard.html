@@ -81,6 +81,12 @@
           [serviceName]="widget.serviceName"
           (remove)="removeWidget($event)">
         </vps-widget>
+
+        <sms-widget *ngSwitchCase="CategoryEnum.SMS.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </sms-widget>
       </div>
     </div>
   </div>
