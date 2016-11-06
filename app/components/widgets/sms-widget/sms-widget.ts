@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { IONIC_DIRECTIVES, ModalController, NavController } from 'ionic-angular';
 import { TasksModal } from '../../../modals/tasks/tasks';
 import { WidgetsService } from '../widgets.service';

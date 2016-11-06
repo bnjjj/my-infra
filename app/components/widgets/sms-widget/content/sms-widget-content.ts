@@ -1,5 +1,5 @@
-import { Component, Input, EventEmitter, Output, OnInit, SimpleChange } from '@angular/core';
-import { IONIC_DIRECTIVES, ModalController, Nav } from 'ionic-angular';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
 import { TaskDetailsSmsComponent } from '../task-details/task-details';
 import { SmsService } from '../../../../pages/products/sms/sms.service';
 import { WidgetsService } from '../../widgets.service';
