@@ -21,7 +21,7 @@ export class AlertsService {
     return {
       type: 'SLA',
       name: 'Réduction SLA',
-      description: `Vous avez droit à ${slas.length} réduction(s) SLA`,
+      description: `Vous avez droit à ${slas.length} compensation(s) SLA`,
       link: null,
       params: slas
     };
