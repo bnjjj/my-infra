@@ -58,7 +58,7 @@ export class DashboardPage {
       type
     });
 
-    addModal.onDidDismiss(data => { this.addWidget(data); });
+    addModal.onDidDismiss((data) => this.addWidget(data));
     addModal.present();
   }
 

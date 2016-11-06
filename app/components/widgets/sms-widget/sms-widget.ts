@@ -1,6 +1,5 @@
 import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { IONIC_DIRECTIVES, ModalController, Nav, NavController } from 'ionic-angular';
-import { NetworkStateModal } from '../../../modals/network-state/network-state';
+import { IONIC_DIRECTIVES, ModalController, NavController } from 'ionic-angular';
 import { TasksModal } from '../../../modals/tasks/tasks';
 import { WidgetsService } from '../widgets.service';
 import { AnalyticsService } from '../../../services/analytics/analytics.service';
@@ -20,7 +19,6 @@ export class SmsWidgetComponent {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   viewMode: string = 'general';
   loading: boolean;
@@ -33,14 +31,6 @@ export class SmsWidgetComponent {
     private smsService: SmsService
   ) {
     this.analytics.trackView('Sms-widget');
-  }
-
-  openNetworkStateModal(): void {
-    let networkModal = this.modalCtrl.create(NetworkStateModal, {
-      category: '21',
-      categoryName: 'Sms'
-    });
-    networkModal.present();
   }
 
   removeMe(): void {

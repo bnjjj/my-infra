@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, SimpleChange } from '@angular/core';
 import { IONIC_DIRECTIVES, ModalController, Nav } from 'ionic-angular';
 import { TaskDetailsSmsComponent } from '../task-details/task-details';
 import { SmsService } from '../../../../pages/products/sms/sms.service';
@@ -13,13 +13,12 @@ import 'rxjs/add/operator/toPromise';
   directives: [IONIC_DIRECTIVES, TaskDetailsSmsComponent, WidgetHeaderComponent],
   providers: [SmsService, WidgetsService]
 })
-export class SmsWidgetContentComponent implements OnChanges, OnInit {
+export class SmsWidgetContentComponent implements OnInit {
   @Input() serviceName: string;
   @Input() collapsed: boolean;
   @Input() reload: boolean;
   @Input() showWorks: boolean = false;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   viewMode: string = 'general';
   loading: boolean;
@@ -70,16 +69,6 @@ export class SmsWidgetContentComponent implements OnChanges, OnInit {
           this.error = err;
           this.loading = false;
         });
-    }
-  }
-
-  ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-    if (changes['reload'] && changes['reload'].currentValue !== changes['reload'].previousValue) {
-      this.getInfos();
-      this.tasksLoaded = false;
-      if (this.viewMode === 'tasks') {
-        this.getTasks();
-      }
     }
   }
 

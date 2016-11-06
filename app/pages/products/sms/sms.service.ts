@@ -43,13 +43,12 @@ export class SmsService {
         'creationDatetime.from': moment().startOf('month').format('YYYY-MM-DD'),
         'creationDatetime.to': moment().endOf('month').format('YYYY-MM-DD')
       }
-    }).toPromise()
-      .then((incomings) => incomings.count = incomings.length);
+    }).map((incomings) => incomings.length);
   }
 
   getJobs(serviceName: string) {
-    return this.ovhRequest.get(`/sms/${serviceName}/jobs`).toPromise()
-      .then((jobs) => jobs.count = jobs.length);
+    return this.ovhRequest.get(`/sms/${serviceName}/jobs`)
+      .map((jobs) => jobs.length);
   }
 
   getOutgoings(serviceName: string) {
@@ -58,8 +57,7 @@ export class SmsService {
         'creationDatetime.from': moment().startOf('month').format('YYYY-MM-DD'),
         'creationDatetime.to': moment().endOf('month').format('YYYY-MM-DD')
       }
-    }).toPromise()
-      .then((outgoings) => outgoings.count = outgoings.length);
+    }).map((outgoings) => outgoings.length);
   }
 
   getAll(serviceName: string) {
