@@ -14,7 +14,12 @@
     <div *ngIf="!hideAlerts">
       <div *ngFor="let alert of alerts">
         <div class="animated bounceInDown">
-          <ovh-alert [alertName]="alert.name" [link]="alert.link" [alertType]="alert.type" (deleted)="filterAlert($event)">
+          <ovh-alert
+            [alertName]="alert.name"
+            [link]="alert.link"
+            [alertType]="alert.type"
+            (click)="resolveAlert(alert.type, alert.params)"
+            (deleted)="filterAlert($event)">
             <p [innerText]="alert.description"></p>
           </ovh-alert>
         </div>

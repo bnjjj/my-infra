@@ -1,7 +1,9 @@
-import {Injectable} from '@angular/core';
-import {OvhRequestService} from '../ovh-request/ovh-request.service';
-import {AlertsService} from '../alerts/alerts.service';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { OvhRequestService } from '../ovh-request/ovh-request.service';
+import { AlertsService } from '../alerts/alerts.service';
+import { Observable } from 'rxjs/Observable';
+declare var require;
+const moment = require('moment');
 
 @Injectable()
 export class MeService {
@@ -19,7 +21,8 @@ export class MeService {
   }
 
   getSla(id: number) {
-    return this.ovhRequest.get(['/me/sla', id].join('/'));
+    return this.ovhRequest.get(['/me/sla', id].join('/'))
+      .map((sla) => Object.assign({}, sla, { dateText:  moment(new Date(sla.date)).format('DD/MM/YYYY') }));
   }
 
   getSlaCanBeApplied(id: number) {
@@ -28,10 +31,21 @@ export class MeService {
 
   getSlasAvailable() {
     return this.getSlas()
-      .mergeMap((slas) => Observable.merge(slas.map((sla) => this.getSlaCanBeApplied(sla))))
-      .mergeMap((slaApplied) => slaApplied)
-      .reduce((count, slaApplied) => slaApplied ? count + 1 : count, 0);
+      .mergeMap((slas) => {
+        return Observable.merge(...slas.map((sla) => {
+          return this.getSlaCanBeApplied(sla).map((applied) => ({ id: sla, applied }));
+        }));
+      })
+      .reduce((list, sla) => [...list, sla], [])
+      .filter((sla) => sla.applied === true);
+  }
 
+  getSlasDetails(availableIds) {
+    return Observable.forkJoin(...availableIds.map((id) => this.getSla(id)));
+  }
+
+  applySla(id: number) {
+    return this.ovhRequest.post(`/me/sla/${id}/apply`, JSON.stringify({}));
   }
 
   getOvhAccounts() {

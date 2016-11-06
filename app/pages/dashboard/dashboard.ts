@@ -11,6 +11,7 @@ import { SmsWidgetComponent } from '../../components/widgets/sms-widget/sms-widg
 import { ProjectWidgetComponent } from '../../components/widgets/project-widget/project-widget';
 import { OvhAlertComponent } from '../../components/ovh-alert/ovh-alert';
 import { WidgetAddModal } from '../../modals/widget-add/widget-add';
+import { SlaModal } from '../../modals/sla/sla';
 import { AnalyticsService } from '../../services/analytics/analytics.service';
 import { AlertsService, OvhAlert } from '../../services/alerts/alerts.service';
 import { MeService } from '../../services/me/me.service';
@@ -68,7 +69,7 @@ export class DashboardPage {
 
     this.meService.getSlasAvailable()
       .subscribe((slas) => {
-        if (slas && slas > 0) {
+        if (Array.isArray(slas) && slas.length) {
           this.alerts.push(this.alertsService.getSLA(slas));
         }
         this.loading.alerts = false;
@@ -118,6 +119,16 @@ export class DashboardPage {
     }
 
     localStorage.setItem('widgets', JSON.stringify(this.widgets));
+  }
+
+  resolveAlert(type, params) {
+    switch (type) {
+      case 'SLA':
+        this.modalCtrl.create(SlaModal, { ids: params.map((param) => param.id) }).present();
+        break;
+      default:
+        break;
+    }
   }
 
   removeWidget(widgetInfos: any): void {

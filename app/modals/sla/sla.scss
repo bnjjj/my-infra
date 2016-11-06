@@ -1,0 +1,19 @@
+.sla-modal {
+  ion-card {
+    color: $primary-font-color;
+    background-color: $shark2;
+
+    ion-card-header {
+      color: $primary-font-color;
+    }
+
+    h2 {
+      font-weight: 500;
+      font-size: 1.8rem;
+    }
+
+    p {
+      color: $manatee;
+    }
+  }
+}

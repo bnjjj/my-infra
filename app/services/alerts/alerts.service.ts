@@ -1,4 +1,5 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+
 declare var require;
 const moment = require('moment');
 
@@ -7,6 +8,7 @@ export interface OvhAlert {
   name: string;
   description: string;
   link: string;
+  params: any;
 }
 
 @Injectable()
@@ -19,8 +21,9 @@ export class AlertsService {
     return {
       type: 'SLA',
       name: 'Réduction SLA',
-      description: `Vous avez droit à ${slas} réduction(s) SLA`,
-      link: 'https://www.ovh.com/manager/web/#/billing/sla'
+      description: `Vous avez droit à ${slas.length} réduction(s) SLA`,
+      link: null,
+      params: slas
     };
   }
 
@@ -29,7 +32,8 @@ export class AlertsService {
       type: 'CONTACT_CHANGES',
       name: 'Changement de contact',
       description: `Vous avez ${contactChanges.length} demande(s) de contact en attente de votre approbation`,
-      link: 'https://www.ovh.com/manager/web/#/useraccount/contacts?tab=REQUESTS'
+      link: 'https://www.ovh.com/manager/web/#/useraccount/contacts?tab=REQUESTS',
+      params: contactChanges
     };
   }
 
@@ -38,7 +42,8 @@ export class AlertsService {
       type: 'DOMAIN_TASKS',
       name: 'Opération domaine',
       description: `Vous avez ${domainTasks.length} opération(s) en erreur sur des domaines`,
-      link: 'https://www.ovh.com/manager/web/index.html#/configuration/domains_operations'
+      link: 'https://www.ovh.com/manager/web/index.html#/configuration/domains_operations',
+      params: domainTasks
     };
   }
 
@@ -47,7 +52,8 @@ export class AlertsService {
       type: 'DEBT',
       name: 'Solde négatif',
       description: `Votre compte est débiteur de ${-debt.value} ${debt.currencyCode}`,
-      link: 'https://www.ovh.com/manager/dedicated/index.html#/billing/ovhaccount'
+      link: 'https://www.ovh.com/manager/dedicated/index.html#/billing/ovhaccount',
+      params: debt
     };
   }
 

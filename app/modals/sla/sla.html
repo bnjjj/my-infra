@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar [hideBackButton]="false">
+    <ion-title class="ovh-background title-back">
+      Réductions SLA
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="sla-modal">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh"
+      pullingText="Tirer pour rafraîchir"
+      refreshingSpinner="bubbles"
+      refreshingText="Chargement…">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="!loading && !error && slas.length">
+    <div *ngFor="let sla of slas">
+      <ion-card>
+        <ion-card-header [innerText]="sla.name">
+        </ion-card-header>
+        <ion-card-content>
+          <p>
+            <span>Date : </span>
+            <span [textContent]="sla.dateText"></span>
+          </p>
+          <p>
+            <span>Description : </span>
+            <span [textContent]="sla.description"></span>
+          </p>
+          <div padding>
+            <button block class="mi-c-button mi-c-button--submit" (click)="apply(sla.id)">Appliquer</button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </ion-list>
+  <ion-row center *ngIf="!loading && !slas.length">
+    <ion-col center class="center center-flex" width-100>
+      Vous n'avez pas de tâches récentes.
+    </ion-col>
+  </ion-row>
+  <ion-row center *ngIf="loading">
+    <ion-col center class="center center-flex" width-100>
+      <ion-spinner name="bubbles" center></ion-spinner>
+    </ion-col>
+  </ion-row>
+</ion-content>
+

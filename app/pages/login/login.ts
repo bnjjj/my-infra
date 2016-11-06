@@ -119,7 +119,7 @@ export class LoginPage {
   redirectSuccess() {
     this.analytics.trackEvent('Login', 'logme', 'Success', 'good');
     this.keyboard.close();
-    this.toast.success('Compte activé avec succès').present();
+    this.toast.success('Compte activé avec succès', { duration: 500 }).present();
     this.nav.push(TabsPage);
   }
 
