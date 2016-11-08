@@ -54,15 +54,11 @@
 }
 
 .green-color {
-  color: map-get($colors, favorite);
-}
-
-.secondary-color {
-  color: map-get($colors, secondary);
+  color: map-get($colors, favorite) !important;
 }
 
 .has-refresher > scroll-content {
-  border-top: none;
+  border-top: 0;
 }
 
 .warning-color {
@@ -71,10 +67,6 @@
 
 .secondary-color {
   color: map-get($colors, secondary) !important;
-}
-
-.has-refresher > scroll-content {
-  border-top: 0;
 }
 
 .toast-alert {
@@ -263,27 +255,6 @@ ion-list {
   text-transform: capitalize;
 }
 
-<<<<<<< HEAD
-||||||| parent of a7fcdcc... feat(widget): add widget header
-.widget-header {
-  background-color: $shark3;
-  color: $primary-font-color;
-}
-
-=======
-.widget-header {
-  background-color: $shark2;
-  color: $primary-font-color;
-  h2 {
-    font-weight: 500;
-    font-size: 1.8rem;
-  }
-  p {
-    color: $primary-font-color;
-  }
-}
-
->>>>>>> a7fcdcc... feat(widget): add widget header
 .widget-content {
   background-color: $ovh-widget-background;
   color: $primary-font-color;
