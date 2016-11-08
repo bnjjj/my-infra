@@ -1,0 +1,193 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span *ngIf="loading.init" [innerText]="serviceName"></span>
+      <span *ngIf="!loading.init && !error.infos" [innerText]="server.displayName || server.serviceName"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content hosting-web-product">
+  <div *ngIf="!loading.init && !error.infos">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Etat du service
+          </ion-label>
+          <ion-note item-right>
+            <div [ngSwitch]="server.state">
+              <ion-badge *ngSwitchCase="'active'"
+                class="capitalize"
+                [innerText]="server.state"
+                secondary>
+              </ion-badge>
+              <ion-badge *ngSwitchCase="'bloqued'"
+                class="capitalize"
+                [innerText]="server.state"
+                danger>
+              </ion-badge>
+              <ion-badge *ngSwitchDefault
+                [innerText]="server.state">
+              </ion-badge>
+            </div>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Offre
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="server.offer"></span>
+          </ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label [ngClass]="{'danger-color animated pulse': server.warning}">
+            <i class="fa fa-warning" *ngIf="server.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{'danger-color animated pulse': server.warning}"
+            [innerText]="server.expirationText">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Datacentre
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="server.datacenter"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Filer
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="server.filer"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideNetwork = !$event">
+          Accès
+        </title-separation>
+        <div *ngIf="!hideNetwork">
+          <ion-item>
+            <ion-label>
+              IPv4
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hostingIp"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item *ngIf="server.hostingIpv6">
+            <ion-label>
+              IPv6
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="server.hostingIpv6"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Accès cluster
+            </ion-label>
+            <ion-note item-right>
+              <a [href]="'ftp://ftp.' + server.cluster + '.hosting.ovh.net'"
+              [innerText]="'ftp.' + server.cluster + '.hosting.ovh.net'"
+              target="_blank">
+              </a>
+            </ion-note>
+          </ion-item>
+        </div>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation (collapse)="hideOptions = !$event">
+          Options
+        </title-separation>
+        <div *ngIf="!hideOptions">
+          <ion-item>
+            <ion-label>
+              CDN
+            </ion-label>
+            <ion-note item-right>
+              <i [hidden]="!server.hasCdn" class="fa fa-check fa-2x" secondary></i>
+              <i [hidden]="server.hasCdn" class="fa fa-times fa-2x" danger></i>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              SSL (Let's encrypt)
+            </ion-label>
+            <ion-toggle item-right secondary
+             *ngIf="server.ssl != null && !sslIsPending(server.ssl.status)"
+              [checked]="server.ssl != null && server.ssl.status === 'created'"
+              (click)="!sslIsPending(server.ssl.status) && changeSslStatus()">
+            </ion-toggle>
+            <ion-note item-right *ngIf="server.ssl != null && sslIsPending(server.ssl.status)">
+              <ion-spinner name="bubbles">
+              </ion-spinner>
+            </ion-note>
+          </ion-item>
+        </div>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation (collapse)="hideMonitoring = !$event">
+          Monitoring
+        </title-separation>
+        <div *ngIf="!hideMonitoring">
+          <ion-item>
+            <ion-label>
+              Graphique
+            </ion-label>
+            <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
+              <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-segment (ionChange)="selectMonitoring(monitoring, monitoringPeriod)" [(ngModel)]="monitoringPeriod">
+              <ion-segment-button value="daily">
+                Jour
+              </ion-segment-button>
+              <ion-segment-button value="weekly">
+                Semaine
+              </ion-segment-button>
+              <ion-segment-button value="monthly">
+                Mois
+              </ion-segment-button>
+            </ion-segment>
+          </ion-item>
+          <ion-item *ngIf="loading.monitoring">
+            <div class="center center-flex">
+              <ion-spinner name="bubbles"></ion-spinner>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="!error.monitoring">
+            <div [ng2-highcharts]="stats" *ngIf="!loading.monitoring"></div>
+          </ion-item>
+          <ion-item *ngIf="error.monitoring && !loading.monitoring" text-center>
+            Pas de données disponible
+          </ion-item>
+        </div>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, hostingWebService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading.init" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>

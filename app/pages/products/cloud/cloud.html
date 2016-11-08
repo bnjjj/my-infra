@@ -1,0 +1,151 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span *ngIf="loading" [innerText]="serviceName"></span>
+      <span *ngIf="!loading" [innerText]="cloud.description || cloud.projectId"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="cloud-product product-content">
+  <div *ngIf="!loading">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Etat du service
+          </ion-label>
+          <ion-note item-right>
+            <div [ngSwitch]="cloud.status">
+              <ion-badge *ngSwitchCase="'ok'"
+                class="capitalize"
+                [innerText]="cloud.status"
+                secondary>
+              </ion-badge>
+              <ion-badge *ngSwitchCase="'deleted'"
+                class="capitalize"
+                [innerText]="cloud.status"
+                danger>
+              </ion-badge>
+              <ion-badge *ngSwitchCase="'suspended'"
+                class="capitalize"
+                [innerText]="cloud.status"
+                danger>
+              </ion-badge>
+              <ion-badge *ngSwitchDefault
+                [innerText]="cloud.status">
+              </ion-badge>
+            </div>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label [ngClass]="{'danger-color animated pulse': cloud.warning}">
+            <i class="fa fa-warning" *ngIf="cloud.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{'danger-color animated pulse': cloud.warning}"
+            [innerText]="cloud.expirationText">
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideSnapshots = !$event">
+          Snapshots
+        </title-separation>
+        <div *ngIf="!hideSnapshots">
+          <ion-item>
+            <ion-label>
+              Nombre
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="cloud.snapshots.list.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item *ngIf="cloud.snapshots.inSuccess.length > 0">
+            <ion-label>
+              Dernier snapshot le
+            </ion-label>
+            <ion-note>
+              <span [innerText]="cloud.snapshots.inSuccess[cloud.snapshots.inSuccess.length - 1].creationDateText"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <status-details
+              [inError]="cloud.snapshots.inError"
+              [inSuccess]="cloud.snapshots.inSuccess"
+              [inOther]="cloud.snapshots.inOther"
+              type="snapshot"
+              (actionRequest)="deleteSnapshot($event)">
+            </status-details>
+            <ion-row *ngIf="displayInSuccess || displayInError || displayInOther">
+              <ion-list *ngIf="displayInSuccess">
+                <ion-item
+                  *ngFor="let successInstance of cloud.inSuccess"
+                  [innerText]="successInstance.name">
+                </ion-item>
+              </ion-list>
+            </ion-row>
+          </ion-item>
+        </div>
+      </ion-item-group>
+
+      <ion-item-group>
+        <title-separation (collapse)="hideInstances = !$event">
+          Instances
+        </title-separation>
+        <div *ngIf="!hideInstances">
+          <ion-item>
+            <ion-label>
+              Nombre
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="cloud.instances.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <status-details
+              [inError]="cloud.inError"
+              [inSuccess]="cloud.inSuccess"
+              [inOther]="cloud.inOther"
+              type="instance"
+              (actionRequest)="rebootInstance($event)"
+              (actionRequest2)="createSnapshot($event)">
+            </status-details>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideIps = !$event">
+          IPs
+        </title-separation>
+        <div *ngIf="!hideIps">
+          <ion-item *ngFor="let ip of cloud.ips">
+            <span [innerText]="ip.ip"></span>
+            <ion-badge
+              class="capitalize"
+              [innerText]="ip.type"
+              item-right>
+            </ion-badge>
+          </ion-item>
+          <ion-item *ngIf="!cloud.ips.length">
+            <ion-label class="center-flex">
+              <em>Vous n’avez pas d'IP</em>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-item-group>
+
+
+    </ion-list>
+    <ion-row>
+      <ion-col width-100>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>

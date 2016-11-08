@@ -60,6 +60,7 @@ export class OvhRequestService {
       this.timeObservable = Observable.fromPromise(new Promise(resolve => resolve(Math.round(Date.now() / 1000) + this.timestampLag)))
         .map(resp => resp);
     }
+
     return this.timeObservable
       .map(timestamp => {
         let reqBody = null;

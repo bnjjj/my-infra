@@ -1,15 +1,16 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
-import {DedicatedWidgetService} from '../dedicated-widget.service';
-import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
+import {DedicatedServerService} from '../../../../pages/products/dedicated-server/dedicated-server.service';
 import {WidgetsService} from '../../widgets.service';
+import {TaskDetailsDedicatedComponent} from '../task-details/task-details';
 
 @Component({
   selector: 'dedicated-widget-content',
   templateUrl: 'build/components/widgets/dedicated-widget/content/dedicated-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent],
-  providers: [DedicatedWidgetService, WidgetsService]
+  directives: [IONIC_DIRECTIVES, TaskDetailsDedicatedComponent, WidgetHeaderComponent],
+  providers: [DedicatedServerService, WidgetsService]
 })
 export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -25,7 +26,9 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   server: any = {};
   error: any;
   tasks: Array<any> = [];
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
+  constants = categoryEnum.DEDICATED_SERVER;
+
+  constructor(private dedicatedServerService: DedicatedServerService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -35,7 +38,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.dedicatedWidgetService.getInfos(this.serviceName), this.dedicatedWidgetService.getServiceInfos(this.serviceName)])
+    Promise.all([this.dedicatedServerService.getInfos(this.serviceName).toPromise(), this.dedicatedServerService.getServiceInfos(this.serviceName).toPromise()])
       .then(resp => {
         this.server = Object.assign({}, resp[0], resp[1]);
         this.loading = false;
@@ -49,7 +52,7 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.dedicatedWidgetService.getTasks(this.serviceName)
+      this.dedicatedServerService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = tasks.length === 0;
           this.tasks = tasks;
@@ -72,11 +75,6 @@ export class DedicatedWidgetContentComponent implements OnChanges, OnInit {
         this.getTasks();
       }
     }
-  }
-
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '5', categoryName: 'serveur dédié' });
-    profileModal.present();
   }
 
   updateCollapse(): void {

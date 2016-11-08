@@ -1,0 +1,38 @@
+<ion-header class="product-list-header">
+  <ion-navbar [hideBackButton]="true">
+    <ion-title>
+      Mes produits
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-list-content">
+  <ion-searchbar
+    (ionInput)="sortProducts()"
+    (ionClear)="sortProducts()"
+    (ionCancel)="sortProducts()"
+    [(ngModel)]="search"
+    placeholder="Rechercher un produit">
+  </ion-searchbar>
+  <ion-list no-lines center padding (click)="closeKeyboard()">
+    <ion-item class="center width90">
+      <ion-select class="center" [(ngModel)]="category" (ionChange)="getProducts(category)">
+        <ion-option *ngFor="let categoryKey of categoryKeys" [value]="categoryEnum[categoryKey]" [innerText]="categoryEnum[categoryKey].text"></ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="!loading" (click)="closeKeyboard()">
+    <ion-list>
+      <ion-item class="no-border" *ngFor="let product of productsFiltered" (click)="moreInfos(product)">
+        <span [innerText]="product"></span>
+        <ion-icon name="arrow-dropright" item-right>
+        </ion-icon>
+      </ion-item>
+      <ion-item *ngIf="!productsFiltered.length">
+        Pas de produits disponibles
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="loading" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>

@@ -58,6 +58,14 @@
             [showWorks]="true">
           </dedicated-widget-content>
         </div>
+        <div *ngSwitchCase="'SMS'">
+          <sms-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </sms-widget-content>
+        </div>
       </div>
     </div>
 

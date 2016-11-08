@@ -1,20 +1,11 @@
-<ion-item class="widget-header vps-widget">
- <ion-avatar item-left (click)="updateCollapse()">
-   <i class="fa fa-hdd-o fa-2x"></i>
- </ion-avatar>
- <div (click)="updateCollapse()">
-   <h2 [innerText]="vps.displayName || vps.name" *ngIf="!loading && !error">
-   </h2>
-   <h2 [innerText]="serviceName" *ngIf="loading">
-   </h2>
-   <h2 *ngIf="error" danger>
-    ERREUR
-   </h2>
- </div>
- <button outline item-right class="button-white outline-white" (click)="openNetworkStateModal()">
-   <i class="fa fa-heartbeat fa-1x"></i>
- </button>
-</ion-item>
+<widget-header
+  [serviceName]="loading ? serviceName : vps.displayName || vps.name || serviceName || 'ERREUR'"
+  [category]="constants"
+  [state]="getState()"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+</widget-header>
 <div padding *ngIf="collapsed && !error" class="widget-content">
  <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
    <ion-segment-button value="general">
@@ -35,30 +26,6 @@
      <ion-col width-50 text-right
        [ngClass]="{'danger-color animated pulse': vps.warning}"
        [innerText]="vps.expirationText">
-     </ion-col>
-   </ion-row>
-   <ion-row>
-     <ion-col width-40>
-       Etat du service
-     </ion-col>
-     <ion-col width-60 text-right>
-       <div [ngSwitch]="vps.state">
-         <ion-badge *ngSwitchCase="'running'"
-            class="capitalize"
-           [innerText]="vps.state"
-           secondary>
-         </ion-badge>
-         <ion-badge *ngSwitchCase="'maintenance'"
-            class="capitalize"
-           [innerText]="vps.state"
-           primary>
-         </ion-badge>
-         <ion-badge *ngSwitchDefault
-            class="capitalize"
-           [innerText]="vps.state"
-           danger>
-         </ion-badge>
-       </div>
      </ion-col>
    </ion-row>
  </div>
@@ -119,7 +86,7 @@
          <task-details-vps *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
          </task-details-vps>
          <ion-item *ngIf="emptyTasks && !loading" text-center>
-           <em>Vous n'avez pas de tâches</em>
+           <em>Vous n’avez pas de tâches</em>
          </ion-item>
        </ion-list>
      </div>

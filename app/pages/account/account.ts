@@ -24,9 +24,15 @@ export class AccountPage implements OnInit {
   meModel: any;
   keys: Array<string>;
 
-  constructor(private accountService: AccountService, private keyboard: Keyboard,
-    private analytics: AnalyticsService, private login: LoginService, private toast: ToastService,
-      private modalCtrl: ModalController, private alertCtrl: AlertController) {
+  constructor(
+    private accountService: AccountService,
+    private keyboard: Keyboard,
+    private analytics: AnalyticsService,
+    private login: LoginService,
+    private toast: ToastService,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController
+  ) {
     this.init();
     this.analytics.trackView('Account');
   }
@@ -40,15 +46,15 @@ export class AccountPage implements OnInit {
 
   ngOnInit(): void {
     this.accountService.accountInfosObservable
-      .subscribe(dataStore => {
+      .subscribe((dataStore) => {
         this.accountInfos = dataStore.accountInfos;
         this.previousInfos = dataStore.accountInfos;
         this.meModel = dataStore.meModel;
         this.newAccountModel = dataStore.newAccountModel;
         this.loading = !['accountInfos', 'previousInfos', 'meModel', 'newAccountModel'].reduce((prev, curr) => prev && Object.keys(this[curr]).length > 0, true);
-      }, err => {
+      }, (err) => {
         this.error = err;
-        this.toast.error('Une erreur est survenue : ' + err.message).present();
+        this.toast.error(`Une erreur est survenue : ${err.message}`).present();
         this.loading = false;
       });
   }
@@ -68,7 +74,8 @@ export class AccountPage implements OnInit {
   }
 
   save() {
-    let args = ['firstname',
+    let args = [
+      'firstname',
       'birthDay',
       'nationalIdentificationNumber',
       'spareEmail',
@@ -105,7 +112,7 @@ export class AccountPage implements OnInit {
     };
 
     let alert = this.alertCtrl.create({
-      title: 'Déconnection',
+      title: 'Déconnexion',
       message: 'Voulez-vous vraiment vous déconnecter ?',
       buttons: [
         {

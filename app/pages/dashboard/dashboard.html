@@ -1,74 +1,104 @@
 <ion-header>
   <ion-navbar class="dashboard-page">
     <ion-title>
-      Dashboard
+      Tableau de bord
     </ion-title>
-    <ion-buttons end>
-      <button (click)="addWidgetModal()">
-        <!-- <ion-icon name="add"></ion-icon> -->
-        <i class="fa fa-plus-square icon-size" aria-hidden="true"></i>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="dashboard-page">
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="refresh"
-      pullingText="Tirer pour rafraichir"
-      refreshingSpinner="bubbles"
-      refreshingText="Chargement...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <ion-card *ngIf="widgets && !widgets.length" class="transparent">
-    <ion-card-content>
-      Vous n'avez pas encore ajouté de widget. Veuillez cliquer sur le + ci-dessus pour en ajouter.
-    </ion-card-content>
-  </ion-card>
-  <div *ngFor="let widget of widgets">
-    <div [ngSwitch]="widget.category.url" class="animated bounceInUp">
-      <domain-widget *ngSwitchCase="CategoryEnum.DOMAIN.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </domain-widget>
+  <ion-item-group>
+    <title-separation (collapse)="hideAlerts = !$event">
+      Mes alertes
+    </title-separation>
+    <div *ngIf="!hideAlerts">
+      <div *ngFor="let alert of alerts">
+        <div class="animated bounceInDown">
+          <ovh-alert
+            [alertName]="alert.name"
+            [link]="alert.link"
+            [alertType]="alert.type"
+            (click)="resolveAlert(alert.type, alert.params)"
+            (deleted)="filterAlert($event)">
+            <p [innerText]="alert.description"></p>
+          </ovh-alert>
+        </div>
+      </div>
+      <div class="center center-flex" *ngIf="loading.alerts">
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+    </div>
+  </ion-item-group>
+  <ion-item-group>
+    <title-separation [buttonVisible]="true" (action)="addProjectModal()" (collapse)="hideProjects = !$event">
+      Mes projets
+    </title-separation>
+    <div [hidden]="hideProjects">
+      <div *ngFor="let widget of widgets">
+        <project-widget *ngIf="widget.category.url === CategoryEnum.PROJECT.url"
+          [reload]="reload"
+          [project]="widget"
+          (remove)="removeWidget($event)">
+        </project-widget>
+      </div>
+    </div>
+  </ion-item-group>
+  <ion-item-group>
+    <title-separation [buttonVisible]="true" (action)="addWidgetModal()" (collapse)="hideWidgets = !$event">
+      Mes widgets
+    </title-separation>
+  </ion-item-group>
+  <div [hidden]="hideWidgets">
+    <div *ngFor="let widget of widgets">
+      <div [ngSwitch]="widget.category.url" class="animated bounceInUp">
+        <domain-widget *ngSwitchCase="CategoryEnum.DOMAIN.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </domain-widget>
 
-      <web-widget *ngSwitchCase="CategoryEnum.WEB.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </web-widget>
+        <web-widget *ngSwitchCase="CategoryEnum.WEB.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </web-widget>
 
-      <private-database-widget *ngSwitchCase="CategoryEnum.PRIVATE_DATABASE.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </private-database-widget>
+        <private-database-widget *ngSwitchCase="CategoryEnum.PRIVATE_DATABASE.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </private-database-widget>
 
-      <dedicated-widget *ngSwitchCase="CategoryEnum.DEDICATED_SERVER.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </dedicated-widget>
+        <dedicated-widget *ngSwitchCase="CategoryEnum.DEDICATED_SERVER.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </dedicated-widget>
 
-      <cloud-widget *ngSwitchCase="CategoryEnum.CLOUD.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </cloud-widget>
+        <cloud-widget *ngSwitchCase="CategoryEnum.CLOUD.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </cloud-widget>
 
-      <vps-widget *ngSwitchCase="CategoryEnum.VPS.url"
-        [reload]="reload"
-        [serviceName]="widget.serviceName"
-        (remove)="removeWidget($event)">
-      </vps-widget>
+        <vps-widget *ngSwitchCase="CategoryEnum.VPS.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </vps-widget>
 
-      <project-widget *ngSwitchCase="CategoryEnum.PROJECT.url"
-        [reload]="reload"
-        [project]="widget"
-        (remove)="removeWidget($event)">
-      </project-widget>
+        <sms-widget *ngSwitchCase="CategoryEnum.SMS.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </sms-widget>
+      </div>
     </div>
   </div>
+  <ion-card *ngIf="widgets && !widgets.length" class="transparent">
+    <p text-center>
+      Vous n’avez pas encore ajouté de widget.<br />
+      Veuillez cliquer sur le <ion-icon ios="ios-add-circle-outline" md="ios-add-circle-outline"></ion-icon> pour en ajouter.
+    </p>
+  </ion-card>
 </ion-content>

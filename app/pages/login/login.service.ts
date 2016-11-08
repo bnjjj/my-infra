@@ -7,13 +7,12 @@ import 'rxjs/add/operator/toPromise';
 import {OvhRequestService} from '../../services/ovh-request/ovh-request.service';
 import {AnalyticsService} from '../../services/analytics/analytics.service';
 import {loginConfiguration} from '../../config/constants';
-import {LoginPage} from './login';
 let _ = require('lazy.js');
 
 @Injectable()
 export class LoginService {
   localStorage: Storage;
-  rootUrl: string= loginConfiguration['ovh-eu'].rootUrl;
+  rootUrl: string = loginConfiguration['ovh-eu'].rootUrl;
   validationUrl: string;
   loginId: string;
   passwordId: string;
@@ -77,10 +76,7 @@ export class LoginService {
           return resolve({ sms: false, credentialToken, sessionId: null });
         })
         .catch((err) => reject(err));
-
     });
-
-
   }
 
   askAuthentication(login: string, password: string, credentialToken: string) {
@@ -139,8 +135,8 @@ export class LoginService {
     localStorage.removeItem('widgets');
     localStorage.removeItem('credentials');
     localStorage.removeItem('connected');
+    localStorage.removeItem('alerts');
     this.ovhRequest.setConfiguration({});
-
-    return this.nav.setRoot(LoginPage);
+    location.reload();
   }
 }

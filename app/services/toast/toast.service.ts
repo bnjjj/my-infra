@@ -40,4 +40,3 @@ export class ToastService {
     return this.toastCtrl.create(opts);
   }
 }
-

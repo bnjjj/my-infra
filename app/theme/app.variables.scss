@@ -33,7 +33,8 @@ $colors: (
   danger:     $danger-color,
   light:      #f4f4f4,
   dark:       #222,
-  favorite:   #69BB7B,
+  warning:    #cca14a,
+  favorite:   #44b164
 );
 
 $ovh-font: $manatee;
@@ -41,10 +42,12 @@ $ovh-icon: $oslo-gray;
 $ovh-background-top: $tuna;
 $ovh-background-bottom: $bright-gray;
 $ovh-toolbar: $charade;
-$primary-font-color: $mercury;
+$primary-font-color: $silver;
 $segment-active-background: $mercury;
-$ovh-background: $shark;
+$ovh-background: $shark2;
 $ovh-widget-background: $shark2;
 $ovh-border-color: $mercury;
 $ovh-active-button: $tuna;
 $danger-color: $apple-blossom;
+$ovh-button: $tuna2;
+$ovh-button-active: $gray;

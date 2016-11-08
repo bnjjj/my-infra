@@ -1,24 +1,26 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnInit} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, NavController, AlertController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
-import {DedicatedWidgetService} from './dedicated-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {DedicatedWidgetContentComponent} from './content/dedicated-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
 import {categoryEnum} from '../../../config/constants';
 import {ToastService} from '../../../services/toast/toast.service';
+import {WidgetFooterComponent} from '../../../components/widget-footer/widget-footer';
+import {DedicatedServerPage} from '../../../pages/products/dedicated-server/dedicated-server';
+import {TasksModal} from '../../../modals/tasks/tasks';
+import {DedicatedServerService} from '../../../pages/products/dedicated-server/dedicated-server.service';
 
 @Component({
   selector: 'dedicated-widget',
   templateUrl: 'build/components/widgets/dedicated-widget/dedicated-widget.html',
-  directives: [IONIC_DIRECTIVES, DedicatedWidgetContentComponent],
-  providers: [DedicatedWidgetService, WidgetsService]
+  directives: [IONIC_DIRECTIVES, DedicatedWidgetContentComponent, WidgetFooterComponent],
+  providers: [DedicatedServerService, WidgetsService]
 })
-export class DedicatedWidgetComponent implements OnChanges, OnInit {
+export class DedicatedWidgetComponent implements OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
   viewMode: string = 'general';
   loading: boolean;
   collapsed: boolean = false;
@@ -27,7 +29,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   server: any;
   error: any;
   tasks: Array<any> = [];
-  constructor(private dedicatedWidgetService: DedicatedWidgetService, private widgetsService: WidgetsService,
+  constructor(private dedicatedServerService: DedicatedServerService, private widgetsService: WidgetsService, public navController: NavController,
    private analytics: AnalyticsService, private toast: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.analytics.trackView('Dedicated-widget');
   }
@@ -38,7 +40,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    this.dedicatedWidgetService.getInfos(this.serviceName)
+    this.dedicatedServerService.getInfos(this.serviceName).toPromise()
       .then(resp => {
         this.server = resp;
         this.loading = false;
@@ -52,7 +54,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.dedicatedWidgetService.getTasks(this.serviceName)
+      this.dedicatedServerService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = tasks.length === 0;
           this.tasks = tasks;
@@ -64,16 +66,6 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
           this.error = err;
           this.loading = false;
         });
-    }
-  }
-
-  ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-    if (changes['reload'] && changes['reload'].currentValue !== changes['reload'].previousValue) {
-      this.getInfos();
-      this.tasksLoaded = false;
-      if (this.viewMode === 'tasks') {
-        this.getTasks();
-      }
     }
   }
 
@@ -100,7 +92,7 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
         {
           text: 'Oui',
           handler: () => {
-            this.dedicatedWidgetService.reboot(this.serviceName)
+            this.dedicatedServerService.reboot(this.serviceName).toPromise()
               .then(
                 () => this.toast.success('Redémarrage en cours...').present(),
                 err => {
@@ -114,5 +106,14 @@ export class DedicatedWidgetComponent implements OnChanges, OnInit {
     });
 
     alert.present();
+  }
+
+  moreInfos(): void {
+    this.navController.push(DedicatedServerPage, {serviceName: this.serviceName});
+  }
+
+  openTasks(): void {
+    let tasksModal = this.modalCtrl.create(TasksModal, { serviceName: this.serviceName, service: this.dedicatedServerService });
+    tasksModal.present();
   }
 }

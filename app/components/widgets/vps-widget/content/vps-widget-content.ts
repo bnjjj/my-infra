@@ -1,16 +1,17 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
 import {VpsWidgetService} from '../vps-widget.service';
 import {TaskDetailsVpsComponent} from '../task-details/task-details';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {WidgetsService} from '../../widgets.service';
 import {IpService} from '../../../../services/ip/ip.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'vps-widget-content',
   templateUrl: 'build/components/widgets/vps-widget/content/vps-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsVpsComponent],
+  directives: [IONIC_DIRECTIVES, TaskDetailsVpsComponent, WidgetHeaderComponent],
   providers: [VpsWidgetService, WidgetsService, IpService]
 })
 export class VpsWidgetContentComponent implements OnChanges, OnInit {
@@ -28,6 +29,8 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
   vps: any = {};
   error: any;
   tasks: Array<any> = [];
+  constants = categoryEnum.VPS;
+
   constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
     private toast: ToastService, private ipService: IpService, private modalCtrl: ModalController) {
 
@@ -49,7 +52,6 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
         this.loading = false;
       })
       .catch(err => {
-        console.log('error : ', err);
         this.error = err;
         this.toast.error(err.message).present();
         this.loading = false;
@@ -84,9 +86,13 @@ export class VpsWidgetContentComponent implements OnChanges, OnInit {
     }
   }
 
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '22', categoryName: 'VPS' });
-    profileModal.present();
+  getState() {
+    switch (this.vps.state) {
+      case 'running':
+        return 'enabled';
+      default:
+        return this.vps.state;
+    }
   }
 
   updateCollapse(): void {

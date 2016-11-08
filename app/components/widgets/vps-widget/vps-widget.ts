@@ -1,24 +1,26 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, NavController, AlertController} from 'ionic-angular';
 import {NetworkStateModal} from '../../../modals/network-state/network-state';
-import {VpsWidgetService} from './vps-widget.service';
 import {WidgetsService} from '../widgets.service';
 import {VpsWidgetContentComponent} from './content/vps-widget-content';
 import {AnalyticsService} from '../../../services/analytics/analytics.service';
+import {WidgetFooterComponent} from '../../../components/widget-footer/widget-footer';
 import {ToastService} from '../../../services/toast/toast.service';
 import {categoryEnum} from '../../../config/constants';
+import {VpsPage} from '../../../pages/products/vps/vps';
+import {VpsService} from '../../../pages/products/vps/vps.service';
+import {TasksModal} from '../../../modals/tasks/tasks';
 
 @Component({
   selector: 'vps-widget',
   templateUrl: 'build/components/widgets/vps-widget/vps-widget.html',
-  directives: [IONIC_DIRECTIVES, VpsWidgetContentComponent],
-  providers: [VpsWidgetService, WidgetsService]
+  directives: [IONIC_DIRECTIVES, VpsWidgetContentComponent, WidgetFooterComponent],
+  providers: [VpsService, WidgetsService]
 })
 export class VpsWidgetComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
   @Input() reload: boolean;
   @Output() remove: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   viewMode: string = 'general';
   loading: boolean;
@@ -28,7 +30,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   server: any;
   error: any;
   tasks: Array<any> = [];
-  constructor(private vpsWidgetService: VpsWidgetService, private widgetsService: WidgetsService,
+  constructor(private vpsService: VpsService, private widgetsService: WidgetsService, public navController: NavController,
       private analytics: AnalyticsService, private toast: ToastService, private modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.analytics.trackView('Vps-widget');
   }
@@ -39,7 +41,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    this.vpsWidgetService.getInfos(this.serviceName)
+    this.vpsService.getInfos(this.serviceName).toPromise()
       .then(resp => {
         this.server = resp;
         this.loading = false;
@@ -53,7 +55,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.vpsWidgetService.getTasks(this.serviceName)
+      this.vpsService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = tasks.length === 0;
           this.tasks = tasks;
@@ -101,7 +103,7 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
         {
           text: 'Oui',
           handler: () => {
-            this.vpsWidgetService.reboot(this.serviceName)
+            this.vpsService.reboot(this.serviceName).toPromise()
               .then(
                 () => this.toast.success('Redémarrage en cours ...').present(),
                 (err) => this.toast.error('Une erreur est survenue : ' + err.message).present()
@@ -112,5 +114,14 @@ export class VpsWidgetComponent implements OnChanges, OnInit {
     });
 
     alert.present();
+  }
+
+  moreInfos(): void {
+    this.navController.push(VpsPage, {serviceName: this.serviceName});
+  }
+
+  openTasks(): void {
+    let tasksModal = this.modalCtrl.create(TasksModal, { serviceName: this.serviceName, service: this.vpsService });
+    tasksModal.present();
   }
 }

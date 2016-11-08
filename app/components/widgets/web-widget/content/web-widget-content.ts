@@ -1,16 +1,17 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
-import {WebWidgetService} from '../web-widget.service';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController, AlertController} from 'ionic-angular';
+import {HostingWebService} from '../../../../pages/products/hosting-web/hosting-web.service';
 import {WidgetsService} from '../../widgets.service';
-import {IONIC_DIRECTIVES, ModalController, Nav, AlertController} from 'ionic-angular';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {TaskDetailsWebComponent} from '../task-details/task-details';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
+import {categoryEnum} from '../../../../config/constants';
 
 @Component({
   selector: 'web-widget-content',
   templateUrl: 'build/components/widgets/web-widget/content/web-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent],
-  providers: [WebWidgetService, WidgetsService]
+  directives: [IONIC_DIRECTIVES, TaskDetailsWebComponent, WidgetHeaderComponent],
+  providers: [WidgetsService, HostingWebService]
 })
 export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -18,7 +19,6 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   server: any = {};
   loading: boolean;
@@ -28,8 +28,9 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   error: any;
   tasks: Array<any> = [];
   sslPendingStatus: Array<string> = ['deleting', 'creating', 'regenerating'];
+  constants = categoryEnum.WEB;
 
-  constructor(private webWidgetService: WebWidgetService, private widgetsService: WidgetsService,
+  constructor(private widgetService: WidgetsService, private hostingWebService: HostingWebService,
     private toast: ToastService, private modalCtrl: ModalController, public alertCtrl: AlertController) {
 
   }
@@ -40,9 +41,9 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.webWidgetService.getInfos(this.serviceName),
-        this.webWidgetService.getServiceInfos(this.serviceName),
-        this.webWidgetService.getSsl(this.serviceName)
+    Promise.all([this.hostingWebService.getInfos(this.serviceName).toPromise(),
+        this.hostingWebService.getServiceInfos(this.serviceName).toPromise(),
+        this.hostingWebService.getSsl(this.serviceName)
       ])
       .then(resp => {
         this.server = Object.assign(resp[0], resp[1], { ssl: resp[2] });
@@ -57,7 +58,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   changeSslStatus(): void {
     if (this.server.ssl && this.server.ssl.status === 'none') {
       this.server.ssl = {status: 'creating'};
-      this.webWidgetService.createSsl(this.serviceName)
+      this.hostingWebService.createSsl(this.serviceName).toPromise()
         .then(
           () => this.toast.success('La création de votre certificat SSL est en cours...').present(),
           (err) => {
@@ -69,21 +70,21 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
       this.server.ssl.status = 'none';
       let success = () => {
         this.server.ssl = Object.assign({}, this.server.ssl, {status: 'deleting'});
-        this.webWidgetService.deleteSsl(this.serviceName)
-          .then(
+        this.hostingWebService.deleteSsl(this.serviceName)
+          .subscribe(
             () => this.toast.success('La suppression de votre certificat SSL est en cours...').present(),
             (err) => {
               this.server.ssl = Object.assign({}, this.server.ssl, {status: 'created'});
               this.toast.error('Une erreur est survenue lors de la suppression de votre certificat SSL : ' + JSON.parse(err._body).message).present();
             }
           );
-        };
-        let error = () => {
-          this.server.ssl.status = 'created';
-        };
+      };
+      let error = () => {
+        this.server.ssl.status = 'created';
+      };
 
-        let alert = this.getDeleteSslAlert(this.serviceName, success, error);
-        alert.present();
+      let alert = this.getDeleteSslAlert(this.serviceName, success, error);
+      alert.present();
     }
   }
 
@@ -111,7 +112,7 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.webWidgetService.getTasks(this.serviceName)
+      this.hostingWebService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;
@@ -132,11 +133,6 @@ export class WebWidgetContentComponent implements OnChanges, OnInit {
         this.getTasks();
       }
     }
-  }
-
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'hébergement web' });
-    profileModal.present();
   }
 
   updateCollapse(): void {

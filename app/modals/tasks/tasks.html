@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar [hideBackButton]="false">
+    <ion-title class="ovh-background title-back">
+      Tâches
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="tasksModal">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh"
+      pullingText="Tirer pour rafraîchir"
+      refreshingSpinner="bubbles"
+      refreshingText="Chargement…">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="!loading && !error && tasks.length">
+    <task-details *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName" [service]="service">
+    </task-details>
+  </ion-list>
+  <ion-row center *ngIf="!loading && !tasks.length">
+    <ion-col center class="center center-flex" width-100>
+      Vous n'avez pas de tâches récentes.
+    </ion-col>
+  </ion-row>
+  <ion-row center *ngIf="loading">
+    <ion-col center class="center center-flex" width-100>
+      <ion-spinner name="bubbles" center></ion-spinner>
+    </ion-col>
+  </ion-row>
+</ion-content>
+

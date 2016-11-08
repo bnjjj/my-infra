@@ -1,6 +1,7 @@
 .messagesPage {
   $supportColor: $steel-blue;
   $customerColor: $shark2;
+
   .talk-bubble {
     display: inline-block;
     position: relative;
@@ -11,8 +12,8 @@
     margin-top: 10px;
   }
 
-  .messageContainer{
-    margin-top: 50px;
+  .messageContainer {
+    margin-top: 10px;
     margin-bottom: 120px;
   }
 
@@ -27,17 +28,19 @@
   .right {
     margin-left: 18%;
   }
+
   .left-date {
     margin-left: 25px;
   }
-  .border{
+
+  .border {
     border: 8px solid #666;
   }
-  .round{
+
+  .round {
     border-radius: 30px;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
-
   }
 
   .tri-right {
@@ -50,7 +53,7 @@
         right: auto;
         bottom: auto;
 
-        :before {
+        ::before {
           content: ' ';
           position: absolute;
           width: 0;
@@ -60,26 +63,27 @@
           left: -40px;
           top: -8px;
           border: 32px solid;
-          border-color: #666 transparent transparent transparent;
+          border-color: #666 transparent transparent;
         }
       }
     }
   }
-  .tri-right.left-top:after{
+
+  .tri-right.left-top::after {
     content: ' ';
     position: absolute;
     width: 0;
     height: 0;
     left: -20px;
     right: auto;
-    top: 0px;
+    top: 0;
     bottom: auto;
     border: 22px solid;
-    border-color: $supportColor transparent transparent transparent;
+    border-color: $supportColor transparent transparent;
   }
 
-  /* Right triangle placed top right flush. */
-  .tri-right.border.right-top:before {
+  // Right triangle placed top right flush.
+  .tri-right.border.right-top::before {
     content: ' ';
     position: absolute;
     width: 0;
@@ -89,34 +93,36 @@
     top: -8px;
     bottom: auto;
     border: 32px solid;
-    border-color: #666 transparent transparent transparent;
+    border-color: #666 transparent transparent;
   }
-  .tri-right.right-top:after{
+
+  .tri-right.right-top::after {
     content: ' ';
     position: absolute;
     width: 0;
     height: 0;
     left: auto;
     right: -17px;
-    top: 0px;
+    top: 0;
     bottom: auto;
     border: 20px solid;
-    border-color: $customerColor transparent transparent transparent;
+    border-color: $customerColor transparent transparent;
   }
 
-  .tri-right.right-top-customer:after {
-    @extend .tri-right.right-top:after;
-    border-color: $customerColor transparent transparent transparent;
+  .tri-right.right-top-customer::after {
+    @extend .tri-right.right-top::after;
+    border-color: $customerColor transparent transparent;
   }
 
-  /* talk bubble contents */
-  .talktext{
+  // Talk bubble contents
+  .talktext {
     padding: 1em;
     text-align: left;
     line-height: 1.5em;
+
     p {
-      -webkit-margin-before: 0em;
-      -webkit-margin-after: 0em;
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0;
       color: white;
     }
   }

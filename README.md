@@ -1,6 +1,9 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 # My infra
+
+[![My infra](https://pbs.twimg.com/media/ChjeTVdWUAAlPQj.jpg:large)](https://my-infra.com/)
+
 ## Mobile application for OVH created with Ionic2/angular2
 It's a mobile application in order to see the states of your [OVH](http://ovh.com) products and services. You have the ability to administrate your products (Dedicated server, domains, web hosting, cloud, ...). You can modify your account information and create, read, answer to the official OVH Support.
 

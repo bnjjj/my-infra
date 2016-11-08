@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar (click)="closeKeyboard()">
-    <ion-title>
+    <ion-title class="title-icon">
       Compte
     </ion-title>
     <ion-buttons start>
@@ -16,120 +16,139 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="account">
+  <div *ngIf="!loading && accountInfos && !error">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="refresh"
+        pullingText="Tirer pour rafraîchir"
+        refreshingSpinner="bubbles"
+        refreshingText="Chargement…">
+      </ion-refresher-content>
+    </ion-refresher>
+    <form #accountForm="ngForm">
+      <ion-list>
+        <ion-item>
+          <ion-label floating>
+            Prénom
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.firstname" name="firstname" ngControl="firstname">
+          </ion-input>
+        </ion-item>
 
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="refresh"
-      pullingText="Tirer pour rafraichir"
-      refreshingSpinner="bubbles"
-      refreshingText="Chargement...">
-    </ion-refresher-content>
-  </ion-refresher>
-  <div *ngIf="!loading">
-        <form #accountForm="ngForm" *ngIf="!loading && accountInfos && !error">
-        <ion-list>
-          <ion-item>
-            <ion-label floating>
-              Prénom
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.firstname" name="firstname" ngControl="firstname">
-            </ion-input>
-          </ion-item>
+        <ion-item>
+          <ion-label floating>
+            Nom
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.name" name="name" ngControl="name">
+          </ion-input>
+        </ion-item>
 
-          <ion-item>
-            <ion-label floating>
-              Nom
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.name" name="name" ngControl="name">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Sexe
-            </ion-label>
-            <ion-select [(ngModel)]="accountInfos.sex" name="sex" ngControl="sex">
-              <ion-option *ngFor="let gender of newAccountModel.models['nichandle.GenderEnum'].enum" [value]="gender" [innerText]="gender"></ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Lieu de naissance
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.birthCity" name="birthCity" ngControl="birthCity">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Forme juridique
-            </ion-label>
-            <ion-select [(ngModel)]="accountInfos.legalform" name="legalform" ngControl="legalform">
-              <ion-option *ngFor="let legalForm of accountInfos.legalformEnum" [value]="legalForm" [innerText]="legalForm"></ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Adresse
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.address" name="address" ngControl="address">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Code postal
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.zip" name="zip" ngControl="zip">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Ville
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.city" name="city" ngControl="city">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Pays
-            </ion-label>
-            <ion-select [(ngModel)]="accountInfos.country" name="country" ngControl="country">
-              <ion-option *ngFor="let country of meModel.models['nichandle.CountryEnum'].enum" [value]="country" [innerText]="country">
-              </ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Téléphone
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.phone" name="phone" ngControl="phone">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Fax
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.fax" name="fax" ngControl="fax">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Email
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.email" name="email" ngControl="email">
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>
-              Email de secours
-            </ion-label>
-            <ion-input [(ngModel)]="accountInfos.spareEmail" name="spareEmail" ngControl="spareEmail">
-            </ion-input>
-          </ion-item>
-        </ion-list>
-        </form>
+        <ion-item>
+          <ion-label floating>
+            Sexe
+          </ion-label>
+          <ion-select [(ngModel)]="accountInfos.sex" name="sex" ngControl="sex" cancelText="Annuler">
+            <ion-option *ngFor="let gender of newAccountModel.models['nichandle.GenderEnum'].enum" [value]="gender" [innerText]="gender === 'male' ? 'Homme' : 'Femme'"></ion-option>
+          </ion-select>
+        </ion-item>
 
+        <ion-item>
+          <ion-label floating>
+            Lieu de naissance
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.birthCity" name="birthCity" ngControl="birthCity">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Forme juridique
+          </ion-label>
+          <ion-select [(ngModel)]="accountInfos.legalform" name="legalform" ngControl="legalform" cancelText="Annuler">
+            <ion-option *ngFor="let legalForm of accountInfos.legalformEnum" [value]="legalForm">
+              <span [ngSwitch]="legalForm">
+                <span *ngSwitchCase="'association'">Association</span>
+                <span *ngSwitchCase="'corporation'">Entreprise</span>
+                <span *ngSwitchCase="'individual'">Individuel</span>
+                <span *ngSwitchDefault>Autre</span>
+              </span>
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Adresse
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.address" name="address" ngControl="address">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Code postal
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.zip" name="zip" ngControl="zip">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Ville
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.city" name="city" ngControl="city">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Pays
+          </ion-label>
+          <ion-select [(ngModel)]="accountInfos.country" name="country" ngControl="country">
+            <ion-option *ngFor="let country of meModel.models['nichandle.CountryEnum'].enum" [value]="country" [innerText]="country">
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Téléphone
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.phone" name="phone" ngControl="phone">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Fax
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.fax" name="fax" ngControl="fax">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Email
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.email" name="email" ngControl="email">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>
+            Email de secours
+          </ion-label>
+          <ion-input [(ngModel)]="accountInfos.spareEmail" name="spareEmail" ngControl="spareEmail">
+          </ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
     <div padding>
-      <button block secondary (click)="save()">Valider</button>
-      <button danger block class="tspace15" (click)="cancel()">Annuler</button>
+      <button block class="mi-c-button mi-c-button--submit" (click)="save()">Valider</button>
+      <button block class="mi-c-button mi-c-button--cancel" (click)="cancel()">Annuler</button>
     </div>
+  </div>
+  <div text-center padding *ngIf="loading">
+    <ion-spinner name="bubbles"></ion-spinner>
   </div>
 </ion-content>

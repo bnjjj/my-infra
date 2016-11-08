@@ -18,10 +18,13 @@ export class AccountService {
   accountInfosObservable: Observable<any>;
   accountInfosObserver: Observer<any>;
 
-  constructor(private ovhRequest: OvhRequestService, private analytics: AnalyticsService) {
+  constructor(
+    private ovhRequest: OvhRequestService,
+    private analytics: AnalyticsService
+  ) {
     this.dataStore = { accountInfos: {}, newAccountModel: {}, meModel: {} };
 
-    this.accountInfosObservable = new Observable(observer =>  this.accountInfosObserver = observer)
+    this.accountInfosObservable = new Observable((observer) =>  this.accountInfosObserver = observer)
       .share();
   }
 
@@ -29,15 +32,15 @@ export class AccountService {
     this.ovhRequest.get('/newAccount.json')
       .finally(() => this.accountInfosObserver.next(this.dataStore))
       .subscribe(
-        resp => {
+        (resp) => {
           this.dataStore = Object.assign({}, this.dataStore, { newAccountModel: resp });
           this.accountInfosObserver.next(this.dataStore);
         },
-        err => {
+        (err) => {
           this.accountInfosObserver.error(err);
           this.analytics.trackEvent('Account', 'getNewAccountModel', 'Error', JSON.stringify(err));
         }
-       );
+      );
   }
 
   getMeModel() {
@@ -45,8 +48,8 @@ export class AccountService {
     this.ovhRequest.get('/me.json')
       .finally(() => this.accountInfosObserver.next(this.dataStore))
       .subscribe(
-        resp => this.dataStore = Object.assign({}, this.dataStore, { meModel: resp }),
-        err => {
+        (resp) => this.dataStore = Object.assign({}, this.dataStore, { meModel: resp }),
+        (err) => {
           this.accountInfosObserver.error(err);
           this.analytics.trackEvent('Account', 'getMeModel', 'Error', JSON.stringify(err));
         }
@@ -57,18 +60,18 @@ export class AccountService {
     let accountInfos: any;
 
     this.ovhRequest.get('/me')
-      .mergeMap(me => {
+      .mergeMap((me) => {
         accountInfos = me;
         return this.ovhRequest.get(`/newAccount/legalform?country=${me.country}`);
       })
-      .map(legalformEnum => {
+      .map((legalformEnum) => {
         accountInfos.legalformEnum = legalformEnum;
         return accountInfos;
       })
       .finally(() => this.accountInfosObserver.next(this.dataStore))
       .subscribe(
-        resp => this.dataStore = Object.assign({}, this.dataStore, { accountInfos: resp }),
-        err => {
+        (resp) => this.dataStore = Object.assign({}, this.dataStore, { accountInfos: resp }),
+        (err) => {
           this.accountInfosObserver.error(err);
           this.analytics.trackEvent('Account', 'getInfos', 'Error', JSON.stringify(err));
         }
@@ -80,7 +83,7 @@ export class AccountService {
       .finally(() => this.accountInfosObserver.next(this.dataStore))
       .subscribe(
         () => this.dataStore = Object.assign({}, this.dataStore, { accountInfos }),
-        err => {
+        (err) => {
           this.accountInfosObserver.error(err);
           this.analytics.trackEvent('Account', 'save', 'Error', JSON.stringify(err));
         }

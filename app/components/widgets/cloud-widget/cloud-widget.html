@@ -5,23 +5,19 @@
     [(collapsed)]="collapsed">
   </cloud-widget-content>
   <ion-row no-padding class="widget-content">
-    <ion-col width-40>
-      <button clear (click)="openNetworkStateModal()">
-        <a class="button-white" [href]="">
-          <i class="fa fa-heartbeat fa-1x"></i>
-          Travaux
-        </a>
+    <ion-col text-center width-33>
+      <button full class="button-ovh" (click)="openNetworkStateModal()">
+        Travaux
       </button>
     </ion-col>
-    <ion-col text-center width-20>
-      <button clear class="button-white" (click)="collapsed = !collapsed">
-        <ion-icon [name]="collapsed ? 'arrow-up' : 'arrow-down'"></ion-icon>
+    <ion-col text-center width-33>
+      <button full class="button-ovh" (click)="moreInfos()">
+        Plus d'infos
       </button>
     </ion-col>
-    <ion-col width-40 text-right>
-      <button clear danger (click)="removeMe()">
-        <ion-icon name='trash'></ion-icon>
-        Remove
+    <ion-col text-center width-33>
+      <button class="button-ovh danger-color" full (click)="removeMe()">
+        Supprimer
       </button>
     </ion-col>
   </ion-row>

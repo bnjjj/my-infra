@@ -1,0 +1,245 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span [innerText]="serviceName"></span>
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="reboot()">
+        <ion-icon name="md-refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content">
+  <div *ngIf="!loading.init && !error">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            État du service
+          </ion-label>
+          <ion-note item-right>
+            <div [ngSwitch]="vps.state">
+              <ion-badge *ngSwitchCase="'running'"
+                class="capitalize"
+               [innerText]="vps.state"
+               secondary>
+              </ion-badge>
+              <ion-badge *ngSwitchCase="'maintenance'"
+                class="capitalize"
+               [innerText]="vps.state"
+               primary>
+              </ion-badge>
+              <ion-badge *ngSwitchDefault
+                class="capitalize"
+               [innerText]="vps.state"
+               danger>
+              </ion-badge>
+            </div>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Offre
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="vps.model.offer"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label [ngClass]="{ 'danger-color animated pulse': vps.warning }">
+            <i class="fa fa-warning" *ngIf="vps.warning"></i>
+            Expiration
+          </ion-label>
+          <ion-note item-right
+            [ngClass]="{ 'danger-color animated pulse': vps.warning }"
+            [innerText]="vps.expirationText">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Zone
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="vps.zone"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Cluster
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="vps.cluster"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Datacentre
+          </ion-label>
+          <ion-note item-right>
+            <span [innerText]="vps.datacenter.longName"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Distribution
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="vps.distribution.name + ' (' + vps.distribution.bitFormat + 'bits)'"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideHardware = !$event">
+          Matériel
+        </title-separation>
+        <div *ngIf="!hideHardware">
+          <ion-item>
+            <ion-label>
+              Mémoire
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.memoryLimit"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              vCore
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.vcore"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Mode rescue
+            </ion-label>
+            <ion-toggle item-right secondary
+              [checked]="vps.netbootMode === 'rescue'"
+              (click)="changeNetbootMode()">
+            </ion-toggle>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideSftp = !$event">
+          IP
+        </title-separation>
+        <div *ngIf="!hideSftp">
+          <ion-item>
+            <ion-label>
+              Monitoring SLA
+            </ion-label>
+            <ion-toggle item-right secondary
+              [checked]="vps.slaMonitoring"
+              (click)="changeSlaMonitoring()">
+            </ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              IPs associées
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.ips.length"></span>
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              IPs disponibles
+            </ion-label>
+            <ion-note item-right>
+              <span [innerText]="vps.model.maximumAdditionnalIp + 1"></span>
+            </ion-note>
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group>
+        <title-separation (collapse)="hideMonitoring = !$event">
+          Monitoring
+        </title-separation>
+        <div *ngIf="!hideMonitoring && !loading.monitoring">
+          <ion-item>
+            <ion-row>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.ping === 'down',
+                    'badge-secondary': monitoring.ping === 'up'
+                  }">
+                 PING
+                </ion-badge>
+              </ion-col>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.http.state === 'down',
+                    'badge-secondary': monitoring.http.state === 'up'
+                  }">
+                 HTTP
+                </ion-badge>
+              </ion-col>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.https.state === 'down',
+                    'badge-secondary': monitoring.https.state === 'up'
+                  }">
+                 HTTPS
+                </ion-badge>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+          <ion-item>
+            <ion-row>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.ssh.state === 'down',
+                    'badge-secondary': monitoring.ssh.state === 'up'
+                  }">
+                 SSH
+                </ion-badge>
+              </ion-col>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.dns.state === 'down',
+                    'badge-secondary': monitoring.dns.state === 'up'
+                  }">
+                 DNS
+                </ion-badge>
+              </ion-col>
+              <ion-col width-33 text-center>
+                <ion-badge
+                  [ngClass]="{
+                    'badge-danger': monitoring.smtp.state === 'down',
+                    'badge-secondary': monitoring.smtp.state === 'up'
+                  }">
+                 SMTP
+                </ion-badge>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </div>
+        <div padding text-center *ngIf="!hideMonitoring && loading.monitoring && !error">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </div>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, vpsService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading.init" padding text-center>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>

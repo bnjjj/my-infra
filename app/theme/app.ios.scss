@@ -30,3 +30,9 @@
 // App iOS Only Sass
 // --------------------------------------------------
 // CSS that should only apply to the iOS app
+
+.dashboard-page {
+  ion-title {
+    padding: 0 20px;
+  }
+}

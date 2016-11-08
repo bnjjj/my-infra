@@ -1,15 +1,16 @@
-import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController, Nav} from 'ionic-angular';
-import {NetworkStateModal} from '../../../../modals/network-state/network-state';
-import {PrivateDatabaseWidgetService} from '../private-database-widget.service';
+import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {IONIC_DIRECTIVES, ModalController} from 'ionic-angular';
+import {categoryEnum} from '../../../../config/constants';
+import {PrivateDatabaseService} from '../../../../pages/products/private-database/private-database.service';
+import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {WidgetsService} from '../../widgets.service';
 import {TaskDetailsPrivateDatabaseComponent} from '../task-details/task-details';
 
 @Component({
   selector: 'private-database-widget-content',
   templateUrl: 'build/components/widgets/private-database-widget/content/private-database-widget-content.html',
-  directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent],
-  providers: [PrivateDatabaseWidgetService, WidgetsService]
+  directives: [IONIC_DIRECTIVES, TaskDetailsPrivateDatabaseComponent, WidgetHeaderComponent],
+  providers: [PrivateDatabaseService, WidgetsService]
 })
 export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit {
   @Input() serviceName: string;
@@ -17,7 +18,6 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   @Input() reload: boolean;
   @Input() collapsed: boolean;
   @Output() collapsedChange: EventEmitter<any> = new EventEmitter();
-  @ViewChild(Nav) nav: Nav;
 
   bdd: any = {};
   loading: boolean;
@@ -26,8 +26,9 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   emptyTasks: boolean;
   error: any;
   tasks: Array<any> = [];
+  constants: Object = categoryEnum.PRIVATE_DATABASE;
 
-  constructor(private privateDatabaseWidgetService: PrivateDatabaseWidgetService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
+  constructor(private privateDatabaseService: PrivateDatabaseService, private widgetsService: WidgetsService, private modalCtrl: ModalController) {
 
   }
 
@@ -37,8 +38,8 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
 
   getInfos(): void {
     this.loading = true;
-    Promise.all([this.privateDatabaseWidgetService.getInfos(this.serviceName), this.privateDatabaseWidgetService.getServiceInfos(this.serviceName)])
-      .then(resp => {
+    Promise.all([this.privateDatabaseService.getInfos(this.serviceName).toPromise(), this.privateDatabaseService.getServiceInfos(this.serviceName).toPromise()])
+      .then((resp) => {
         this.bdd = Object.assign(resp[0], resp[1]);
         this.loading = false;
       })
@@ -52,7 +53,7 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
   getTasks(): void {
     if (!this.tasksLoaded) {
       this.loading = true;
-      this.privateDatabaseWidgetService.getTasks(this.serviceName)
+      this.privateDatabaseService.getTasks(this.serviceName).toPromise()
         .then(tasks => {
           this.emptyTasks = !tasks.length;
           this.tasks = tasks;
@@ -75,13 +76,19 @@ export class PrivateDatabaseWidgetContentComponent implements OnChanges, OnInit 
     }
   }
 
-  openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: '4', categoryName: 'Base de données privées' });
-    profileModal.present();
-  }
-
   updateCollapse(): void {
     this.collapsed = !this.collapsed;
     this.collapsedChange.emit(this.collapsed);
+  }
+
+  getStatusClass() {
+    switch (this.bdd.state) {
+      case 'started':
+        return 'green-color';
+      case 'stopped':
+        return 'danger-color';
+      default:
+        return 'danger-color';
+    }
   }
 }
