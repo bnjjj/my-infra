@@ -1,11 +1,11 @@
 import {Component, Input, EventEmitter, Output, OnChanges, OnInit, SimpleChange} from '@angular/core';
 import {IONIC_DIRECTIVES, ModalController, AlertController} from 'ionic-angular';
 import {HostingWebService} from '../../../../pages/products/hosting-web/hosting-web.service';
+import {WidgetsService} from '../../widgets.service';
 import {ToastService} from '../../../../services/toast/toast.service';
 import {TaskDetailsWebComponent} from '../task-details/task-details';
 import {WidgetHeaderComponent} from '../../../widget-header/widget-header';
 import {categoryEnum} from '../../../../config/constants';
-import {WidgetsService} from '../../widgets.service';
 
 @Component({
   selector: 'web-widget-content',
