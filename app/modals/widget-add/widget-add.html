@@ -18,7 +18,7 @@
   </ion-row>
   <ion-list no-lines center>
     <ion-item class="center width90">
-      <ion-select class="center" [(ngModel)]="category" (ionChange)="selectCategory(category)">
+      <ion-select class="center" cancelText="Annuler" [(ngModel)]="category" (ionChange)="selectCategory(category)">
         <ion-option *ngFor="let categoryKey of categoryKeys" [value]="CategoryEnum[categoryKey]" [innerText]="CategoryEnum[categoryKey].text"></ion-option>
       </ion-select>
     </ion-item>
@@ -49,7 +49,7 @@
   </ion-row>
   <ion-list no-lines center *ngIf="category === CategoryEnum.PROJECT && !terminate">
     <ion-item class="center width90">
-      <ion-select [(ngModel)]="subCategory" (ionChange)="selectProduct(subCategory)">
+      <ion-select cancelText="Annuler" [(ngModel)]="subCategory" (ionChange)="selectProduct(subCategory)">
         <ion-option *ngFor="let subCategorySelect of subCategoryKeys"
           [value]="CategoryEnum[subCategorySelect]"
           [innerText]="CategoryEnum[subCategorySelect].text">

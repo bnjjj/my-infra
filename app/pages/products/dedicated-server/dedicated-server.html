@@ -138,7 +138,7 @@
             <ion-label>
               Graphique
             </ion-label>
-            <ion-select item-right [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
+            <ion-select item-right cancelText="Annuler" interface="action-sheet" [(ngModel)]="monitoring" (ionChange)="selectMonitoring(monitoring, monitoringPeriod)">
               <ion-option *ngFor="let monitoringType of category.monitoring" [value]="monitoringType.type" [innerText]="monitoringType.text"></ion-option>
             </ion-select>
           </ion-item>

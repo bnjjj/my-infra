@@ -47,7 +47,7 @@
           <ion-label floating>
             Sexe
           </ion-label>
-          <ion-select [(ngModel)]="accountInfos.sex" name="sex" ngControl="sex" cancelText="Annuler">
+          <ion-select [(ngModel)]="accountInfos.sex" name="sex" ngControl="sex" cancelText="Annuler" interface="action-sheet">
             <ion-option *ngFor="let gender of newAccountModel.models['nichandle.GenderEnum'].enum" [value]="gender" [innerText]="gender === 'male' ? 'Homme' : 'Femme'"></ion-option>
           </ion-select>
         </ion-item>
@@ -64,7 +64,7 @@
           <ion-label floating>
             Forme juridique
           </ion-label>
-          <ion-select [(ngModel)]="accountInfos.legalform" name="legalform" ngControl="legalform" cancelText="Annuler">
+          <ion-select [(ngModel)]="accountInfos.legalform" name="legalform" ngControl="legalform" cancelText="Annuler" interface="action-sheet">
             <ion-option *ngFor="let legalForm of accountInfos.legalformEnum" [value]="legalForm">
               <span [ngSwitch]="legalForm">
                 <span *ngSwitchCase="'association'">Association</span>
@@ -104,7 +104,7 @@
           <ion-label floating>
             Pays
           </ion-label>
-          <ion-select [(ngModel)]="accountInfos.country" name="country" ngControl="country">
+          <ion-select [(ngModel)]="accountInfos.country" name="country" ngControl="country" cancelText="Annuler">
             <ion-option *ngFor="let country of meModel.models['nichandle.CountryEnum'].enum" [value]="country" [innerText]="country">
             </ion-option>
           </ion-select>

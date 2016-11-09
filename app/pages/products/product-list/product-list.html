@@ -15,7 +15,7 @@
   </ion-searchbar>
   <ion-list no-lines center padding (click)="closeKeyboard()">
     <ion-item class="center width90">
-      <ion-select class="center" [(ngModel)]="category" (ionChange)="getProducts(category)">
+      <ion-select cancelText="Annuler" class="center" [(ngModel)]="category" (ionChange)="getProducts(category)">
         <ion-option *ngFor="let categoryKey of categoryKeys" [value]="categoryEnum[categoryKey]" [innerText]="categoryEnum[categoryKey].text"></ion-option>
       </ion-select>
     </ion-item>
