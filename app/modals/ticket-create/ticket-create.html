@@ -19,7 +19,7 @@
   </ion-row>
     <ion-list no-lines center>
       <ion-item class="center width90">
-        <ion-select class="center" [(ngModel)]="ticket.product" (ionChange)="fetchProducts(ticket.product.url)">
+        <ion-select class="center" cancelText="Annuler" [(ngModel)]="ticket.product" (ionChange)="fetchProducts(ticket.product.url)">
           <ion-option *ngFor="let categorySelect of categoryKeys"
             [value]="CategoryEnum[categorySelect]"
             [innerText]="CategoryEnum[categorySelect].text"></ion-option>
@@ -34,10 +34,10 @@
   </ion-row>
   <ion-row center *ngIf="ticket.serviceName && ticket.product">
     <ion-col class="center" width-90>
-      <ion-select [(ngModel)]="ticket.category">
-      <ion-option [value]="TicketCategoryEnum.ASSISTANCE.ref"><strong>Conseil technique et commercial</strong></ion-option>
-      <ion-option [value]="TicketCategoryEnum.BILLING.ref"><strong>Question concernant une commande</strong></ion-option>
-      <ion-option [value]="TicketCategoryEnum.INCIDENT.ref"><strong>Déclarer un incident</strong></ion-option>
+      <ion-select cancelText="Annuler" [(ngModel)]="ticket.category">
+        <ion-option [value]="TicketCategoryEnum.ASSISTANCE.ref">Conseil technique et commercial</ion-option>
+        <ion-option [value]="TicketCategoryEnum.BILLING.ref">Question concernant une commande</ion-option>
+        <ion-option [value]="TicketCategoryEnum.INCIDENT.ref">Déclarer un incident</ion-option>
       </ion-select>
     </ion-col>
   </ion-row>
