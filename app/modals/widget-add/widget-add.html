@@ -60,8 +60,8 @@
 
   <ion-list *ngIf="category === CategoryEnum.PROJECT && project.length >= 2 && terminate">
     <ion-item>
-      <ion-label>Nom du projet</ion-label>
-      <ion-input [(ngModel)]="projectName"></ion-input>
+      <ion-label class="animated bounceIn">Nom du projet</ion-label>
+      <ion-input [(ngModel)]="projectName" placeholder="Mon projet"></ion-input>
     </ion-item>
   </ion-list>
   <ion-row *ngIf="category === CategoryEnum.PROJECT && project.length >= 5 && terminate" center>
