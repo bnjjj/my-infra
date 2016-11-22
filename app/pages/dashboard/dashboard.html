@@ -92,6 +92,12 @@
           [serviceName]="widget.serviceName"
           (remove)="removeWidget($event)">
         </sms-widget>
+
+        <pack-xdsl-widget *ngSwitchCase="CategoryEnum.PACK_XDSL.url"
+          [reload]="reload"
+          [serviceName]="widget.serviceName"
+          (remove)="removeWidget($event)">
+        </pack-xdsl-widget>
       </div>
     </div>
   </div>

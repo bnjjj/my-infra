@@ -1,0 +1,165 @@
+<ion-header class="product-header">
+  <ion-navbar [hideBackButton]="false">
+    <ion-title>
+      <span [innerText]="serviceName"></span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="product-content">
+  <div *ngIf="!loading && !error">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item>
+          <ion-label>
+            Nom de l’offre
+          </ion-label>
+          <ion-note item-right [innerText]="packXdsl.offerDescription">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Identifiant du pack
+          </ion-label>
+          <ion-note item-right [innerText]="packXdsl.packName">
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Date de création
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="packXdsl.creation"></span>
+          </ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Engagé jusqu’au
+          </ion-label>
+          <ion-note item-right>
+            <span class="capitalize" [innerText]="packXdsl.engagedUpTo"></span>
+          </ion-note>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.xdslAccess.length">
+        <title-separation (collapse)="hideXdslAccess = !$event">
+          Accès Internet
+          <span
+            *ngIf="packXdsl.servicesLinked.xdslAccess.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.xdslAccess.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideXdslAccess">
+          <ion-item
+            *ngFor="let xdslAccess of packXdsl.servicesLinked.xdslAccess"
+            [innerText]="xdslAccess">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.voipLine.length">
+        <title-separation (collapse)="hideVoipLine = !$event">
+          Téléphonie
+          <span
+            *ngIf="packXdsl.servicesLinked.voipLine.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.voipLine.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideVoipLine">
+          <ion-item
+            *ngFor="let voipLine of packXdsl.servicesLinked.voipLine"
+            [innerText]="voipLine">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.exchangeAccount.length">
+        <title-separation (collapse)="hideExchangeAccount = !$event">
+          Exchange (Account)
+          <span
+            *ngIf="packXdsl.servicesLinked.exchangeAccount.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.exchangeAccount.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideExchangeAccount">
+          <ion-item
+            *ngFor="let exchangeAccount of packXdsl.servicesLinked.exchangeAccount"
+            [innerText]="exchangeAccount">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.voipEcofax.length">
+        <title-separation (collapse)="hideVoipEcoFax = !$event">
+          EcoFax Pro
+          <span
+            *ngIf="packXdsl.servicesLinked.voipEcofax.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.voipEcofax.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideVoipEcoFax">
+          <ion-item
+            *ngFor="let voipEcofax of packXdsl.servicesLinked.voipEcofax"
+            [innerText]="voipEcofax">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.hostedEmail.length">
+        <title-separation (collapse)="hideHostedEmail = !$event">
+          Hosted Email
+          <span
+            *ngIf="packXdsl.servicesLinked.hostedEmail.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.hostedEmail.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideHostedEmail">
+          <ion-item
+            *ngFor="let hostedEmail of packXdsl.servicesLinked.hostedEmail"
+            [innerText]="hostedEmail">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.hubic.length">
+        <title-separation (collapse)="hideHubic = !$event">
+          Hubic
+          <span
+            *ngIf="packXdsl.servicesLinked.hubic.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.hubic.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideHubic">
+          <ion-item
+            *ngFor="let hubic of packXdsl.servicesLinked.hubic"
+            [innerText]="hubic">
+          </ion-item>
+        </div>
+      </ion-item-group>
+      <ion-item-group *ngIf="packXdsl.servicesLinked.domain.length">
+        <title-separation (collapse)="hideDomain = !$event">
+          Nom de domaine
+          <span
+            *ngIf="packXdsl.servicesLinked.domain.length > 1"
+            [innerText]="'(' + packXdsl.servicesLinked.domain.length + ')'">
+          </span>
+        </title-separation>
+        <div *ngIf="!hideDomain">
+          <ion-item
+            *ngFor="let domain of packXdsl.servicesLinked.domain"
+            [innerText]="domain">
+          </ion-item>
+        </div>
+      </ion-item-group>
+    </ion-list>
+    <ion-row>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openTasks(serviceName, packXdslService)">
+          Tâches
+        </button>
+      </ion-col>
+      <ion-col width-50>
+        <button class="button-ovh" full (click)="openNetworkStateModal(category)">
+          Travaux
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="loading" text-center padding>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+</ion-content>
