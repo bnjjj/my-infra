@@ -66,6 +66,14 @@
             [showWorks]="true">
           </sms-widget-content>
         </div>
+        <div *ngSwitchCase="'PACK_XDSL'">
+          <pack-xdsl-widget-content
+            [reload]="reload"
+            [serviceName]="product.serviceName"
+            [collapsed]="collapsed"
+            [showWorks]="true">
+          </pack-xdsl-widget-content>
+        </div>
       </div>
     </div>
 
@@ -81,8 +89,8 @@
     </ion-col>
     <ion-col width-40 text-right>
       <button clear danger (click)="removeMe()">
-        <ion-icon name='trash'></ion-icon>
-        Remove
+        <ion-icon name="trash"></ion-icon>
+        Supprimer
       </button>
     </ion-col>
   </ion-row>

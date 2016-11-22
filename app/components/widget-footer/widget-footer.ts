@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {IONIC_DIRECTIVES} from 'ionic-angular';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { IONIC_DIRECTIVES } from 'ionic-angular';
 
 @Component({
   selector: 'widget-footer',
@@ -12,7 +12,7 @@ import {IONIC_DIRECTIVES} from 'ionic-angular';
       </ion-col>
       <ion-col text-center width-33>
         <button full class="button-ovh" (click)="openInfos.emit()">
-          Plus d'infos
+          Plus d’infos
         </button>
       </ion-col>
       <ion-col text-center width-33>

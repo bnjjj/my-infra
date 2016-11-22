@@ -1,6 +1,12 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {IONIC_DIRECTIVES, ModalController} from 'ionic-angular';
-import {NetworkStateModal} from '../../modals/network-state/network-state';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { IONIC_DIRECTIVES, ModalController } from 'ionic-angular';
+import { NetworkStateModal } from '../../modals/network-state/network-state';
 
 @Component({
   selector: 'widget-header',
@@ -49,7 +55,10 @@ export class WidgetHeaderComponent {
   }
 
   openNetworkStateModal(): void {
-    let profileModal = this.modalCtrl.create(NetworkStateModal, { category: this.category.workId, categoryName: this.category.text });
+    let profileModal = this.modalCtrl.create(NetworkStateModal, {
+      category: this.category.workId,
+      categoryName: this.category.text
+    });
     profileModal.present();
   }
 }

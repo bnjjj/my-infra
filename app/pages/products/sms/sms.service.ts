@@ -3,7 +3,6 @@ import { OvhRequestService } from '../../../services/ovh-request/ovh-request.ser
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/zip';
 
 const moment = require('moment');
 

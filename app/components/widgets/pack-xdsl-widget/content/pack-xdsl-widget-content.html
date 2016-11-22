@@ -1,0 +1,85 @@
+<widget-header
+  [serviceName]="serviceName"
+  [category]="constants"
+  [state]="packXdsl.status === 'ok' ? 'enabled' : 'disabled'"
+  [loading]="loading || error"
+  [showWorks]="showWorks"
+  (updateCollapse)="updateCollapse()">
+</widget-header>
+<div padding *ngIf="collapsed" class="widget-content">
+  <ion-segment [(ngModel)]="viewMode" class="animated fadeIn">
+    <ion-segment-button value="general">
+      Général
+    </ion-segment-button>
+    <ion-segment-button value="tasks" (click)="getTasks()">
+      Tâches
+    </ion-segment-button>
+  </ion-segment>
+</div>
+<ion-card-content class="widget-content" *ngIf="!loading && packXdsl && !error">
+  <div *ngIf="viewMode === 'general' || !collapsed">
+    <ion-row *ngIf="packXdsl.description && packXdsl.description != packXdsl.offerDescription">
+      <ion-col width-90 [innerText]="packXdsl.description">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-50 [ngClass]="{ 'danger-color animated pulse': packXdsl.warning }">
+        <i class="fa fa-warning" *ngIf="packXdsl.warning"></i>
+        Expiration
+      </ion-col>
+      <ion-col width-50 text-right
+        [ngClass]="{ 'danger-color animated pulse': packXdsl.warning }"
+        [innerText]="packXdsl.expirationText">
+      </ion-col>
+    </ion-row>
+  </div>
+  <div [ngSwitch]="viewMode" *ngIf="collapsed" class="animated fadeIn">
+    <div *ngSwitchCase="'general'">
+      <ion-row>
+        <ion-col width-50>
+          Date de création
+        </ion-col>
+        <ion-col width-50 text-right
+          [innerText]="packXdsl.creation">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50>
+          Engagé jusqu’au
+        </ion-col>
+        <ion-col width-50 text-right
+          [innerText]="packXdsl.engagedUpTo">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50>
+          Nom de l’offre
+        </ion-col>
+        <ion-col width-50 text-right
+          [innerText]="packXdsl.offerDescription">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-80 class="center">
+          État du pack
+        </ion-col>
+        <ion-col width-20 class="center center-flex">
+          <i [hidden]="!packXdsl.status === 'ok'" class="fa fa-check fa-2x" secondary></i>
+          <i [hidden]="!packXdsl.status !== 'ok'" class="fa fa-times fa-2x" danger></i>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngSwitchCase="'tasks'">
+      <ion-list>
+        <task-details-pack-xdsl *ngFor="let task of tasks" [id]="task" [serviceName]="serviceName">
+        </task-details-pack-xdsl>
+        <ion-item *ngIf="emptyTasks && !loading" text-center>
+          <em>Vous n’avez pas de tâches</em>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-card-content>
+<ion-card-content class="widget-content" *ngIf="loading" text-center>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-card-content>

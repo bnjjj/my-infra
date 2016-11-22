@@ -8,6 +8,7 @@ import { DedicatedWidgetComponent } from '../../components/widgets/dedicated-wid
 import { VpsWidgetComponent } from '../../components/widgets/vps-widget/vps-widget';
 import { CloudWidgetComponent } from '../../components/widgets/cloud-widget/cloud-widget';
 import { SmsWidgetComponent } from '../../components/widgets/sms-widget/sms-widget';
+import { PackXdslWidgetComponent } from '../../components/widgets/pack-xdsl-widget/pack-xdsl-widget';
 import { ProjectWidgetComponent } from '../../components/widgets/project-widget/project-widget';
 import { OvhAlertComponent } from '../../components/ovh-alert/ovh-alert';
 import { WidgetAddModal } from '../../modals/widget-add/widget-add';
@@ -29,7 +30,8 @@ import { categoryEnum } from '../../config/constants';
     SmsWidgetComponent,
     TitleSeparationComponent,
     VpsWidgetComponent,
-    WebWidgetComponent
+    WebWidgetComponent,
+    PackXdslWidgetComponent
   ]
 })
 export class DashboardPage {

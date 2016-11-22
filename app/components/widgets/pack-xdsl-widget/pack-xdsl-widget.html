@@ -1,0 +1,12 @@
+<ion-card class="pack-xdsl-widget" *ngIf="serviceName">
+  <pack-xdsl-widget-content
+    [reload]="reload"
+    [serviceName]="serviceName"
+    [(collapsed)]="collapsed">
+  </pack-xdsl-widget-content>
+  <widget-footer
+    (openTasks)="openTasks()"
+    (openInfos)="moreInfos()"
+    (remove)="removeMe()">
+  </widget-footer>
+</ion-card>

@@ -2,6 +2,7 @@ import { CloudPage } from '../pages/products/cloud/cloud';
 import { DedicatedServerPage } from '../pages/products/dedicated-server/dedicated-server';
 import { DomainPage } from '../pages/products/domain/domain';
 import { HostingWebPage } from '../pages/products/hosting-web/hosting-web';
+import { PackXdslPage } from '../pages/products/pack-xdsl/pack-xdsl';
 import { PrivateDatabasePage } from '../pages/products/private-database/private-database';
 import { SmsPage } from '../pages/products/sms/sms';
 import { VpsPage } from '../pages/products/vps/vps';
@@ -113,10 +114,20 @@ export const categoryEnum: any = {
     text: 'Projet personnalisé',
     icon: ''
   },
+  PACK_XDSL: {
+    url: '/pack/xdsl',
+    name: 'PACK_XDSL',
+    text: 'Télécom : Pack xDSL',
+    supportRef: 'adsl',
+    hardware: false,
+    icon: 'fa fa-archive',
+    workId: '20',
+    page: PackXdslPage
+  },
   SMS: {
     url: '/sms',
     name: 'SMS',
-    text: 'Pack SMS',
+    text: 'Télécom: SMS',
     supportRef: 'sms',
     hardware: false,
     icon: 'fa fa-commenting-o',
@@ -133,10 +144,10 @@ export const ticketCategoryEnum: any = {
 
 export const loginConfiguration: any = {
   'ovh-eu': {
-     endpoint: 'ovh-eu',
-     rootUrl: 'https://eu.api.ovh.com',
-     appKey: 'pChewtm5q6eHxBeq',
-     appSecret: 'QfEkT7FoWqtYxgNQBPaiB56q0y3CEHHp'
+    endpoint: 'ovh-eu',
+    rootUrl: 'https://eu.api.ovh.com',
+    appKey: 'pChewtm5q6eHxBeq',
+    appSecret: 'QfEkT7FoWqtYxgNQBPaiB56q0y3CEHHp'
   }
 };
 
