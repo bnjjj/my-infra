@@ -5,6 +5,9 @@
     </ion-avatar>
     <h2 [innerText]="project.serviceName || 'Mon projet'">
     </h2>
+    <ion-avatar item-right>
+      <i class="fa center chevron" [ngClass]="{'fa-chevron-down': !collapsed, 'fa-chevron-up': collapsed}"></i>
+    </ion-avatar>
   </ion-item>
   <div *ngFor="let product of project.project">
     <div *ngIf="collapsed" class="animated fadeIn">

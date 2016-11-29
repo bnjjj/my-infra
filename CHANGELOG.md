@@ -1,3 +1,14 @@
+# 2.0.2 (2016-11-29)
+
+### Bug Fixes
+
+* **Hosting web:** Fix bug on charts
+
+# 2.0.1 (2016-11-11)
+
+### Big reload
+
+
 # 1.2.6 (2016-10-26)
 
 ### Bug Fixes

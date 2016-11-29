@@ -47,6 +47,7 @@ export class HostingWebPage extends ProductCore {
   }
 
   getChart(type: string, period: string) {
+    this.error.monitoring = false;
     this.loading.monitoring = true;
     this.hostingWebService.getChart(this.serviceName, type, period)
       .finally(() => this.loading.monitoring = false)
