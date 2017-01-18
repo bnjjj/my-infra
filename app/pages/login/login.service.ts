@@ -49,9 +49,9 @@ export class LoginService {
           tempDiv.innerHTML = resp.text();
           inputArray = tempDiv.getElementsByTagName('input');
 
-          if (inputArray.length > 2) {
-            this.loginId = inputArray[1].getAttribute('id');
-            this.passwordId = inputArray[2].getAttribute('id');
+          if (inputArray.length > 3) {
+            this.loginId = inputArray[2].getAttribute('id');
+            this.passwordId = inputArray[3].getAttribute('id');
           }
 
           return this.askAuthentication(login, password, credentialToken);
